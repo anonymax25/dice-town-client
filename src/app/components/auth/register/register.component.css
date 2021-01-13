@@ -1,0 +1,9 @@
+.mat-card {
+  width: 400px;
+}
+.mat-datepicker-toggle {
+  color: #111111;
+}
+.mat-form-field, .mat-raised-button {
+  width: 100%;
+}

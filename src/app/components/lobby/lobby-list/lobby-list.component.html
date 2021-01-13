@@ -1,0 +1,3 @@
+<div *ngFor="let lobby of lobbies">
+    {{lobby.name}} <span *ngIf="isOwner(lobby)">(Owner)</span> <button mat-raised-button (click)="routeToLobby(lobby.code)">Go to</button>
+ </div>

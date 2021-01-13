@@ -1,0 +1,13 @@
+
+
+.snackbar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .close-button {
+        background-color: transparent;
+        color: pink;
+        margin-left: 20px;
+    }
+}

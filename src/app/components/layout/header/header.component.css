@@ -1,0 +1,13 @@
+.spacer {
+  flex: 1 1 auto;
+}
+.mat-toolbar {
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  -moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
+  z-index: 999;
+}
+.title {
+  font: 500 20px/32px Roboto,"Helvetica Neue",sans-serif;
+  margin: 0;
+}
