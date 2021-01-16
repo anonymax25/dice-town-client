@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { LobbyService } from 'src/app/services/lobby.service';
 import { ConfirmComponent } from '../layout/confirm/confirm.component';
@@ -18,6 +19,7 @@ export class GameFinderComponent implements OnInit {
     Validators.maxLength(6),
     Validators.minLength(6)
   ]);
+  user: User;
   
   constructor(private router: Router,
               private dialog: MatDialog,
@@ -25,20 +27,19 @@ export class GameFinderComponent implements OnInit {
               private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
+    this.user = this.authenticationService.getUserFromToken()
   }
 
   createGame(){
     this.dialog.open(ConfirmComponent, {
       height: '200px',
       width: '500px',
-    }).afterClosed().subscribe(doCreateGame => {
-      if(doCreateGame) {
+    }).afterClosed().subscribe(response => {
+      if(response) {
         this.lobbyService.create().subscribe(lobby => {
           this.router.navigate([`lobby/${lobby.code}`]);
         })
       }
-
-      
     })
   }
 

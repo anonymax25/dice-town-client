@@ -22,8 +22,9 @@ export class AuthGuardService implements CanActivate {
         } 
         return false;
       })
+    }else {
+      return true;
     }
-    return true;
   }
 
   login(): Observable<boolean> {

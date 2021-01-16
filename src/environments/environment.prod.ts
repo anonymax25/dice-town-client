@@ -1,4 +1,9 @@
 export const environment = {
   production: true,
-  apiUrl: '/'
+  title: 'Dice Town Online',
+  apiUrl: '/',
+  socketUrl: '/',
+  socketPath: '/websockets',
+  alertSocketNamespace: 'alerts',
+  chatSocketNamespace: 'chat'
 };

@@ -1,4 +1,7 @@
 <div class="container justify-content-center">
+
+    <app-chat *ngIf="lobby" [roomId]="lobby.code" [lobby]="lobby"></app-chat>
+
     <mat-card class="example-card mx-3 my-5" *ngIf="lobby; else notLoaded">
         <mat-card-header>
             <mat-card-title>Code: {{lobby.code}} <mat-icon (click)="copyCodeToClipboard(lobby.code)">content_copy</mat-icon></mat-card-title>
@@ -13,7 +16,8 @@
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button *ngIf="!isOwner(authenticationService.getIdFromToken())" mat-raised-button color="warn">Quit lobby</button>
+            <button *ngIf="!isOwner(authenticationService.getIdFromToken())" mat-raised-button (click)="quitLobby()" color="warn">Quit lobby</button>
+            <button *ngIf="isOwner(authenticationService.getIdFromToken())" mat-raised-button (click)="destroyLobby()" color="warn">Destroy lobby</button>
         </mat-card-actions>
     </mat-card>
 

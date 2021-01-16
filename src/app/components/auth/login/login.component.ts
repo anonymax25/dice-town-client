@@ -4,6 +4,8 @@ import {AuthenticationService} from "../../../services/authentication.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialogRef} from "@angular/material/dialog";
+import { Title } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +20,7 @@ export class LoginComponent {
   passwordCtrl: FormControl;
 
   constructor(formBuilder: FormBuilder,
+              private titleService: Title,
               private authenticationService: AuthenticationService,
               public dialog: MatDialogRef<LoginComponent>)
   {
@@ -33,6 +36,7 @@ export class LoginComponent {
   onSubmit() {
     this.authenticationService.login(this.loginForm.value).subscribe(data => {
       sessionStorage.setItem('token', data.token);
+      this.titleService.setTitle(`${environment.title} : ${this.authenticationService.getUserFromToken().name}`)
       this.dialog.close(true);
     })
   }

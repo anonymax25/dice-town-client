@@ -1,16 +1,16 @@
 <div class="container justify-content-center">
     <mat-card class="example-card mx-3 my-5">
       <mat-card-content>
+        
         <h1>Play Dice Town Online</h1>
-      </mat-card-content>
-      <mat-card-actions>
+
         <button mat-raised-button color="warn" (click)="createGame()">Create a game</button>
-        <div>
+
+        <div class="m-1">
           <h3>Join a lobby</h3>
-          
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>Entrer a lobby code</mat-label>
-            <input matInput placeholder="Ex. 21a0e546" [(ngModel)]="code" maxlength="8" [formControl]="joinLobbyControl">
+            <input matInput placeholder="Ex. 21A0E546" [(ngModel)]="code" maxlength="8" [formControl]="joinLobbyControl">
             <mat-error *ngIf="joinLobbyControl.hasError('required')">
               Code is <strong>required</strong>
             </mat-error>
@@ -19,6 +19,14 @@
             <button mat-raised-button color="primary" (click)="joinLobby()" [disabled]="!(code && code.length === 8)">Rejoindre</button>
           </div>
         </div>
+
+        <div class="m-1">
+          <h3>Existing lobbies you joined</h3>
+          <app-lobby-list [userId]="user.id"></app-lobby-list>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+
       </mat-card-actions>
     </mat-card>
   </div>

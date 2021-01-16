@@ -13,7 +13,7 @@ export class SnackbarService {
       panelClass: ['snackbar-success'],
       data: {
         message,
-        closeButtonLabel: 'Fermer'
+        closeButtonLabel: 'Close'
       }
     });
   }
@@ -24,7 +24,7 @@ export class SnackbarService {
       panelClass: ['snackbar-error'],
       data: {
         message,
-        closeButtonLabel: 'Fermer'
+        closeButtonLabel: 'Close'
       }
     });
   }

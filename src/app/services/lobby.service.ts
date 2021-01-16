@@ -36,10 +36,13 @@ export class LobbyService {
 
   joinUser(lobby: Lobby, userId: number) {
     let headers = new HttpHeaders();
-    if(this.authenticationService.isLogged()){
-      headers = headers.set('Authorization', `Bearer ${this.authenticationService.getToken()}`)
-    }    
-
+    headers = headers.set('Authorization', `Bearer ${this.authenticationService.getToken()}`)
     return this.http.put<Lobby>(`${environment.apiUrl}lobby/${lobby.code}/join/${userId}`, null,{headers})
+  }
+
+  quitUser(lobby: Lobby, userId: number) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${this.authenticationService.getToken()}`)
+    return this.http.put<Lobby>(`${environment.apiUrl}lobby/${lobby.code}/quit/${userId}`, null,{headers})
   }
 }

@@ -1,5 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule, Title } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -34,7 +34,22 @@ import { ConfirmComponent } from './components/layout/confirm/confirm.component'
 import { ClipboardModule } from 'ngx-clipboard';
 import { LobbyListComponent } from './components/lobby/lobby-list/lobby-list.component';
 import { SnackbarService } from './shared/snackbar/snackbar.service';
-
+import { Socket, SocketIoModule } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+import { ChatComponent } from './components/lobby/chat/chat.component';
+ 
+@Injectable()
+export class ChatSocket extends Socket {
+    constructor() {
+      super({ url: `${environment.socketUrl}${environment.chatSocketNamespace}`, options: {path: environment.socketPath} });
+    }
+}
+@Injectable()
+export class AlertSocket extends Socket {
+    constructor() {
+      super({ url: `${environment.socketUrl}${environment.alertSocketNamespace}`, options: {path: environment.socketPath} });
+    }
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,9 +66,11 @@ import { SnackbarService } from './shared/snackbar/snackbar.service';
     AboutComponent,
     LobbyComponent,
     ConfirmComponent,
-    LobbyListComponent
+    LobbyListComponent,
+    ChatComponent
   ],
   imports: [
+    SocketIoModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -76,10 +93,16 @@ import { SnackbarService } from './shared/snackbar/snackbar.service';
     ClipboardModule
   ],
   providers: [
-    SnackbarService
+    SnackbarService,
+    ChatSocket,
+    AlertSocket,
+    Title
   ],
   entryComponents: [
     LoginComponent
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   bootstrap: [AppComponent]
 })
