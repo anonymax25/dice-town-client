@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bbr": {
+    "dice-town-client": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/bbr",
+            "outputPath": "dist/dice-town-client",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -59,18 +59,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bbr:build"
+            "browserTarget": "dice-town-client:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bbr:build:production"
+              "browserTarget": "dice-town-client:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bbr:build"
+            "browserTarget": "dice-town-client:build"
           }
         },
         "test": {
@@ -108,16 +108,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "bbr:serve"
+            "devServerTarget": "dice-town-client:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "bbr:serve:production"
+              "devServerTarget": "dice-town-client:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "bbr"
+  "defaultProject": "dice-town-client"
 }

@@ -16,10 +16,11 @@ export class GameFinderComponent implements OnInit {
   
   joinLobbyControl = new FormControl('', [
     Validators.required,
-    Validators.maxLength(6),
-    Validators.minLength(6)
+    Validators.maxLength(8),
+    Validators.minLength(8)
   ]);
   user: User;
+  code: string;
   
   constructor(private router: Router,
               private dialog: MatDialog,

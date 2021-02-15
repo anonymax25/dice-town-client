@@ -1,3 +1,4 @@
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Game } from './game.model';
 import { User } from './user.model';
 
@@ -11,4 +12,5 @@ export class Lobby {
     isGameStarted: boolean
     game: Game
     users: User[]
+    messages: Message[]
 }
