@@ -1,4 +1,5 @@
-FROM node:12.18.2 AS build
+#FROM node:12.18.2 AS build
+FROM arm32v6/node:10.23-alpine AS build
 
 ENV NODE_VERSION 12.18.2
 
