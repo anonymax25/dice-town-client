@@ -1,4 +1,4 @@
-FROM node AS build
+FROM node:12.18.2 AS build
 
 ENV ENV prod
 
