@@ -10,7 +10,7 @@ import { ConfirmComponent } from '../layout/confirm/confirm.component';
 @Component({
   selector: 'app-game-finder',
   templateUrl: './game-finder.component.html',
-  styleUrls: ['./game-finder.component.css']
+  styleUrls: ['./game-finder.component.scss']
 })
 export class GameFinderComponent implements OnInit {
   

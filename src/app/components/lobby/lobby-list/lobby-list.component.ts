@@ -8,7 +8,7 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-lobby-list',
   templateUrl: './lobby-list.component.html',
-  styleUrls: ['./lobby-list.component.css']
+  styleUrls: ['./lobby-list.component.scss']
 })
 export class LobbyListComponent implements OnInit {
 

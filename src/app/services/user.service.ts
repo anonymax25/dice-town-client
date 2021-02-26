@@ -32,4 +32,10 @@ export class UserService {
 
     return this.http.get<Lobby[]>(`${environment.apiUrl}user/lobbies/${id}`, {headers})
   }
+
+  getEmptyUser(): User {
+    const user = new User()
+    user.name = ""
+    return user
+  }
 }

@@ -1,13 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Lobby } from 'src/app/models/lobby.model';
 import { Message } from 'src/app/models/message';
+import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { UserService } from 'src/app/services/user.service';
 import { ChatService } from './chat.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
 
@@ -21,7 +23,8 @@ export class ChatComponent implements OnInit {
   isJoinedRoom = false
 
   constructor(public chatService: ChatService,
-              public authenticationService: AuthenticationService) { }
+              public authenticationService: AuthenticationService,
+              public userService: UserService) { }
 
   ngOnInit(): void {
     this.initChatSocket()
@@ -33,8 +36,6 @@ export class ChatComponent implements OnInit {
 
   sendMessage(messageStr: string) {
     const message = new SocketMessage(this.authenticationService.getIdFromToken(), messageStr, this.roomId, this.lobby.id)
-    console.log(message);
-    
     this.chatService.sendMessage(message)
   }
 
@@ -53,12 +54,14 @@ export class ChatComponent implements OnInit {
         console.log('left room!', data);
     })
     this.chatService.recieveMessage().subscribe( message => {
-        this.messages.push(message)
+        this.messages.push(message)   
+
     })
   }
 
-  getUserOfLobbyById(id: number) {
-    return this.lobby.users.find(user => user.id === id)
+  getUserOfLobbyById(id: number): User {
+    const user = this.lobby.users.find(user => user.id === id)
+    return user || this.userService.getEmptyUser()
   }
 
 }
