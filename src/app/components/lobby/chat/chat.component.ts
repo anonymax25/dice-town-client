@@ -4,7 +4,7 @@ import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
-import { ChatService } from './chat.service';
+import { ChatService } from './chat-socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -13,7 +13,6 @@ import { ChatService } from './chat.service';
 })
 export class ChatComponent implements OnInit {
 
-  @Input('roomId') roomId: string
   @Input('lobby') lobby: Lobby
   
   messages: Message[] = []
@@ -31,18 +30,18 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.chatService.leaveRoom(this.roomId)
+    this.chatService.leaveRoom(this.lobby.code)
   }
 
   sendMessage(messageStr: string) {
-    const message = new SocketMessage(this.authenticationService.getIdFromToken(), messageStr, this.roomId, this.lobby.id)
+    const message = new SocketMessage(this.authenticationService.getIdFromToken(), messageStr, this.lobby.code, this.lobby.id)
     this.chatService.sendMessage(message)
   }
 
   initChatSocket(){
     this.chatService.connect().subscribe( data => {
         this.isConnected = true
-        this.chatService.joinRoom(this.roomId)
+        this.chatService.joinRoom(this.lobby.code)
         console.log('connected!');
     })
     this.chatService.joinedRoom().subscribe( data => {
@@ -55,7 +54,6 @@ export class ChatComponent implements OnInit {
     })
     this.chatService.recieveMessage().subscribe( message => {
         this.messages.push(message)   
-
     })
   }
 

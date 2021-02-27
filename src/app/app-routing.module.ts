@@ -9,7 +9,6 @@ import { GameFinderComponent } from './components/game-finder/game-finder.compon
 import { ProfileComponent } from './components/profile/profile.component';
 import { AboutComponent } from './components/about/about.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
-import { LobbyService } from './services/lobby.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

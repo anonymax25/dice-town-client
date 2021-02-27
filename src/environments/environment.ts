@@ -5,7 +5,9 @@ export const environment = {
   socketUrl: 'http://localhost:3001/',
   socketPath: '/websockets',
   alertSocketNamespace: 'alerts',
-  chatSocketNamespace: 'chat'
+  chatSocketNamespace: 'chat',
+  gameSocketNamespace: 'game',
+  lobbySocketNamespace: 'lobby'
 };
 
 /*

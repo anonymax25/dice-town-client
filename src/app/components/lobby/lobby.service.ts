@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LobbySocket } from 'src/app/app.module';
+import { ReadyStatus } from 'src/app/models/readyStatus';
 import { environment } from 'src/environments/environment';
-import { Lobby } from '../models/lobby.model';
-import { AuthenticationService } from './authentication.service';
+import { Lobby } from '../../models/lobby.model';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,8 @@ export class LobbyService {
   
 
   constructor(private http: HttpClient,
-    private authenticationService: AuthenticationService) { }
+      private authenticationService: AuthenticationService,
+      private lobbySocket: LobbySocket) { }
 
   create(): Observable<Lobby> {
 
@@ -44,5 +47,35 @@ export class LobbyService {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${this.authenticationService.getToken()}`)
     return this.http.put<Lobby>(`${environment.apiUrl}lobby/${lobby.code}/quit/${userId}`, null,{headers})
+  }
+
+  // WEBSOCKET
+
+  connect() {
+    return this.lobbySocket.fromEvent('connect')
+  }
+
+  joinLobby(LobbyId: string){
+    this.lobbySocket.emit('joinLobbySocket', LobbyId)
+  }
+
+  joinedLobby(): Observable<string> {
+    return this.lobbySocket.fromEvent('joinedLobbySocket')
+  }
+
+  leaveLobby(LobbyId: string){
+    this.lobbySocket.emit('leaveLobbySocket', LobbyId)
+  }
+
+  leftLobby(): Observable<string>{
+    return this.lobbySocket.fromEvent('leftLobbySocket')
+  }
+
+  recieveReadyStatusUpdate(): Observable<ReadyStatus[]>{
+    return this.lobbySocket.fromEvent('updatedReadyStatus')
+  }
+
+  sendReadyStatusUpdate(readyStatus: ReadyStatus){
+    this.lobbySocket.emit("updateReadyStatus", readyStatus);
   }
 }

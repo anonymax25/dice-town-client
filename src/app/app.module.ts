@@ -32,16 +32,24 @@ import { AboutComponent } from './components/about/about.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
 import { ConfirmComponent } from './components/layout/confirm/confirm.component';
 import { ClipboardModule } from 'ngx-clipboard';
-import { LobbyListComponent } from './components/lobby/lobby-list/lobby-list.component';
+import { LobbyListComponent } from './components/lobby-list/lobby-list.component';
 import { SnackbarService } from './shared/snackbar/snackbar.service';
 import { Socket, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './components/lobby/chat/chat.component';
+import { LobbyInfoComponent } from './components/lobby/lobby-info/lobby-info.component';
  
 @Injectable()
 export class ChatSocket extends Socket {
     constructor() {
       super({ url: `${environment.socketUrl}${environment.chatSocketNamespace}`, options: {path: environment.socketPath} });
+    }
+}
+
+@Injectable()
+export class LobbySocket extends Socket {
+    constructor() {
+      super({ url: `${environment.socketUrl}${environment.lobbySocketNamespace}`, options: {path: environment.socketPath} });
     }
 }
 @Injectable()
@@ -67,7 +75,8 @@ export class AlertSocket extends Socket {
     LobbyComponent,
     ConfirmComponent,
     LobbyListComponent,
-    ChatComponent
+    ChatComponent,
+    LobbyInfoComponent
   ],
   imports: [
     SocketIoModule,
@@ -96,6 +105,7 @@ export class AlertSocket extends Socket {
     SnackbarService,
     ChatSocket,
     AlertSocket,
+    LobbySocket,
     Title
   ],
   entryComponents: [
