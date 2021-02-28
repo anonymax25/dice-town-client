@@ -13,8 +13,8 @@
         </div>
         <mat-form-field appearance="fill">
             <mat-label>Send a chat</mat-label>
-            <input matInput type="text" [(ngModel)]="messageSend">
-            <button mat-icon-button matSuffix (click)="sendMessage(messageSend)">
+            <input matInput type="text" [(ngModel)]="messageSend" (keyup.enter)="sendMessage()">
+            <button mat-icon-button matSuffix (click)="sendMessage()">
                 <mat-icon>send</mat-icon>
             </button>
           </mat-form-field>

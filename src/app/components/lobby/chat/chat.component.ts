@@ -4,7 +4,7 @@ import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
-import { ChatService } from './chat-socket.service';
+import { ChatService } from './chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -33,9 +33,12 @@ export class ChatComponent implements OnInit {
     this.chatService.leaveRoom(this.lobby.code)
   }
 
-  sendMessage(messageStr: string) {
-    const message = new SocketMessage(this.authenticationService.getIdFromToken(), messageStr, this.lobby.code, this.lobby.id)
+  sendMessage() {
+    if(!this.messageSend.length) return;
+    
+    const message = new SocketMessage(this.authenticationService.getIdFromToken(), this.messageSend, this.lobby.code, this.lobby.id)
     this.chatService.sendMessage(message)
+    this.messageSend = ''
   }
 
   initChatSocket(){
