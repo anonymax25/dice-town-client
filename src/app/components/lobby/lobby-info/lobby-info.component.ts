@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
@@ -19,16 +19,17 @@ import { LobbyService } from '../lobby.service';
 export class LobbyInfoComponent implements OnInit {
 
   @Input('lobby') lobby: Lobby
+  @Output() lobbyRefresh: EventEmitter<void> = new EventEmitter<void>()
   isReady: boolean = false
   isConnected: boolean = false
   isJoined: boolean = false
 
   constructor(private lobbyService: LobbyService,
-              private clipboardService: ClipboardService,
-              private dialog: MatDialog,
-              public authenticationService: AuthenticationService,
-              public snackbarService: SnackbarService,
-              private router: Router) { }
+    private clipboardService: ClipboardService,
+    private dialog: MatDialog,
+    public authenticationService: AuthenticationService,
+    public snackbarService: SnackbarService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.initLobbySocket()
@@ -36,29 +37,29 @@ export class LobbyInfoComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.lobbyService.leaveLobby(this.lobby.id.toString())
+    this.lobbyService.leaveLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
   }
 
-  computeIsReady(){
+  computeIsReady() {
     const readyStatus = this.lobby.readyStatus.find(item => item.uid == this.authenticationService.getIdFromToken())
-    if(readyStatus)
+    if (readyStatus)
       this.isReady = readyStatus.isReady
   }
 
-  isOwner(){
+  isOwner() {
     return this.lobby.ownerId === this.authenticationService.getIdFromToken()
   }
 
-  isYou(user: User){
+  isYou(user: User) {
     return user.id === this.authenticationService.getIdFromToken()
   }
 
-  copyCodeToClipboard(code: string){
+  copyCodeToClipboard(code: string) {
     this.clipboardService.copy(code)
     this.snackbarService.openSuccess(`${code} saved to clipboard`)
   }
 
-  getLobbyOwnerName(lobby: Lobby): string{    
+  getLobbyOwnerName(lobby: Lobby): string {
     return lobby.users.find(user => user.id === lobby.ownerId).name
   }
 
@@ -66,12 +67,12 @@ export class LobbyInfoComponent implements OnInit {
 
   }
 
-  quitLobby(){
+  quitLobby() {
     this.dialog.open(ConfirmComponent, {
       height: '200px',
       width: '500px',
     }).afterClosed().subscribe(response => {
-      if(response) {
+      if (response) {
         this.lobbyService.quitUser(this.lobby, this.authenticationService.getIdFromToken()).subscribe(() => {
           this.router.navigate([`home`]);
           this.snackbarService.openSuccess("Left lobby")
@@ -82,33 +83,40 @@ export class LobbyInfoComponent implements OnInit {
     })
   }
 
-  getCountReady(): number{
+  getCountReady(): number {
     return this.lobby.readyStatus.filter(item => item.isReady).length
   }
 
-  initLobbySocket(){
-    this.lobbyService.connect().subscribe( data => {
-        this.isConnected = true
-        this.lobbyService.joinLobby(this.lobby.id.toString())
-        console.log('lobby connected!');
+  initLobbySocket() {
+    this.lobbyService.connect().subscribe(data => {
+      this.isConnected = true
+      this.lobbyService.joinLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
+      console.log('lobby connected!');
     })
-    this.lobbyService.joinedLobby().subscribe( data => {
-        this.isJoined = true
-        console.log('joined lobby!', data);
+    this.lobbyService.joinedLobby().subscribe(data => {
+      this.isJoined = true
+      console.log('joined lobby!', data);
     })
-    this.lobbyService.leftLobby().subscribe( data => {
-        this.isJoined = false
-        console.log('left lobby!', data);
+    this.lobbyService.leftLobby().subscribe(data => {
+      this.isJoined = false
+      console.log('left lobby!', data);
     })
-    this.lobbyService.recieveReadyStatusUpdate().subscribe( readyStatus => {
-        this.lobby.readyStatus = readyStatus  
-        this.computeIsReady()
+
+    this.lobbyService.userJoinedLobby().subscribe(username => {
+      this.snackbarService.openSuccess(`${username} has joined the lobby`)
+      this.lobbyRefresh.emit()
+    })
+    this.lobbyService.userLeftLobby().subscribe(username => {
+      this.snackbarService.openSuccess(`${username} has left the lobby`)
+      this.lobbyRefresh.emit()
+    })
+    this.lobbyService.recieveReadyStatusUpdate().subscribe(readyStatus => {
+      this.lobby.readyStatus = readyStatus
+      this.computeIsReady()
     })
   }
 
   readyStatus() {
-    console.log(this.isReady);
-    
     const readyStatus = new ReadyStatus(this.lobby.id, this.authenticationService.getIdFromToken(), !this.isReady)
     this.lobbyService.sendReadyStatusUpdate(readyStatus)
   }

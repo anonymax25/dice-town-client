@@ -26,6 +26,10 @@ export class LobbyComponent implements OnInit {
               public snackbarService: SnackbarService) { }
 
   ngOnInit(): void {
+    this.loadLobby()
+  }
+
+  loadLobby() {
     this.route.params.subscribe(params => {
       this.lobbyService.get(params['code']).subscribe(lobby => {
         this.lobby = lobby  

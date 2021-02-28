@@ -4,11 +4,11 @@
     </mat-card-header>
     <mat-card-content>
         <div class="border border-primary">
-            <div *ngFor="let message of lobby.messages">
-                <b>{{getUserOfLobbyById(message.user).name}}</b> : {{message.message}}
+            <div *ngFor="let message of lobby.messages" class="message-container my-2">
+                <b>{{getUserOfLobbyById(message.user).name}}</b> : <span class="message">{{message.message}}</span>
             </div>
-            <div *ngFor="let message of messages">
-                <b>{{getUserOfLobbyById(message.user).name}}</b> : {{message.message}}
+            <div *ngFor="let message of messages" class="message-container my-2">
+                <b>{{getUserOfLobbyById(message.user).name}}</b> : <span class="message">{{message.message}}</span>
             </div>
         </div>
         <mat-form-field appearance="fill">

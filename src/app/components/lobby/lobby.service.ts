@@ -55,20 +55,28 @@ export class LobbyService {
     return this.lobbySocket.fromEvent('connect')
   }
 
-  joinLobby(LobbyId: string){
-    this.lobbySocket.emit('joinLobbySocket', LobbyId)
+  joinLobby(LobbyId: string, username: string){
+    this.lobbySocket.emit('joinLobbySocket', {lobbyId: LobbyId, username: username} )
   }
 
   joinedLobby(): Observable<string> {
     return this.lobbySocket.fromEvent('joinedLobbySocket')
   }
 
-  leaveLobby(LobbyId: string){
-    this.lobbySocket.emit('leaveLobbySocket', LobbyId)
+  leaveLobby(LobbyId: string, username: string){
+    this.lobbySocket.emit('leaveLobbySocket', {lobbyId: LobbyId, username: username})
   }
 
   leftLobby(): Observable<string>{
     return this.lobbySocket.fromEvent('leftLobbySocket')
+  }
+  
+  userJoinedLobby(): Observable<string>{
+    return this.lobbySocket.fromEvent('userJoinedLobby')
+  }
+  
+  userLeftLobby(): Observable<string>{
+    return this.lobbySocket.fromEvent('userLeftLobby')
   }
 
   recieveReadyStatusUpdate(): Observable<ReadyStatus[]>{

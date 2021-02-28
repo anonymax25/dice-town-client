@@ -35,7 +35,7 @@ export class UserService {
 
   getEmptyUser(): User {
     const user = new User()
-    user.name = ""
+    user.name = "∅"
     return user
   }
 }

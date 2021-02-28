@@ -1,7 +1,7 @@
 <div class="lobby-container">
 
     <div class="sidebar">
-        <app-lobby-info *ngIf="lobby" [lobby]="lobby"></app-lobby-info>
+        <app-lobby-info *ngIf="lobby" [lobby]="lobby" (lobbyRefresh)="loadLobby()"></app-lobby-info>
         
         <app-chat *ngIf="lobby" [lobby]="lobby"></app-chat>
     </div>
