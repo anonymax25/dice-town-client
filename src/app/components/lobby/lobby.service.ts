@@ -56,7 +56,7 @@ export class LobbyService {
   }
 
   joinLobby(LobbyId: string, username: string){
-    this.lobbySocket.emit('joinLobbySocket', {lobbyId: LobbyId, username: username} )
+    this.lobbySocket.emit('joinLobbySocket', {lobbyId: LobbyId, username: username, uid: this.authenticationService.getIdFromToken()} )
   }
 
   joinedLobby(): Observable<string> {
@@ -64,7 +64,7 @@ export class LobbyService {
   }
 
   leaveLobby(LobbyId: string, username: string){
-    this.lobbySocket.emit('leaveLobbySocket', {lobbyId: LobbyId, username: username})
+    this.lobbySocket.emit('leaveLobbySocket', {lobbyId: LobbyId, username: username, uid: this.authenticationService.getIdFromToken()})
   }
 
   leftLobby(): Observable<string>{
