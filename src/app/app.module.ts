@@ -38,6 +38,8 @@ import { Socket, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './components/lobby/chat/chat.component';
 import { LobbyInfoComponent } from './components/lobby/lobby-info/lobby-info.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatChipsModule} from '@angular/material/chips';
  
 @Injectable()
 export class ChatSocket extends Socket {
@@ -99,7 +101,9 @@ export class AlertSocket extends Socket {
     MatTableModule,
     MatCheckboxModule,
     MatTooltipModule,
-    ClipboardModule
+    ClipboardModule,
+    MatProgressSpinnerModule,
+    MatChipsModule
   ],
   providers: [
     SnackbarService,

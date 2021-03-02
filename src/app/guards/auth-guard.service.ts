@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { LoginComponent } from '../components/auth/login/login.component';
 import { AuthenticationService } from "../services/authentication.service";
 
@@ -10,6 +12,7 @@ import { AuthenticationService } from "../services/authentication.service";
 })
 export class AuthGuardService implements CanActivate {
   constructor(private authenticationService: AuthenticationService,
+    private titleService: Title,
     private router: Router,
     private dialog: MatDialog) {
   }
@@ -23,6 +26,7 @@ export class AuthGuardService implements CanActivate {
         return false;
       })
     }else {
+      this.titleService.setTitle(`${environment.title} : ${this.authenticationService.getUserFromToken().name}`)
       return true;
     }
   }
