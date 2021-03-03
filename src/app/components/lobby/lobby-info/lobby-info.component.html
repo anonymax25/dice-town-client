@@ -1,6 +1,8 @@
 <mat-card class="example-card mx-3 my-5" *ngIf="lobby; else notLoaded">
     <mat-card-header>
         <mat-card-title (click)="copyCodeToClipboard(lobby.code)">Code: {{lobby.code}} <mat-icon matTooltip="copy code to clipboard" (click)="copyCodeToClipboard(lobby.code)">content_copy</mat-icon></mat-card-title>
+        <mat-icon>{{ isJoined ? 'cloud_done' : 'cloud_off'}}</mat-icon>
+
     </mat-card-header>
     <mat-card-content>
         <div>

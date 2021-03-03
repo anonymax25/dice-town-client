@@ -40,7 +40,8 @@ import { ChatComponent } from './components/lobby/chat/chat.component';
 import { LobbyInfoComponent } from './components/lobby/lobby-info/lobby-info.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatChipsModule} from '@angular/material/chips';
- 
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 @Injectable()
 export class ChatSocket extends Socket {
     constructor() {
@@ -103,7 +104,8 @@ export class AlertSocket extends Socket {
     MatTooltipModule,
     ClipboardModule,
     MatProgressSpinnerModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSlideToggleModule,
   ],
   providers: [
     SnackbarService,

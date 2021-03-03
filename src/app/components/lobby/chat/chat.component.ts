@@ -65,6 +65,15 @@ export class ChatComponent implements OnInit {
     return user || this.userService.getEmptyUser()
   }
 
+  connectChat(){
+    if(this.isJoinedRoom){
+      this.chatService.leaveRoom(this.lobby.code)
+      this.isJoinedRoom = false;
+    }else{
+      this.initChatSocket()
+    }
+  }
+
 }
 
 export class SocketMessage {
