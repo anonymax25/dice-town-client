@@ -46,4 +46,8 @@ export class LobbyComponent implements OnInit {
       return ''
     return JSON.stringify(this.lobby.readyStatus, null, 2)
   }    
+
+  getCountReady(): number {
+    return this.lobby.readyStatus.filter(item => item.isReady).length
+  }
 }

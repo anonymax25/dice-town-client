@@ -1,23 +1,26 @@
-<mat-toolbar class="sticky-top">
+<div class="sticky-top toolbar-container">
+  <mat-toolbar>
+    
+    <button mat-button class="title" routerLink="/home">
+      <img src="./assets/icons/sherif-start-icon.png" height="40px">
+      Dice Town Online
+    </button>
+    <button mat-button class="mx-2" routerLink="/about">About</button>
   
-  <button mat-button class="title" routerLink="/home">
-    <img src="./assets/icons/sherif-start-icon.png" height="40px">
-    Dice Town Online
-  </button>
-  <button mat-button class="mx-2" routerLink="/about">About</button>
-
-  <button mat-raised-button color="warn" class="mx-2" (click)="launchGame()">Play now</button>
+    <button mat-raised-button color="warn" class="mx-2" (click)="launchGame()">Play now</button>
+    
+    <span class="spacer"></span>
   
-  <span class="spacer"></span>
-
-  <button *ngIf="!authenticationService.isLogged()" mat-button routerLink="/register" class="mx-2">Register</button>
-  <button *ngIf="!authenticationService.isLogged()" mat-raised-button color="primary" (click)="openLogin()"class="mx-2">
-    Login
-  </button>
-  <button *ngIf="authenticationService.isLogged()" mat-button [routerLink]="['profile', authenticationService.getUserFromToken().id]" class="mx-2">
-    <mat-icon class="mr-1">account_circle</mat-icon>{{authenticationService.getUserFromToken().name}}
-  </button>
-  <button *ngIf="authenticationService.isLogged()" mat-button (click)="logout()" class="mx-2">
-    Déconnexion
-  </button>
-</mat-toolbar>
+    <button *ngIf="!authenticationService.isLogged()" mat-button routerLink="/register" class="mx-2">Register</button>
+    <button *ngIf="!authenticationService.isLogged()" mat-raised-button color="primary" (click)="openLogin()"class="mx-2">
+      Login
+    </button>
+    <button *ngIf="authenticationService.isLogged()" mat-button [routerLink]="['profile', authenticationService.getUserFromToken().id]" class="mx-2">
+      <mat-icon class="mr-1">account_circle</mat-icon>{{authenticationService.getUserFromToken().name}}
+    </button>
+    <button *ngIf="authenticationService.isLogged()" mat-button (click)="logout()" class="mx-2">
+      Déconnexion
+    </button>
+  </mat-toolbar>
+  <div class="bottom-liner"></div>
+</div>

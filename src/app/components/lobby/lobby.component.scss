@@ -4,7 +4,10 @@
     
     .sidebar{
         flex: 0 0 300px;
-        background-color: lightcyan;
+        background: linear-gradient(45deg, #e66465, #9198e5);
+        border-right: 232323;
+        border-right-style: solid;
+        border-right-width: 4px;
     }
 
     .game{

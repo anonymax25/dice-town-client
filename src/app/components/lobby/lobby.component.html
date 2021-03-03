@@ -1,31 +1,32 @@
 <div class="lobby-container">
 
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <app-lobby-info *ngIf="lobby" [lobby]="lobby" (lobbyRefresh)="loadLobby()"></app-lobby-info>
-        
         <app-chat *ngIf="lobby" [lobby]="lobby"></app-chat>
     </div>
 
-    <div class="game">
+    <div class="game" id="game">
         <ng-container *ngIf="!lobby; else lobbyLoaded">
             <mat-spinner [mode]="indeterminate"></mat-spinner>
         </ng-container>
         <ng-template #lobbyLoaded>
             <div *ngIf="!lobby.isGameStarted; else gameStarted" class="waiting-msg">
-                <p>
+                <ng-container *ngIf="getCountReady() < lobby.users.length; else waitingStart">
                     Waiting for everybody to ready up...
-                </p>
-                <p>
-                    <mat-chip-list class="mat-chip-list-stacked" aria-label="User readiness">
-                        <mat-chip *ngFor="let user of lobby.users" class="ready-chip">
-                            {{user.name}}&nbsp;is&nbsp;
-                            <span [ngClass]="(lobbyService.computeIsReady(lobby, user)) ? 'ready' : 'unready'">
-                                {{lobbyService.computeIsReady(lobby, user) ? 'Ready' : 'Not Ready'}}
-                            </span>
-                          
-                        </mat-chip>
-                    </mat-chip-list>
-                </p>
+                    
+                </ng-container>
+                <ng-template #waitingStart>
+                    Waiting for owner to start the game
+                </ng-template>
+                <mat-chip-list class="mat-chip-list-stacked my-3" aria-label="User readiness">
+                    <mat-chip *ngFor="let user of lobby.users" class="ready-chip">
+                        {{user.name}}&nbsp;is&nbsp;
+                        <span [ngClass]="(lobbyService.computeIsReady(lobby, user)) ? 'ready' : 'unready'">
+                            {{lobbyService.computeIsReady(lobby, user) ? 'Ready' : 'Not Ready'}}
+                        </span>
+                        
+                    </mat-chip>
+                </mat-chip-list>
                 <mat-spinner></mat-spinner>
             </div>
             <ng-template #gameStarted>
