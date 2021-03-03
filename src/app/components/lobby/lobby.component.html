@@ -22,7 +22,7 @@
                     <mat-chip *ngFor="let user of lobby.users" class="ready-chip">
                         {{user.name}}&nbsp;is&nbsp;
                         <span [ngClass]="(lobbyService.computeIsReady(lobby, user)) ? 'ready' : 'unready'">
-                            {{lobbyService.computeIsReady(lobby, user) ? 'Ready' : 'Not Ready'}}
+                            {{lobbyService.computeIsReady(lobby, user) ? 'Ready' : 'Not Ready...'}}
                         </span>
                         
                     </mat-chip>
