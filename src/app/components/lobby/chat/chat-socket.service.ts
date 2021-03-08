@@ -6,7 +6,7 @@ import { Message } from 'src/app/models/message';
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService {
+export class ChatSocketService {
 
   constructor(private chatSocket: ChatSocket) { }
 

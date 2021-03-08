@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
-import {GameComponent} from "./components/game/game.component";
 import {RegisterComponent} from "./components/auth/register/register.component";
 import {AuthGuardService} from "./guards/auth-guard.service";
 import { GameFinderComponent } from './components/game-finder/game-finder.component';
@@ -16,7 +15,6 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'game/finder', component: GameFinderComponent, canActivate: [AuthGuardService] },
-  { path: 'game/:id', component: GameComponent, canActivate: [AuthGuardService] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'lobby/:code', component: LobbyComponent, canActivate: [AuthGuardService] },
   // { path: 'profile/:id', component: ProfileComponent},

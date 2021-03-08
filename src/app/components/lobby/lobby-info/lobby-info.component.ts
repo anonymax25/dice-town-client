@@ -9,7 +9,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 import { ConfirmComponent } from '../../layout/confirm/confirm.component';
-import { LobbySocketService } from '../lobby-socket.service';
+import { LobbySocketService } from './lobby-socket.service';
 import { LobbyService } from '../lobby.service';
 
 @Component({
@@ -20,7 +20,8 @@ import { LobbyService } from '../lobby.service';
 export class LobbyInfoComponent implements OnInit {
 
   @Input('lobby') lobby: Lobby
-  @Output() lobbyRefresh: EventEmitter<void> = new EventEmitter<void>()
+  @Output() lobbyRefreshEvent: EventEmitter<void> = new EventEmitter<void>()
+  @Output() chatResetEvent: EventEmitter<void> = new EventEmitter<void>()
   isReady: boolean = false
   isConnected: boolean = false
   isJoined: boolean = false
@@ -35,7 +36,7 @@ export class LobbyInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.initLobbySocket()
-    this.isReady = this.lobbyService.computeIsReady(this.lobby, this.authenticationService.getUserFromToken())
+    this.isReady = this.lobbyService.computeIsUserReady(this.lobby, this.authenticationService.getUserFromToken())
   }
 
   ngOnDestroy(): void {
@@ -71,7 +72,7 @@ export class LobbyInfoComponent implements OnInit {
       if (response) {
         this.lobbyService.quitUser(this.lobby, this.authenticationService.getIdFromToken()).subscribe(() => {
           this.router.navigate([`home`]);
-          this.snackbarService.openSuccess("Left lobby")
+          this.snackbarService.openSuccess("Left lobby for good :'(")
         }, (err) => {
           this.snackbarService.openError("Couldn't leave lobby")
         })
@@ -100,20 +101,28 @@ export class LobbyInfoComponent implements OnInit {
 
     this.lobbySocketService.userJoinedLobby().subscribe(username => {
       this.snackbarService.openSuccess(`${username} has joined the lobby`)
-      this.lobbyRefresh.emit()
+      this.lobbyRefreshEvent.emit()
     })
     this.lobbySocketService.userLeftLobby().subscribe(username => {
       this.snackbarService.openSuccess(`${username} has left the lobby`)
-      this.lobbyRefresh.emit()
+      this.lobbyRefreshEvent.emit()
     })
     this.lobbySocketService.recieveReadyStatusUpdate().subscribe(readyStatus => {
       this.lobby.readyStatus = readyStatus
-      this.isReady = this.lobbyService.computeIsReady(this.lobby, this.authenticationService.getUserFromToken())
+      this.isReady = this.lobbyService.computeIsUserReady(this.lobby, this.authenticationService.getUserFromToken())
+    })
+    this.lobbySocketService.startGameSwitched().subscribe(lobby => {
+      this.lobby = lobby
+      this.chatResetEvent.emit()
     })
   }
 
   readyStatus() {
     const readyStatus = new ReadyStatus(this.lobby.id, this.authenticationService.getIdFromToken(), !this.isReady)
     this.lobbySocketService.sendReadyStatusUpdate(readyStatus)
+  }
+
+  switchStartGame() {
+    this.lobbySocketService.switchStartGame(this.lobby.id)
   }
 }

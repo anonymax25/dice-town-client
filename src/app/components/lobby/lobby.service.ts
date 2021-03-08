@@ -50,7 +50,7 @@ export class LobbyService {
     return this.http.put<Lobby>(`${environment.apiUrl}lobby/${lobby.code}/quit/${userId}`, null,{headers})
   }
 
-  computeIsReady(lobby: Lobby, user: User) {
+  computeIsUserReady(lobby: Lobby, user: User) {
     const readyStatus = lobby.readyStatus.find(item => item.uid == user.id)
     if (!readyStatus)
       return null

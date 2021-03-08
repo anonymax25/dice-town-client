@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LobbySocket } from 'src/app/app.module';
+import { Lobby } from 'src/app/models/lobby.model';
 import { ReadyStatus } from 'src/app/models/readyStatus';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -46,5 +47,13 @@ export class LobbySocketService {
 
   sendReadyStatusUpdate(readyStatus: ReadyStatus){
     this.lobbySocket.emit("updateReadyStatus", readyStatus);
+  }
+
+  switchStartGame(lobbyId: number){    
+    this.lobbySocket.emit("switchStartGame", {lobbyId});
+  }
+
+  startGameSwitched(): Observable<Lobby>{
+    return this.lobbySocket.fromEvent('startGameSwitched')
   }
 }

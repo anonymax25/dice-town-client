@@ -11,7 +11,6 @@ import { HeaderComponent } from './components/layout/header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from "@angular/material/button";
-import { GameComponent } from './components/game/game.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
@@ -67,7 +66,6 @@ export class AlertSocket extends Socket {
     HomeComponent,
     FooterComponent,
     HeaderComponent,
-    GameComponent,
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,

@@ -1,8 +1,8 @@
 <div class="lobby-container">
 
     <div class="sidebar" id="sidebar">
-        <app-lobby-info *ngIf="lobby" [lobby]="lobby" (lobbyRefresh)="loadLobby()"></app-lobby-info>
-        <app-chat *ngIf="lobby" [lobby]="lobby"></app-chat>
+        <app-lobby-info *ngIf="lobby" [lobby]="lobby" (lobbyRefreshEvent)="loadLobby()" (chatResetEvent)="chatReset()"></app-lobby-info>
+        <app-chat *ngIf="lobby" [lobby]="lobby" [refreshChatEventSubject]="refreshChatEventSubject.asObservable()"></app-chat>
     </div>
 
     <div class="game" id="game">
@@ -11,9 +11,10 @@
         </ng-container>
         <ng-template #lobbyLoaded>
             <div *ngIf="!lobby.isGameStarted; else gameStarted" class="waiting-msg">
+                <div *ngIf="lobby.game">Game paused!</div>
                 <ng-container *ngIf="getCountReady() < lobby.users.length; else waitingStart">
-                    Waiting for everybody to ready up...
-                    
+                    Waiting for everybody to ready up... 
+                    <img src="../../../assets/icons/rolling_eyes.png" height="40" alt="oh nooo...">
                 </ng-container>
                 <ng-template #waitingStart>
                     Waiting for owner to start the game
@@ -21,8 +22,8 @@
                 <mat-chip-list class="mat-chip-list-stacked my-3" aria-label="User readiness">
                     <mat-chip *ngFor="let user of lobby.users" class="ready-chip">
                         {{user.name}}&nbsp;is&nbsp;
-                        <span [ngClass]="(lobbyService.computeIsReady(lobby, user)) ? 'ready' : 'unready'">
-                            {{lobbyService.computeIsReady(lobby, user) ? 'Ready' : 'Not Ready...'}}
+                        <span [ngClass]="(lobbyService.computeIsUserReady(lobby, user)) ? 'ready' : 'unready'">
+                            {{lobbyService.computeIsUserReady(lobby, user) ? 'Ready' : 'Not Ready...'}}
                         </span>
                         
                     </mat-chip>

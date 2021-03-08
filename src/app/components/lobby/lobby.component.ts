@@ -11,6 +11,7 @@ import { LobbyService } from './lobby.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service'
 import { ConfirmComponent } from '../layout/confirm/confirm.component';
 import { stripSummaryForJitFileSuffix } from '@angular/compiler/src/aot/util';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -19,6 +20,7 @@ import { stripSummaryForJitFileSuffix } from '@angular/compiler/src/aot/util';
 export class LobbyComponent implements OnInit {
 
   lobby: Lobby
+  refreshChatEventSubject: Subject<void> = new Subject<void>();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -33,6 +35,8 @@ export class LobbyComponent implements OnInit {
   loadLobby() {
     this.route.params.subscribe(params => {
       this.lobbyService.get(params['code']).subscribe(lobby => {
+        console.log(lobby);
+        
         this.lobby = lobby  
       }, (err) => {
           this.snackbarService.openError('Can\'t load lobby')
@@ -49,5 +53,9 @@ export class LobbyComponent implements OnInit {
 
   getCountReady(): number {
     return this.lobby.readyStatus.filter(item => item.isReady).length
+  }
+
+  chatReset() {
+    this.refreshChatEventSubject.next()
   }
 }
