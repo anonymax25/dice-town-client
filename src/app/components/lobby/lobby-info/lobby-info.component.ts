@@ -21,6 +21,7 @@ export class LobbyInfoComponent implements OnInit {
 
   @Input('lobby') lobby: Lobby
   @Output() lobbyRefreshEvent: EventEmitter<void> = new EventEmitter<void>()
+  @Output() updateLobbyEvent: EventEmitter<Lobby> = new EventEmitter<Lobby>()
   @Output() chatResetEvent: EventEmitter<void> = new EventEmitter<void>()
   isReady: boolean = false
   isConnected: boolean = false
@@ -112,8 +113,8 @@ export class LobbyInfoComponent implements OnInit {
       this.isReady = this.lobbyService.computeIsUserReady(this.lobby, this.authenticationService.getUserFromToken())
     })
     this.lobbySocketService.startGameSwitched().subscribe(lobby => {
-      this.lobby = lobby
       this.chatResetEvent.emit()
+      this.updateLobbyEvent.emit(lobby)
     })
   }
 

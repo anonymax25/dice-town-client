@@ -35,8 +35,6 @@ export class LobbyComponent implements OnInit {
   loadLobby() {
     this.route.params.subscribe(params => {
       this.lobbyService.get(params['code']).subscribe(lobby => {
-        console.log(lobby);
-        
         this.lobby = lobby  
       }, (err) => {
           this.snackbarService.openError('Can\'t load lobby')
@@ -53,5 +51,9 @@ export class LobbyComponent implements OnInit {
 
   chatReset() {
     this.refreshChatEventSubject.next()
+  }
+  
+  updateLobbyEvent(lobby: Lobby) {
+    this.lobby = lobby
   }
 }
