@@ -9,7 +9,7 @@
         
         <app-lobby-waiting *ngIf="!lobby.isGameStarted; else gameStarted" [lobby]="lobby" class="waiting"></app-lobby-waiting>
         <ng-template #gameStarted>
-            Game is here:
+            <app-game [lobby]="lobby"></app-game>
         </ng-template>
     </div>
 </div>

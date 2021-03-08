@@ -44,8 +44,8 @@ export class LobbyInfoComponent implements OnInit {
     this.lobbySocketService.leaveLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
   }
 
-  isOwner() {
-    return this.lobby.ownerId === this.authenticationService.getIdFromToken()
+  isOwner(userId: number) {
+    return this.lobby.ownerId === userId
   }
 
   isYou(user: User) {
@@ -124,6 +124,17 @@ export class LobbyInfoComponent implements OnInit {
   }
 
   switchStartGame() {
-    this.lobbySocketService.switchStartGame(this.lobby.id)
+    this.dialog.open(ConfirmComponent, {
+      height: '200px',
+      width: '500px',
+    }).afterClosed().subscribe(doAction => {
+      if(doAction) {
+        this.lobbySocketService.switchStartGame(this.lobby.id)
+      }
+    })
+  }
+
+  capitalizeFirstLetter(string): string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }

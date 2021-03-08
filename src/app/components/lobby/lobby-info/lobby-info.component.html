@@ -6,15 +6,25 @@
         <mat-icon>{{ isJoined ? 'cloud_done' : 'cloud_off'}}</mat-icon>
 
     </mat-card-header>
+
+    <mat-divider></mat-divider>
+    
     <mat-card-content>
-        <div>
-            <h3>Users in lobby:</h3>
+        <div class="mt-2">
             <div *ngFor="let user of lobby.users">
-                {{user.name}}, {{user.id}} <span *ngIf="isOwner(user.id)">(Owner)</span> <span
-                    *ngIf="isYou(user)">(You)</span>
+                <div class="flex-container">
+                    <b>{{ capitalizeFirstLetter(user.name) }}</b>&nbsp;
+                    <mat-chip-list>
+                        <mat-chip *ngIf="isOwner(user.id)">Owner</mat-chip> 
+                        <mat-chip *ngIf="isYou(user)">You</mat-chip>
+                    </mat-chip-list>
+                </div>
             </div>
         </div>
     </mat-card-content>
+    
+    <mat-divider></mat-divider>
+    
     <mat-card-actions [ngClass]="{'disabled': lobby.isGameStarted}">
         <div class="btn-container mb-1">
 

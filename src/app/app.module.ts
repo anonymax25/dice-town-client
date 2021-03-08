@@ -37,10 +37,12 @@ import { Socket, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './components/lobby/chat/chat.component';
 import { LobbyInfoComponent } from './components/lobby/lobby-info/lobby-info.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LobbyWaitingComponent } from './components/lobby/lobby-waiting/lobby-waiting.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { GameComponent } from './components/lobby/game/game.component';
 
 @Injectable()
 export class ChatSocket extends Socket {
@@ -79,7 +81,8 @@ export class AlertSocket extends Socket {
     LobbyListComponent,
     ChatComponent,
     LobbyInfoComponent,
-    LobbyWaitingComponent
+    LobbyWaitingComponent,
+    GameComponent
   ],
   imports: [
     SocketIoModule,
@@ -105,7 +108,9 @@ export class AlertSocket extends Socket {
     ClipboardModule,
     MatProgressSpinnerModule,
     MatChipsModule,
+    
     MatSlideToggleModule,
+    MatDividerModule
   ],
   providers: [
     SnackbarService,
