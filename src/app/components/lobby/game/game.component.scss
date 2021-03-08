@@ -1,0 +1,20 @@
+.game-container{
+
+    height: 100%;
+
+    .board {
+        display: flex;
+        mat-card {
+            flex: 1;
+            margin: 10px;
+        }
+    
+        .property {
+            width: 40px;
+            height: 40px;
+            background-color: lightcyan;
+            margin: 1;
+        }
+    }
+}
+

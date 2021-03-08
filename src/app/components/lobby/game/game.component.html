@@ -1,11 +1,80 @@
-<div>
-    <div class="board">
-
+<div class="v-flex game-container">
+    <div>
+        <h1 class="m-1">Game board:</h1>
+        <div class="board">
+            <mat-card>
+                <mat-card-header>
+                    <img src="../../../../assets/icons/nugget.png" height="40px" alt="nuggets">
+                </mat-card-header>
+                <mat-card-content class="flex-container">
+                    {{lobby.game.nuggets}}
+                </mat-card-content>
+            </mat-card>
+            
+            <mat-card>
+                <mat-card-header>
+                    <img src="../../../../assets/icons/money.png" height="40px" alt="dollars">
+                </mat-card-header>
+                <mat-card-content class="flex-container">
+                    {{lobby.game.dollar}}
+                </mat-card-content>
+            </mat-card>
+            
+            <mat-card>
+                <mat-card-header>
+                    <p>General storms</p>
+                </mat-card-header>
+                <mat-card-content>
+                </mat-card-content>
+            </mat-card>
+            
+            <mat-card>
+                <mat-card-header>
+                    <p>Saloon</p>
+                </mat-card-header>
+                <mat-card-content>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-header>
+                    <img src="../../../../assets/icons/sherif-start-icon.png" height="40px" alt="dollars">
+                </mat-card-header>
+                <mat-card-content>
+                    {{ lobby.game.sherifUserid ? getSherif().name : "No one currently"}} is the sherif
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-header>
+                    <p>Properties</p>
+                </mat-card-header>
+                <mat-card-content class="flex-container">
+                    <div>
+                        remaining cards: {{lobby.game.property.length - 3}}
+                    </div>
+                    <br>
+                    <span *ngFor="let property of getFirst3properties()" class="property">
+                        {{property.value}}
+                    </span>
+                </mat-card-content>
+            </mat-card>
+            
+            <mat-card>
+                <mat-card-header>
+                    <p>Bad luck :'(</p>
+                </mat-card-header>
+                <mat-card-content>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        
     </div>
     <div class="dices">
 
     </div>
     <div class="your-game">
-        
+        <h2>Your hand:</h2>
+        <div>
+            
+        </div>
     </div>
 </div>

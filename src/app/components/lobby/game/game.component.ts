@@ -17,4 +17,11 @@ export class GameComponent implements OnInit {
     
   }
 
+  getFirst3properties(){
+    return [...this.lobby.game.property].slice(0, 3)
+  }
+
+  getSherif() {
+    return this.lobby.users.find(user => this.lobby.game.sherifUserid === user.id)
+  }
 }
