@@ -40,6 +40,7 @@ import { LobbyInfoComponent } from './components/lobby/lobby-info/lobby-info.com
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { LobbyWaitingComponent } from './components/lobby/lobby-waiting/lobby-waiting.component';
 
 @Injectable()
 export class ChatSocket extends Socket {
@@ -77,7 +78,8 @@ export class AlertSocket extends Socket {
     ConfirmComponent,
     LobbyListComponent,
     ChatComponent,
-    LobbyInfoComponent
+    LobbyInfoComponent,
+    LobbyWaitingComponent
   ],
   imports: [
     SocketIoModule,

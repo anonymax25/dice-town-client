@@ -17,13 +17,16 @@
     </mat-card-content>
     <mat-card-actions [ngClass]="{'disabled': lobby.isGameStarted}">
         <div class="btn-container mb-1">
-            <button *ngIf="!isOwner(authenticationService.getIdFromToken())" mat-raised-button (click)="quitLobby()"
+
+            <button *ngIf="!isOwner(authenticationService.getIdFromToken())" [disabled]="lobby.game" mat-raised-button (click)="quitLobby()"
                 color="warn">Quit lobby</button>
+
             <button *ngIf="isOwner(authenticationService.getIdFromToken())"
                 [matTooltip]="lobby.users.length > 1 ? 'You can destroy the lobby only if you are the last player in it' : null"
                 [disabled]="lobby.users.length > 1" mat-raised-button (click)="destroyLobby()"
                 color="warn">Destroy</button>
-            <button mat-raised-button class="ml-1" [ngClass]="(!isReady)?'ready-btn':'cancel-btn'"
+
+            <button mat-raised-button [disabled]="lobby.isGameStarted" class="ml-1" [ngClass]="(!isReady)?'ready-btn':'cancel-btn'"
                 [ngClass]="{'btn-ready': !isReady}" (click)="readyStatus()">{{ isReady ? 'Cancel' :
                 'Ready!'}}&nbsp;({{getCountReady()}}/{{lobby.readyStatus.length}})</button>
         </div>
@@ -36,12 +39,10 @@
                 <button mat-raised-button [disabled]="getCountReady() !== lobby.readyStatus.length"
                     (click)="switchStartGame()" class="start-btn">Pause Game</button>
             </ng-template>
-
-
         </div>
     </mat-card-actions>
 </mat-card>
 
 <ng-template #notLoaded>
-    Loading...
+    <mat-spinner></mat-spinner>
 </ng-template>
