@@ -43,6 +43,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LobbyWaitingComponent } from './components/lobby/lobby-waiting/lobby-waiting.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { GameComponent } from './components/lobby/game/game.component';
+import { DiceComponent } from './components/lobby/game/dice/dice.component';
 
 @Injectable()
 export class ChatSocket extends Socket {
@@ -82,7 +83,8 @@ export class AlertSocket extends Socket {
     ChatComponent,
     LobbyInfoComponent,
     LobbyWaitingComponent,
-    GameComponent
+    GameComponent,
+    DiceComponent
   ],
   imports: [
     SocketIoModule,

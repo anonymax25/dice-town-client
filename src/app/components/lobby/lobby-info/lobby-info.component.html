@@ -1,4 +1,4 @@
-<mat-card class="example-card mx-3 my-5" *ngIf="lobby; else notLoaded">
+<mat-card class="example-card mx-3 mt-3" *ngIf="lobby; else notLoaded">
     <mat-card-header>
         <mat-card-title (click)="copyCodeToClipboard(lobby.code)">Code: {{lobby.code}} <mat-icon
                 matTooltip="copy code to clipboard" (click)="copyCodeToClipboard(lobby.code)">content_copy</mat-icon>
@@ -12,7 +12,7 @@
     <mat-card-content>
         <div class="mt-2">
             <div *ngFor="let user of lobby.users">
-                <div class="flex-container">
+                <div class="flex-container-start mb-1">
                     <b>{{ capitalizeFirstLetter(user.name) }}</b>&nbsp;
                     <mat-chip-list>
                         <mat-chip *ngIf="isOwner(user.id)">Owner</mat-chip> 

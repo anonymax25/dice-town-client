@@ -160,9 +160,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: space-evenly;
 }
 
+.flex-container-start {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
 .v-flex {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
+}
+
+.selected {
+  border-style: solid;
+  border-width: 4px;
+  border-color: darkblue;
+  border-radius: 10%;
+}
+
+.unSelected {
+  border-width: 0px;
+  margin: 4px;
+  border-radius: 10%;
 }

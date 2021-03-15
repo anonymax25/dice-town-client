@@ -1,6 +1,6 @@
 import { BadLuck } from './badLuck'
+import { GameStatus } from './game-status.enum'
 import { GeneralStorms } from './generalStorms'
-import { Inventory } from './inventory'
 import { Player } from './player'
 import { Property } from './property'
 
@@ -15,4 +15,5 @@ export class Game {
     property: Property[]
     generalStorms: GeneralStorms[]
     badLuck: BadLuck[]
+    status: GameStatus
 }
