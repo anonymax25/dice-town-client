@@ -10,7 +10,7 @@ export class Player {
     dollar: number
     property: Property[]
     generalStorms: GeneralStorms[]
-    BadLuck: BadLuck[]
+    badLuck: BadLuck[]
     dices: Dice[]
     canThrowDices: boolean
 }

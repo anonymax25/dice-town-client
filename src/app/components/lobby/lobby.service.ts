@@ -49,6 +49,12 @@ export class LobbyService {
     headers = headers.set('Authorization', `Bearer ${this.authenticationService.getToken()}`)
     return this.http.put<Lobby>(`${environment.apiUrl}lobby/${lobby.code}/quit/${userId}`, null,{headers})
   }
+  
+  destroy(lobby: Lobby) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${this.authenticationService.getToken()}`)
+    return this.http.delete(`${environment.apiUrl}lobby/${lobby.code}`, {headers})
+  }
 
   computeIsUserReady(lobby: Lobby, user: User) {
     const readyStatus = lobby.readyStatus.find(item => item.uid == user.id)

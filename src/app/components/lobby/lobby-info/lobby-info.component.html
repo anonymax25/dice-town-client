@@ -28,7 +28,7 @@
     <mat-card-actions [ngClass]="{'disabled': lobby.isGameStarted}">
         <div class="btn-container mb-1">
 
-            <button *ngIf="!isOwner(authenticationService.getIdFromToken())" [disabled]="lobby.game" mat-raised-button (click)="quitLobby()"
+            <button *ngIf="!isOwner(authenticationService.getIdFromToken())" [disabled]="false && lobby.game" mat-raised-button (click)="quitLobby()"
                 color="warn">Quit lobby</button>
 
             <button *ngIf="isOwner(authenticationService.getIdFromToken())"

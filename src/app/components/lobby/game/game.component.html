@@ -4,50 +4,49 @@
         <h3>Status: {{getGameStatus()}}</h3>
         <div class="board">
             <mat-card>
-                <mat-card-header>
-                    <img src="../../../../assets/icons/nugget.png" height="40px" alt="nuggets">
-                </mat-card-header>
+                
+                <img src="../../../../assets/icons/nugget.png" height="40px" alt="nuggets">
+                
                 <mat-card-content>
                     {{lobby.game.nuggets}}
                 </mat-card-content>
             </mat-card>
             
             <mat-card>
-                <mat-card-header>
-                    <img src="../../../../assets/icons/money.png" height="40px" alt="dollars">
-                </mat-card-header>
+                
+                <img src="../../../../assets/icons/money.png" height="40px" alt="dollars">
+                
                 <mat-card-content>
-                    {{lobby.game.dollar}}
+                    <p>
+                        At stake: <strong>{{lobby.game.dollar}}</strong> $
+                    </p>
+                    <p>
+                        Upcoming: <strong>{{lobby.game.income}}</strong> $
+                    </p>
                 </mat-card-content>
             </mat-card>
             
             <mat-card>
-                <mat-card-header>
-                    <p>General storms</p>
-                </mat-card-header>
+                <p>General storms</p>
                 <mat-card-content>
                 </mat-card-content>
             </mat-card>
             
             <mat-card>
-                <mat-card-header>
-                    <p>Saloon</p>
-                </mat-card-header>
+                <p>Saloon</p>
                 <mat-card-content>
                 </mat-card-content>
             </mat-card>
             <mat-card>
-                <mat-card-header>
-                    <img src="../../../../assets/icons/sherif-start-icon.png" height="40px" alt="dollars">
-                </mat-card-header>
+                
+                <img src="../../../../assets/icons/sherif-start-icon.png" height="40px" alt="dollars">
+                
                 <mat-card-content>
                     {{ lobby.game.sherifUserid ? getSherif().name : "No one currently"}} is the sherif
                 </mat-card-content>
             </mat-card>
             <mat-card>
-                <mat-card-header>
-                    <p>Properties</p>
-                </mat-card-header>
+                <p>Property</p>
                 <mat-card-content>
                     <div>
                         remaining cards: {{lobby.game.property.length - 3}}
@@ -60,9 +59,7 @@
             </mat-card>
             
             <mat-card>
-                <mat-card-header>
-                    <p>Bad luck :'(</p>
-                </mat-card-header>
+                <p>Bad luck :'(</p>
                 <mat-card-content>
                 </mat-card-content>
             </mat-card>
@@ -79,78 +76,80 @@
             <div *ngIf="getPlayer() as player">
                 <div class="hand">
                     <mat-card>
-                        <mat-card-header>
-                            <img src="../../../../assets/icons/nugget.png" height="40px" alt="nuggets">
-                        </mat-card-header>
+                        <img src="../../../../assets/icons/nugget.png" height="40px" alt="nuggets">
                         <mat-card-content>
                             {{player.nuggets}}
                         </mat-card-content>
                     </mat-card>
                     
                     <mat-card>
-                        <mat-card-header>
-                            <img src="../../../../assets/icons/money.png" height="40px" alt="dollars">
-                        </mat-card-header>
+                        <img src="../../../../assets/icons/money.png" height="40px" alt="dollars">
                         <mat-card-content>
                             {{player.dollar}}
                         </mat-card-content>
                     </mat-card>
                     
                     <mat-card *ngIf="player.generalStorms.length">
-                        <mat-card-header>
-                            <p>General storms</p>
-                        </mat-card-header>
+                        <p>General storms</p>
                         <mat-card-content>
                         </mat-card-content>
                     </mat-card>
                     
 
-                    <mat-card *ngIf="getSherif() && getSherif().id === player.id">
-                        <mat-card-header>
-                            <img src="../../../../assets/icons/sherif-start-icon.png" height="40px" alt="dollars">
-                        </mat-card-header>
+                    <mat-card *ngIf="getSherif() && getSherif().id === player.userId">
+                        <img src="../../../../assets/icons/sherif-start-icon.png" height="40px" alt="dollars">
                         <mat-card-content>
                             You are the sherif!
                         </mat-card-content>
                     </mat-card>
 
                     <mat-card *ngIf="player.property.length">
-                        <mat-card-header>
-                            <p>Properties</p>
-                        </mat-card-header>
+                        <p>Properties</p>
                         <mat-card-content>
-                            <span *ngFor="let property of player.property()" class="property">
+                            <span *ngFor="let property of player.property" class="property">
                                 {{property.value}}
                             </span>
                         </mat-card-content>
                     </mat-card>
                     
                     <mat-card *ngIf="player.badLuck.length">
-                        <mat-card-header>
-                            <p>Bad luck :'(</p>
-                        </mat-card-header>
+                        <p>Bad luck :'(</p>
                         <mat-card-content>
-                            <span *ngFor="let property of player.badLuck()" class="property">
-                                {{property.value}}
+                            <span *ngFor="let property of player.badLuck" class="property">
+                                {{property.text}}
                             </span>
                         </mat-card-content>
                     </mat-card>
 
                     <mat-card *ngIf="lobby.game.status === 'DICE_ROLLING'">
-                        <mat-card-header>
-                            <p>Dices</p>
-                        </mat-card-header>
+                        <div>
+                            <h2 class="title">
+                                Dices
+                            </h2>
+                            <span *ngIf="lobby.game.waitingFor.length">
+                                Waiting for: <strong *ngFor="let name of getNameWaitingFor()">{{name}}&nbsp;</strong>
+                            </span>
+                        </div>
                         <mat-card-content>
 
-                            <button mat-button [disabled]="!player.canThrowDices" (click)="rollDices()">Roll dices</button>
-                            <button mat-button [disabled]="player.canThrowDices" (click)="choseDices()">Choose dice</button>
-   
+
+                            <div *ngIf="player.dices.length !== 5">
+                                <button mat-button [disabled]="!player.canThrowDices || player.dices.length === 5" (click)="rollDices()">Roll dices</button>
+                                <button mat-button [disabled]="player.canThrowDices || player.dices.length === 5 || isDiceChosen || isCostError" (click)="validateDiceChoice()">Choose dice</button>
+                            </div>
 
                             <div *ngIf="rollingDices">
                                 <mat-spinner></mat-spinner>
                             </div>
-                            <div *ngIf="newDices.length && !rollingDices">
-                                <p>Select your choice:  {{costs > 0 ? '-'+costs+'$' : 'FREE'}}</p>
+                            <div *ngIf="newDices.length && !rollingDices && player.dices.length < 5">
+                                <h4>Rolled dices:  
+                                    <ng-container *ngIf="isCostError; else validCost">
+                                        <span class="alert">Not enough money: {{player.dollar}}$ - {{costs}}$ = {{player.dollar-costs}}$</span>
+                                    </ng-container>
+                                    <ng-template #validCost>
+                                        {{costs > 0 ? '-'+costs+'$' : 'FREE'}}
+                                    </ng-template>
+                                </h4>
                                 <div class="dices-container" >
                                     <span [ngClass]="!selectedDice.length ? 'selected' : 'unSelected'">
                                         <button mat-button (click)="selectDice(-1)" class="square-btn">None</button>
@@ -158,7 +157,7 @@
                                     <app-dice *ngFor="let dice of newDices; let i = index" [isSelected]="isDiceSelected(i)" [number]="dice.value" (click)="selectDice(i)"></app-dice>
                                 </div>
                             </div>
-
+                            <h4>Saved dices:</h4>
                             <div class="dices-container" *ngIf="player.dices">
                                 <app-dice *ngFor="let dice of player.dices; let i = index" [isSelected]="false" [number]="dice.value"></app-dice>
                             </div>

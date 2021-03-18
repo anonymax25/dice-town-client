@@ -1,7 +1,5 @@
 mat-card-content {
-    height: 400px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    
 }
 
 .message-container {
@@ -15,4 +13,17 @@ mat-card-content {
     width: fit-content;
     background-color: #0084ff;
     color: white;
+}
+
+.chat-container {
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.mat-form-field-wrapper {
+    padding: 0px !important;
 }

@@ -1,7 +1,7 @@
 <div class="lobby-container" *ngIf="lobby; else noLobby">
 
     <div class="sidebar" id="sidebar">
-        <app-lobby-info [lobby]="lobby" (lobbyRefreshEvent)="loadLobby()" (chatResetEvent)="chatReset()" (updateLobbyEvent)="updateLobbyEvent($event)"></app-lobby-info>
+        <app-lobby-info [lobby]="lobby" [isLobbyConnected]="isLobbyConnected" (lobbyRefreshEvent)="loadLobby()" (chatResetEvent)="chatReset()" (updateLobbyEvent)="updateLobbyEvent($event)"></app-lobby-info>
         <app-chat [lobby]="lobby" [refreshChatEventSubject]="refreshChatEventSubject.asObservable()"></app-chat>
     </div>
 
@@ -9,7 +9,7 @@
         
         <app-lobby-waiting *ngIf="!lobby.isGameStarted; else gameStarted" [lobby]="lobby" class="waiting"></app-lobby-waiting>
         <ng-template #gameStarted>
-            <app-game [lobby]="lobby"></app-game>
+            <app-game [lobby]="lobby" (updateGameEvent)="updateGameEvent($event)"></app-game>
         </ng-template>
     </div>
 </div>

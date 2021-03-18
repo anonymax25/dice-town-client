@@ -12,6 +12,9 @@ import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service'
 import { ConfirmComponent } from '../layout/confirm/confirm.component';
 import { stripSummaryForJitFileSuffix } from '@angular/compiler/src/aot/util';
 import { Subject } from 'rxjs';
+import { LobbySocketService } from './lobby-socket.service';
+import { Player } from 'src/app/models/player';
+import { Game } from 'src/app/models/game.model';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -21,10 +24,12 @@ export class LobbyComponent implements OnInit {
 
   lobby: Lobby
   refreshChatEventSubject: Subject<void> = new Subject<void>();
+  isLobbyConnected: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               public lobbyService: LobbyService,
+              public lobbySocketService: LobbySocketService,
               public authenticationService: AuthenticationService,
               public snackbarService: SnackbarService) { }
 
@@ -55,5 +60,9 @@ export class LobbyComponent implements OnInit {
   
   updateLobbyEvent(lobby: Lobby) {
     this.lobby = lobby
+  }
+  
+  updateGameEvent(game: Game) {
+    this.lobby.game = game
   }
 }

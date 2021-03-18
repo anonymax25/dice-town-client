@@ -12,6 +12,7 @@ export class Game {
     players: Player[]
     nuggets: number
     dollar: number
+    income: number
     property: Property[]
     generalStorms: GeneralStorms[]
     badLuck: BadLuck[]

@@ -9,7 +9,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 import { ConfirmComponent } from '../../layout/confirm/confirm.component';
-import { LobbySocketService } from './lobby-socket.service';
+import { LobbySocketService } from '../lobby-socket.service';
 import { LobbyService } from '../lobby.service';
 
 @Component({
@@ -20,6 +20,7 @@ import { LobbyService } from '../lobby.service';
 export class LobbyInfoComponent implements OnInit {
 
   @Input('lobby') lobby: Lobby
+  @Input('isLobbyConnected') isLobbyConnected: boolean
   @Output() lobbyRefreshEvent: EventEmitter<void> = new EventEmitter<void>()
   @Output() updateLobbyEvent: EventEmitter<Lobby> = new EventEmitter<Lobby>()
   @Output() chatResetEvent: EventEmitter<void> = new EventEmitter<void>()
@@ -62,7 +63,18 @@ export class LobbyInfoComponent implements OnInit {
   }
 
   destroyLobby() {
-
+    this.dialog.open(ConfirmComponent, {
+      height: '200px',
+      width: '500px',
+    }).afterClosed().subscribe(doAction => {
+      if(doAction) {
+        this.lobbyService.destroy(this.lobby).subscribe(() => {
+          this.router.navigate(['game/finder'])
+          this.snackbarService.openSuccess('Lobby destroyed')
+        })
+      }
+    })
+    
   }
 
   quitLobby() {
@@ -86,11 +98,13 @@ export class LobbyInfoComponent implements OnInit {
   }
 
   initLobbySocket() {
+    
     this.lobbySocketService.connect().subscribe(data => {
-      this.isConnected = true
+      this.isLobbyConnected = true
       this.lobbySocketService.joinLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
       console.log('lobby connected!');
     })
+    
     this.lobbySocketService.joinedLobby().subscribe(data => {
       this.isJoined = true
       console.log('joined lobby!', data);

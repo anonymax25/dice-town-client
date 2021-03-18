@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LobbySocket } from 'src/app/app.module';
+import { Dice } from 'src/app/models/dice';
+import { Game } from 'src/app/models/game.model';
 import { Lobby } from 'src/app/models/lobby.model';
+import { Player } from 'src/app/models/player';
 import { ReadyStatus } from 'src/app/models/readyStatus';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -55,5 +58,22 @@ export class LobbySocketService {
 
   startGameSwitched(): Observable<Lobby>{
     return this.lobbySocket.fromEvent('startGameSwitched')
+  }
+
+  setDices(lobbyId: number, dices: Dice[]){    
+    const body = {
+      dices,
+      lobbyId,
+      userId: this.authenticationService.getIdFromToken()
+    }
+    this.lobbySocket.emit("setDices", body);
+  }
+
+  updateGame(): Observable<Game>{
+    return this.lobbySocket.fromEvent('updateGame')
+  }
+  
+  newWaitingFor(): Observable<number[]>{
+    return this.lobbySocket.fromEvent('newWaitingFor')
   }
 }

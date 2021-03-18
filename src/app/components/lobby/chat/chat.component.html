@@ -1,13 +1,14 @@
 <mat-card class="example-card mx-3 my-5">
     <mat-card-header>
         <mat-card-title class="text-center">Chat</mat-card-title>
-        <mat-icon>{{ isJoinedRoom ? 'cloud_done' : 'cloud_off'}}</mat-icon>
+        <mat-icon>{{ isJoinedChat ? 'cloud_done' : 'cloud_off'}}</mat-icon>
         &nbsp;
-        <button mat-button (click)="connectChat()">{{isJoinedRoom ? 'Turn off' : 'Turn on'}}</button>
+        <button mat-button (click)="connectChat()">{{isJoinedChat ? 'Turn off' : 'Turn on'}}</button>
         
     </mat-card-header>
-    <mat-card-content>
-        <div class="border border-primary">
+    <mat-card-content >
+
+        <div class="chat-container" #scrollMe>
             <div *ngFor="let message of lobby.messages" class="message-container my-2">
                 <b>{{getUserOfLobbyById(message.user).name}}</b> : <span class="message">{{message.message}}</span>
             </div>
@@ -15,13 +16,14 @@
                 <b>{{getUserOfLobbyById(message.user).name}}</b> : <span class="message">{{message.message}}</span>
             </div>
         </div>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="mb-3">
             <mat-label>Send a chat</mat-label>
             <input matInput type="text" [(ngModel)]="messageSend" (keyup.enter)="sendMessage()">
             <button mat-icon-button matSuffix (click)="sendMessage()">
                 <mat-icon>send</mat-icon>
             </button>
-          </mat-form-field>
+        </mat-form-field>
+        
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>

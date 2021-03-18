@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Lobby } from 'src/app/models/lobby.model';
 import { Message } from 'src/app/models/message';
@@ -21,8 +21,10 @@ export class ChatComponent implements OnInit {
   messages: Message[] = []
   messageSend: string = ""
 
-  isConnected = false
-  isJoinedRoom = false
+  isChatConnected = false
+  isJoinedChat = false
+
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   constructor(public chatSocketService: ChatSocketService,
               public authenticationService: AuthenticationService,
@@ -31,6 +33,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.refreshChatEventsSubscription = this.refreshChatEvent.subscribe(() => { this.messages = [] })
     this.initChatSocket()
+    this.scrollToBottom()
   }
 
   ngOnDestroy(): void {
@@ -48,20 +51,22 @@ export class ChatComponent implements OnInit {
 
   initChatSocket(){
     this.chatSocketService.connect().subscribe( data => {
-        this.isConnected = true
+        this.isChatConnected = true
         this.chatSocketService.joinRoom(this.lobby.code)
         console.log('chat connected!');
     })
     this.chatSocketService.joinedRoom().subscribe( data => {
-        this.isJoinedRoom = true
+        this.isJoinedChat = true
         console.log('joined chat!', data);
     })
     this.chatSocketService.leftRoom().subscribe( data => {
-        this.isJoinedRoom = false
+        this.isJoinedChat = false
         console.log('left chat!', data);
     })
     this.chatSocketService.recieveMessage().subscribe( message => {
         this.messages.push(message)   
+        
+        this.scrollToBottom()
     })
   }
 
@@ -71,12 +76,22 @@ export class ChatComponent implements OnInit {
   }
 
   connectChat(){
-    if(this.isJoinedRoom){
+    if(this.isJoinedChat){
       this.chatSocketService.leaveRoom(this.lobby.code)
-      this.isJoinedRoom = false;
+      this.isJoinedChat = false;
     }else{
       this.initChatSocket()
     }
+  }
+
+  scrollToBottom(): void {
+    try {
+        setTimeout(() => {
+          this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        }, 5)
+    } catch(err) { 
+      
+    }                 
   }
 
 }
