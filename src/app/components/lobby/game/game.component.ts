@@ -25,6 +25,7 @@ export class GameComponent implements OnInit {
 
 
   gameStatusLabel = GameStatusLabel
+  gameStatus = GameStatus
   newDices: Dice[] = []
   selectedDice: number[] = [];
   costs: number = 0;

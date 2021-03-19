@@ -1,13 +1,16 @@
 <div class="v-flex game-container">
 
-    {{lobby.game.status}}
+    <h2 class="text-center">
+        {{lobby.game.status === gameStatus.DICE_ROLLING ? 'Rolling Dices' : 'Results'}}
+        <div class="spinner-border" style="border-width: 2px;" *ngIf="lobby.game.status !== gameStatus.DICE_ROLLING"></div>
+    </h2>
     <div>
         <div class="board">
             <mat-card style="background-image: url(../../../../assets/images/mine.jpg);">
                 
                 <img src="../../../../assets/icons/nugget.png" height="50px" alt="nuggets" class="light-bg mb-2">
                 
-                <mat-card-content class="light-bg p-2 text-center strong col-6 offset-3">
+                <mat-card-content class="light-bg m-0 p-2 text-center">
                     <p class="font-size-header">
                         {{lobby.game.nuggets}}
                     </p>
@@ -20,7 +23,7 @@
                 <img src="../../../../assets/icons/money.png" height="40px" alt="dollars" class="light-bg mb-3">
                 
                 <mat-card-content>
-                    <div class="light-bg p-2 text-center strong col-6 offset-3">
+                    <div class="light-bg m-0 p-2 text-center ">
                         <p class="m-2">
                             At stake: <strong>{{lobby.game.dollar}}</strong> $
                         </p>
@@ -153,7 +156,7 @@
                         </mat-card-content>
                     </mat-card>
 
-                    <mat-card *ngIf="lobby.game.status === 'DICE_ROLLING'" style="flex: 2;">
+                    <mat-card style="flex: 2;">
                         <div class="mb-1">
                             <span class="dice-headers">
                                 <div>
@@ -161,7 +164,8 @@
                                         Dices
                                     </span>
                                     <span *ngIf="lobby.game.waitingFor.length">
-                                        &nbsp;-&nbsp;Waiting for: <strong *ngFor="let name of getNameWaitingFor()">{{name}}&nbsp;</strong>
+                                        &nbsp;-&nbsp;Waiting for: <strong *ngFor="let name of getNameWaitingFor()">{{name}}&nbsp;</strong> 
+                                        <span class="spinner-border" style="border-width: 2px;"></span>
                                     </span>
                                 </div>
                                 <div *ngIf="player.dices.length !== 5">
@@ -199,8 +203,8 @@
 
                             
                             <div *ngIf="player.dices && player.dices.length">
-                                <mat-divider class=""></mat-divider>
-                                <h4>Saved</h4>
+                                <mat-divider class="mb-5"></mat-divider>
+                                <h4 *ngIf="lobby.game.status === 'DICE_ROLLING'">Saved</h4>
                                 <div class="dices-container">
                                     <app-dice *ngFor="let dice of player.dices; let i = index" [isSelected]="false" [number]="dice.value"></app-dice>
                                 </div>

@@ -11,6 +11,7 @@
 .ready-btn {
     background-color: green;
     color: blanchedalmond;
+    animation: glowing 1000ms infinite;
 }
 
 .cancel-btn {
@@ -27,3 +28,18 @@
         flex-grow: 1;
     }
 }
+
+@keyframes glowing {
+    0% {
+      background-color: #2ba805;
+      box-shadow: 0 0 3px #2ba805;
+    }
+    50% {
+      background-color: #40b91b;
+      box-shadow: 0 0 20px #40b91b;
+    }
+    100% {
+      background-color: #2ba805;
+      box-shadow: 0 0 3px #2ba805;
+    }
+  }
