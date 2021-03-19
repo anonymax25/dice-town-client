@@ -1,6 +1,6 @@
 export enum GameStatusLabel {
-    DICE_ROLLING = "Rolling dices",
-    NUGGETS_RESULT = "Rolling dices",
+    DICE_ROLLING = "Rolling dice",
+    NUGGETS_RESULT = "Nuggets result",
     BANK_RESULT = "Get the banks money",
     GENERAL_STORMS_RESULT = "Pick your general storms",
     SALOON_RESULT = "Saloon time!",

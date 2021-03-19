@@ -40,9 +40,10 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     
     this.lobbySocketService.updateGame().subscribe(game => {
+      console.log(game);
+      
       this.updateGameEvent.emit(game)
     })
-
   }
 
   getFirst3properties(): Property[]{
@@ -65,9 +66,10 @@ export class GameComponent implements OnInit {
     this.lobby.game.players.find(player => player.userId === this.authenticationService.getIdFromToken()).canThrowDices = false
     this.isDiceChosen = false
 
-    let player = this.getPlayer()
-    const newDicesLen = 5-player.dices.length
-    this.setRandomDices(newDicesLen)
+    let player: Player = this.getPlayer()
+    const newDicesLen: number = 5-player.dices.length
+    const isAutoChooseAll = this.lobby.game.players.some(player => this.nonHiddenDices(player.dices).length === 5)
+    this.setRandomDices(newDicesLen, isAutoChooseAll)
   }
   
   validateDiceChoice(): void{
@@ -92,16 +94,29 @@ export class GameComponent implements OnInit {
     })
   }
 
-  setRandomDices(count: number): void{
+  setRandomDices(count: number, isAutoChooseAll: boolean = false): void{
     this.rollingDices = true
     setTimeout(() => {
       this.rollingDices = false
       let dices: Dice[] = []
       for (let i = 0; i < count; i++) {
-        dices.push(new Dice(this.getRandomInt(9, 14)))
+        dices.push(new Dice(this.getRandomInt(9, 14), true))
       }
+
+      
       this.newDices = dices
-      this.selectDice(0)
+      if(isAutoChooseAll){
+        
+        //if at least one player has 5 dices all dices are selected, and no more costs added
+        this.selectedDice = []        
+        for (let i = 0; i < this.newDices.length; i++) {
+          this.selectDice(i, true)
+        }
+        this.costs = 0
+
+      }else{
+        this.selectDice(0, true)
+      }      
     }, 1000)
   }
 
@@ -112,7 +127,13 @@ export class GameComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  selectDice(index: number): void{
+  selectDice(index: number, isAutoSelect: boolean = false): void{
+
+    if(!isAutoSelect && this.lobby.game.players.some(player => this.nonHiddenDices(player.dices).length === 5)){
+      this.snackbarService.openError("Can't un-select dices, this is the last round (an other player has reached 5 dices)")
+      return
+    }
+
     if(index < 0){
       this.selectedDice = []
     } else {
@@ -144,5 +165,29 @@ export class GameComponent implements OnInit {
     return this.lobby.users
       .filter(user => this.lobby.game.waitingFor.includes(user.id))
       .map(user => user.name)
+  }
+
+  getOtherPlayers(): Player[]{
+    return this.lobby.game.players.filter(player => player.userId !== this.authenticationService.getIdFromToken() && this.lobby.users.map(user => user.id).includes(player.userId))
+  }
+
+  getUserOfPlayer(player: Player): User{
+    return this.lobby.users.find(user => user.id === player.userId)
+  }
+
+  getStatusOfPlayer(player: Player): string{
+    let isWaitingHim = this.isWaitingForPlayer(player)
+    if(isWaitingHim){
+      return this.getGameStatus()
+    }
+    return ""
+  }
+
+  isWaitingForPlayer(player: Player) {
+    return this.lobby.game.waitingFor.includes(player.userId)
+  }
+
+  nonHiddenDices(dices: Dice[]){
+    return dices.filter(dice => !dice.hidden)
   }
 }

@@ -1,28 +1,33 @@
 <div class="v-flex game-container">
+
+    {{lobby.game.status}}
     <div>
-        <h1 class="m-1">Game board:</h1>
-        <h3>Status: {{getGameStatus()}}</h3>
         <div class="board">
-            <mat-card>
+            <mat-card style="background-image: url(../../../../assets/images/mine.jpg);">
                 
-                <img src="../../../../assets/icons/nugget.png" height="40px" alt="nuggets">
+                <img src="../../../../assets/icons/nugget.png" height="50px" alt="nuggets" class="light-bg mb-2">
                 
-                <mat-card-content>
-                    {{lobby.game.nuggets}}
+                <mat-card-content class="light-bg p-2 text-center strong col-6 offset-3">
+                    <p class="font-size-header">
+                        {{lobby.game.nuggets}}
+                    </p>
+                    (remaining)
                 </mat-card-content>
             </mat-card>
             
-            <mat-card>
+            <mat-card style="background-image: url(../../../../assets/images/bank.jpg); background-position:center;">
                 
-                <img src="../../../../assets/icons/money.png" height="40px" alt="dollars">
+                <img src="../../../../assets/icons/money.png" height="40px" alt="dollars" class="light-bg mb-3">
                 
                 <mat-card-content>
-                    <p>
-                        At stake: <strong>{{lobby.game.dollar}}</strong> $
-                    </p>
-                    <p>
-                        Upcoming: <strong>{{lobby.game.income}}</strong> $
-                    </p>
+                    <div class="light-bg p-2 text-center strong col-6 offset-3">
+                        <p class="m-2">
+                            At stake: <strong>{{lobby.game.dollar}}</strong> $
+                        </p>
+                        <p class="m-2">
+                            Upcoming: <strong>{{lobby.game.income}}</strong> $
+                        </p>
+                    </div>
                 </mat-card-content>
             </mat-card>
             
@@ -66,26 +71,53 @@
         </div>
         
     </div>
+
+
     
-    <div class="dices">
+    <div class="player-panel">
+        Other players:
+        <div *ngFor="let player of getOtherPlayers()" class="player-item col-6 col-xs-12 mb-1">
+            <b style="flex: 0;">
+                {{getUserOfPlayer(player).name}}&nbsp; 
+            </b>
+            <span style="flex: 1;" *ngIf="isWaitingForPlayer(player)">
+                is {{getStatusOfPlayer(player).toLowerCase()}}...
+            </span>
+            <div class="player-item" style="flex: 0;">
+                <app-dice style="justify-self: flex-end;" *ngFor="let dice of nonHiddenDices(player.dices); let i = index" [isSelected]="false" [number]="dice.value"></app-dice>
+            </div>
+        </div>
 
     </div>
+
+
+
     <div class="your-game">
         <h2>Your hand:</h2>
         <div>
             <div *ngIf="getPlayer() as player">
                 <div class="hand">
-                    <mat-card>
-                        <img src="../../../../assets/icons/nugget.png" height="40px" alt="nuggets">
-                        <mat-card-content>
-                            {{player.nuggets}}
+                    <mat-card style="background-image: url(../../../../assets/images/mine.jpg);">
+                
+                        <img src="../../../../assets/icons/nugget.png" height="50px" alt="nuggets" class="light-bg mb-2">
+                        
+                        <mat-card-content class="light-bg p-2 text-center strong col-6 offset-3">
+                            <p class="font-size-header">
+                                {{player.nuggets}}
+                            </p>
                         </mat-card-content>
                     </mat-card>
                     
-                    <mat-card>
-                        <img src="../../../../assets/icons/money.png" height="40px" alt="dollars">
+                    <mat-card style="background-image: url(../../../../assets/images/bank.jpg); background-position:center;">
+                
+                        <img src="../../../../assets/icons/money.png" height="40px" alt="dollars" class="light-bg mb-3">
+                        
                         <mat-card-content>
-                            {{player.dollar}}
+                            <div class="light-bg p-2 text-center strong col-6 offset-3">
+                                <p class="font-size-header mb-0">
+                                    {{player.dollar}} $
+                                </p>
+                            </div>
                         </mat-card-content>
                     </mat-card>
                     
@@ -121,28 +153,35 @@
                         </mat-card-content>
                     </mat-card>
 
-                    <mat-card *ngIf="lobby.game.status === 'DICE_ROLLING'">
-                        <div>
-                            <h2 class="title">
-                                Dices
-                            </h2>
-                            <span *ngIf="lobby.game.waitingFor.length">
-                                Waiting for: <strong *ngFor="let name of getNameWaitingFor()">{{name}}&nbsp;</strong>
+                    <mat-card *ngIf="lobby.game.status === 'DICE_ROLLING'" style="flex: 2;">
+                        <div class="mb-1">
+                            <span class="dice-headers">
+                                <div>
+                                    <span class="h2 pr-0">
+                                        Dices
+                                    </span>
+                                    <span *ngIf="lobby.game.waitingFor.length">
+                                        &nbsp;-&nbsp;Waiting for: <strong *ngFor="let name of getNameWaitingFor()">{{name}}&nbsp;</strong>
+                                    </span>
+                                </div>
+                                <div *ngIf="player.dices.length !== 5">
+                                    <button mat-raised-button color="primary" class="mr-2" [disabled]="!player.canThrowDices || player.dices.length === 5" (click)="rollDices()"><mat-icon>casino</mat-icon> Roll</button>
+                                    <button mat-raised-button color="accent" [disabled]="player.canThrowDices || player.dices.length === 5 || isDiceChosen || isCostError" (click)="validateDiceChoice()"><mat-icon>check</mat-icon> Validate</button>
+                                </div>
                             </span>
                         </div>
-                        <mat-card-content>
+                        <mat-card-content class="dice-headers">
 
-
-                            <div *ngIf="player.dices.length !== 5">
-                                <button mat-button [disabled]="!player.canThrowDices || player.dices.length === 5" (click)="rollDices()">Roll dices</button>
-                                <button mat-button [disabled]="player.canThrowDices || player.dices.length === 5 || isDiceChosen || isCostError" (click)="validateDiceChoice()">Choose dice</button>
-                            </div>
-
+                            
+                            
                             <div *ngIf="rollingDices">
                                 <mat-spinner></mat-spinner>
                             </div>
+
+
                             <div *ngIf="newDices.length && !rollingDices && player.dices.length < 5">
-                                <h4>Rolled dices:  
+                                <mat-divider></mat-divider>
+                                <h4>Rolled:  
                                     <ng-container *ngIf="isCostError; else validCost">
                                         <span class="alert">Not enough money: {{player.dollar}}$ - {{costs}}$ = {{player.dollar-costs}}$</span>
                                     </ng-container>
@@ -152,14 +191,19 @@
                                 </h4>
                                 <div class="dices-container" >
                                     <span [ngClass]="!selectedDice.length ? 'selected' : 'unSelected'">
-                                        <button mat-button (click)="selectDice(-1)" class="square-btn">None</button>
+                                        <button mat-stroked-button (click)="selectDice(-1)" class="square-btn">None</button>
                                     </span>
                                     <app-dice *ngFor="let dice of newDices; let i = index" [isSelected]="isDiceSelected(i)" [number]="dice.value" (click)="selectDice(i)"></app-dice>
                                 </div>
                             </div>
-                            <h4>Saved dices:</h4>
-                            <div class="dices-container" *ngIf="player.dices">
-                                <app-dice *ngFor="let dice of player.dices; let i = index" [isSelected]="false" [number]="dice.value"></app-dice>
+
+                            
+                            <div *ngIf="player.dices && player.dices.length">
+                                <mat-divider class=""></mat-divider>
+                                <h4>Saved</h4>
+                                <div class="dices-container">
+                                    <app-dice *ngFor="let dice of player.dices; let i = index" [isSelected]="false" [number]="dice.value"></app-dice>
+                                </div>
                             </div>
 
 
