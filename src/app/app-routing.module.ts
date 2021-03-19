@@ -8,11 +8,13 @@ import { GameFinderComponent } from './components/game-finder/game-finder.compon
 import { ProfileComponent } from './components/profile/profile.component';
 import { AboutComponent } from './components/about/about.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
+import { LegalComponent } from './components/legal/legal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'legal', component: LegalComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'game/finder', component: GameFinderComponent, canActivate: [AuthGuardService] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuardService] },

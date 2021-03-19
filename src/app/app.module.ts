@@ -44,6 +44,7 @@ import { LobbyWaitingComponent } from './components/lobby/lobby-waiting/lobby-wa
 import { MatDividerModule } from '@angular/material/divider';
 import { GameComponent } from './components/lobby/game/game.component';
 import { DiceComponent } from './components/lobby/game/dice/dice.component';
+import { LegalComponent } from './components/legal/legal.component';
 
 @Injectable()
 export class ChatSocket extends Socket {
@@ -84,7 +85,8 @@ export class AlertSocket extends Socket {
     LobbyInfoComponent,
     LobbyWaitingComponent,
     GameComponent,
-    DiceComponent
+    DiceComponent,
+    LegalComponent
   ],
   imports: [
     SocketIoModule,
