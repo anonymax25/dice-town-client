@@ -21,6 +21,7 @@ export class LoginComponent {
 
   constructor(formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
+              public snackBar: MatSnackBar,
               public dialog: MatDialogRef<LoginComponent>)
   {
     this.emailCtrl = formBuilder.control('', Validators.required);
@@ -34,6 +35,11 @@ export class LoginComponent {
 
   onSubmit() {
     this.authenticationService.login(this.loginForm.value).subscribe(data => {
+      this.snackBar.open("Log in successful", "", {
+        duration: 2000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
       sessionStorage.setItem('token', data.token);
       this.dialog.close(true);
     })
