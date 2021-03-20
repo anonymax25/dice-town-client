@@ -1,14 +1,14 @@
 <mat-card class="example-card mx-3 my-5">
-    <mat-card-header>
-        <mat-card-title class="text-center">Chat</mat-card-title>
-        <mat-icon>{{ isJoinedChat ? 'cloud_done' : 'cloud_off'}}</mat-icon>
-        &nbsp;
-        <button mat-button (click)="connectChat()">{{isJoinedChat ? 'Turn off' : 'Turn on'}}</button>
-        
-    </mat-card-header>
-    <mat-card-content >
+    <mat-card-header class="h-flex-between">
+        <mat-card-title class="text-center mt-2">Chat <mat-icon>{{ isJoinedChat ? 'cloud_done' : 'cloud_off'}}</mat-icon> </mat-card-title>
+            
+        <mat-slide-toggle [checked]="isJoinedChat" (change)="connectChat($event)"></mat-slide-toggle>
 
-        <div class="chat-container" #scrollMe>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content [ngClass]="{'disabled': !isJoinedChat}">
+
+        <div class="chat-container border p-1" #scrollMe>
             <div *ngFor="let message of lobby.messages" class="message-container my-2">
                 <b>{{getUserOfLobbyById(message.user).name}}</b> : <span class="message">{{message.message}}</span>
             </div>
@@ -18,8 +18,8 @@
         </div>
         <mat-form-field appearance="fill" class="mb-3">
             <mat-label>Send a chat</mat-label>
-            <input matInput type="text" [(ngModel)]="messageSend" (keyup.enter)="sendMessage()">
-            <button mat-icon-button matSuffix (click)="sendMessage()">
+            <input matInput type="text" [(ngModel)]="messageSend" [disabled]="!isJoinedChat" (keyup.enter)="sendMessage()">
+            <button mat-icon-button matSuffix (click)="sendMessage()" [disabled]="!isJoinedChat">
                 <mat-icon>send</mat-icon>
             </button>
         </mat-form-field>

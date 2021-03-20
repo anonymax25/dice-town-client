@@ -27,3 +27,9 @@ mat-card-content {
 .mat-form-field-wrapper {
     padding: 0px !important;
 }
+
+.disabled {
+    opacity: 0.6;
+    cursor: default;
+    pointer-events: none;
+}

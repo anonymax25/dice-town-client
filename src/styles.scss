@@ -179,7 +179,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   flex-direction: row;
   justify-content: space-evenly;
   align-items: baseline;
+}
 
+.h-flex-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .selected {

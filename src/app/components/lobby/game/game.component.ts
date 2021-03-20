@@ -41,8 +41,6 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     
     this.lobbySocketService.updateGame().subscribe(game => {
-      console.log(game);
-      
       this.updateGameEvent.emit(game)
     })
   }
