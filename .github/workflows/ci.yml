@@ -3,8 +3,8 @@ name: Build Angular
 on: 
   push:
     branches:
-      - "**"
-      - "!dice-town-client-dist"
+      - "develop"
+      - "master"
 
 jobs:
   build:
@@ -36,6 +36,6 @@ jobs:
       - name: Push Build to Releases
         uses: ncipollo/release-action@v1
         with:
-          tag: "dice-town-client-dist"
-          artifacts: "dist/angular-githubaction/*"
+          tag: ${(git rev-parse --short "$GITHUB_SHA")}
+          artifacts: "dist/dice-town-client/*"
           token: ${{ secrets.TOKEN }}
