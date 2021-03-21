@@ -76,4 +76,8 @@ export class LobbySocketService {
   newWaitingFor(): Observable<number[]>{
     return this.lobbySocket.fromEvent('newWaitingFor')
   }
+  
+  recieveAlert(): Observable<string>{
+    return this.lobbySocket.fromEvent('recieveAlert')
+  }
 }

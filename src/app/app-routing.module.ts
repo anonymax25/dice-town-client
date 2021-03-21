@@ -9,11 +9,13 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AboutComponent } from './components/about/about.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
 import { LegalComponent } from './components/legal/legal.component';
+import { RulesComponent } from './components/rules/rules.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'rules', component: RulesComponent },
   { path: 'legal', component: LegalComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'game/finder', component: GameFinderComponent, canActivate: [AuthGuardService] },

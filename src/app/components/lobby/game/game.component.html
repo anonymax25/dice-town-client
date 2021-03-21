@@ -4,6 +4,7 @@
         {{lobby.game.status === gameStatus.DICE_ROLLING ? 'Rolling Dices' : 'Results'}}
         <div class="spinner-border" style="border-width: 2px;" *ngIf="lobby.game.status !== gameStatus.DICE_ROLLING"></div>
     </h2>
+
     <div>
         <div class="board">
             <mat-card style="background-image: url(../../../../assets/images/mine.jpg);">

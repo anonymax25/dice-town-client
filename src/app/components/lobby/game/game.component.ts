@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 import { Dice } from 'src/app/models/dice';
 import { GameStatusLabel } from 'src/app/models/game-status-label.enum';
 import { GameStatus } from 'src/app/models/game-status.enum';
@@ -12,6 +13,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 import { ConfirmComponent } from '../../layout/confirm/confirm.component';
 import { LobbySocketService } from '../lobby-socket.service';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-game',
@@ -32,6 +34,8 @@ export class GameComponent implements OnInit {
   rollingDices: boolean = false;
   isDiceChosen: boolean = false
   isCostError: boolean = false;
+
+  
 
   constructor(public authenticationService: AuthenticationService,
               private lobbySocketService: LobbySocketService,
