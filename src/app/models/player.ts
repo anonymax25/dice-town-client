@@ -1,15 +1,16 @@
 import { BadLuck } from "./badLuck"
+import { Dice } from "./dice"
 import { GeneralStorms } from "./generalStorms"
-import { Inventory } from "./inventory"
 import { Property } from "./property"
 
 export class Player {
-    userId: string
+    userId: number
     isReady: boolean
     nuggets: number
     dollar: number
     property: Property[]
     generalStorms: GeneralStorms[]
-    BadLuck: BadLuck[]
-    inventory: Inventory
+    badLuck: BadLuck[]
+    dices: Dice[]
+    canThrowDices: boolean
 }

@@ -7,28 +7,37 @@ import { Lobby } from 'src/app/models/lobby.model';
 import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { LobbyService } from 'src/app/services/lobby.service';
+import { LobbyService } from './lobby.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service'
 import { ConfirmComponent } from '../layout/confirm/confirm.component';
-import { ChatService } from './chat/chat.service';
+import { stripSummaryForJitFileSuffix } from '@angular/compiler/src/aot/util';
+import { Subject } from 'rxjs';
+import { LobbySocketService } from './lobby-socket.service';
+import { Player } from 'src/app/models/player';
+import { Game } from 'src/app/models/game.model';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
-  styleUrls: ['./lobby.component.css']
+  styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent implements OnInit {
 
   lobby: Lobby
+  refreshChatEventSubject: Subject<void> = new Subject<void>();
+  isLobbyConnected: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private lobbyService: LobbyService,
-              private clipboardService: ClipboardService,
-              private dialog: MatDialog,
+              public lobbyService: LobbyService,
+              public lobbySocketService: LobbySocketService,
               public authenticationService: AuthenticationService,
               public snackbarService: SnackbarService) { }
 
   ngOnInit(): void {
+    this.loadLobby()
+  }
+
+  loadLobby() {
     this.route.params.subscribe(params => {
       this.lobbyService.get(params['code']).subscribe(lobby => {
         this.lobby = lobby  
@@ -39,42 +48,21 @@ export class LobbyComponent implements OnInit {
     })
   }
 
-  isOwner(){
-    return this.lobby.ownerId === this.authenticationService.getIdFromToken()
+  getLobbyInfo() {
+    if(!this.lobby)
+      return ''
+    return JSON.stringify(this.lobby.readyStatus, null, 2)
+  }    
+
+  chatReset() {
+    this.refreshChatEventSubject.next()
   }
-
-  isYou(user: User){
-    return user.id === this.authenticationService.getIdFromToken()
-  }
-
-  copyCodeToClipboard(code: string){
-    this.clipboardService.copy(code)
-    this.snackbarService.openSuccess(`${code} saved to clipboard`)
-  }
-
-  getLobbyOwnerName(lobby: Lobby): string{    
-    return lobby.users.find(user => user.id === lobby.ownerId).name
-  }
-
-  destroyLobby() {
-
-  }
-
-  quitLobby(){
-    this.dialog.open(ConfirmComponent, {
-      height: '200px',
-      width: '500px',
-    }).afterClosed().subscribe(response => {
-      if(response) {
-        this.lobbyService.quitUser(this.lobby, this.authenticationService.getIdFromToken()).subscribe(() => {
-          this.router.navigate([`home`]);
-          this.snackbarService.openSuccess("Left lobby")
-        }, (err) => {
-          this.snackbarService.openError("Couldn't leave lobby")
-        })
-      }
-    })
-  }
-
   
+  updateLobbyEvent(lobby: Lobby) {
+    this.lobby = lobby
+  }
+  
+  updateGameEvent(game: Game) {
+    this.lobby.game = game
+  }
 }

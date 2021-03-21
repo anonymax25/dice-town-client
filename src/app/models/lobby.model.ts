@@ -1,5 +1,6 @@
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Game } from './game.model';
+import { ReadyStatus } from './readyStatus';
 import { User } from './user.model';
 
 export class Lobby {
@@ -13,4 +14,5 @@ export class Lobby {
     game: Game
     users: User[]
     messages: Message[]
+    readyStatus: ReadyStatus[]
 }

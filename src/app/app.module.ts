@@ -11,7 +11,6 @@ import { HeaderComponent } from './components/layout/header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from "@angular/material/button";
-import { GameComponent } from './components/game/game.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
@@ -32,16 +31,33 @@ import { AboutComponent } from './components/about/about.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
 import { ConfirmComponent } from './components/layout/confirm/confirm.component';
 import { ClipboardModule } from 'ngx-clipboard';
-import { LobbyListComponent } from './components/lobby/lobby-list/lobby-list.component';
+import { LobbyListComponent } from './components/lobby-list/lobby-list.component';
 import { SnackbarService } from './shared/snackbar/snackbar.service';
 import { Socket, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './components/lobby/chat/chat.component';
- 
+import { LobbyInfoComponent } from './components/lobby/lobby-info/lobby-info.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { LobbyWaitingComponent } from './components/lobby/lobby-waiting/lobby-waiting.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { GameComponent } from './components/lobby/game/game.component';
+import { DiceComponent } from './components/lobby/game/dice/dice.component';
+import { LegalComponent } from './components/legal/legal.component';
+import { RulesComponent } from './components/rules/rules.component';
+
 @Injectable()
 export class ChatSocket extends Socket {
     constructor() {
       super({ url: `${environment.socketUrl}${environment.chatSocketNamespace}`, options: {path: environment.socketPath} });
+    }
+}
+
+@Injectable()
+export class LobbySocket extends Socket {
+    constructor() {
+      super({ url: `${environment.socketUrl}${environment.lobbySocketNamespace}`, options: {path: environment.socketPath} });
     }
 }
 @Injectable()
@@ -56,7 +72,6 @@ export class AlertSocket extends Socket {
     HomeComponent,
     FooterComponent,
     HeaderComponent,
-    GameComponent,
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
@@ -67,7 +82,13 @@ export class AlertSocket extends Socket {
     LobbyComponent,
     ConfirmComponent,
     LobbyListComponent,
-    ChatComponent
+    ChatComponent,
+    LobbyInfoComponent,
+    LobbyWaitingComponent,
+    GameComponent,
+    DiceComponent,
+    LegalComponent,
+    RulesComponent,
   ],
   imports: [
     SocketIoModule,
@@ -90,12 +111,17 @@ export class AlertSocket extends Socket {
     MatTableModule,
     MatCheckboxModule,
     MatTooltipModule,
-    ClipboardModule
+    ClipboardModule,
+    MatProgressSpinnerModule,
+    MatChipsModule,
+    MatSlideToggleModule,
+    MatDividerModule
   ],
   providers: [
     SnackbarService,
     ChatSocket,
     AlertSocket,
+    LobbySocket,
     Title
   ],
   entryComponents: [

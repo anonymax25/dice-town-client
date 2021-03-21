@@ -1,64 +1,96 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Lobby } from 'src/app/models/lobby.model';
 import { Message } from 'src/app/models/message';
+import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { ChatService } from './chat.service';
+import { UserService } from 'src/app/services/user.service';
+import { ChatSocketService } from './chat-socket.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
 
-  @Input('roomId') roomId: string
   @Input('lobby') lobby: Lobby
-  
+  @Input('refreshChatEventSubject') refreshChatEvent: Observable<void>;
+  private refreshChatEventsSubscription: Subscription;
+
   messages: Message[] = []
   messageSend: string = ""
 
-  isConnected = false
-  isJoinedRoom = false
+  isChatConnected = false
+  isJoinedChat = false
 
-  constructor(public chatService: ChatService,
-              public authenticationService: AuthenticationService) { }
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
+  constructor(public chatSocketService: ChatSocketService,
+              public authenticationService: AuthenticationService,
+              public userService: UserService) { }
 
   ngOnInit(): void {
+    this.refreshChatEventsSubscription = this.refreshChatEvent.subscribe(() => { this.messages = [] })
     this.initChatSocket()
+    this.scrollToBottom()
   }
 
   ngOnDestroy(): void {
-    this.chatService.leaveRoom(this.roomId)
+    this.refreshChatEventsSubscription.unsubscribe();
+    this.chatSocketService.leaveRoom(this.lobby.code)
   }
 
-  sendMessage(messageStr: string) {
-    const message = new SocketMessage(this.authenticationService.getIdFromToken(), messageStr, this.roomId, this.lobby.id)
-    console.log(message);
+  sendMessage() {
+    if(!this.messageSend.length) return;
     
-    this.chatService.sendMessage(message)
+    const message = new SocketMessage(this.authenticationService.getIdFromToken(), this.messageSend, this.lobby.code, this.lobby.id)
+    this.chatSocketService.sendMessage(message)
+    this.messageSend = ''
   }
 
   initChatSocket(){
-    this.chatService.connect().subscribe( data => {
-        this.isConnected = true
-        this.chatService.joinRoom(this.roomId)
-        console.log('connected!');
+    this.chatSocketService.connect().subscribe( data => {
+        this.isChatConnected = true
+        this.chatSocketService.joinRoom(this.lobby.code)
+        console.log('chat connected!');
     })
-    this.chatService.joinedRoom().subscribe( data => {
-        this.isJoinedRoom = true
-        console.log('joined room!', data);
+    this.chatSocketService.joinedRoom().subscribe( data => {
+        this.isJoinedChat = true
+        console.log('joined chat!', data);
     })
-    this.chatService.leftRoom().subscribe( data => {
-        this.isJoinedRoom = false
-        console.log('left room!', data);
+    this.chatSocketService.leftRoom().subscribe( data => {
+        this.isJoinedChat = false
+        console.log('left chat!', data);
     })
-    this.chatService.recieveMessage().subscribe( message => {
-        this.messages.push(message)
+    this.chatSocketService.recieveMessage().subscribe( message => {
+        this.messages.push(message)   
+        
+        this.scrollToBottom()
     })
   }
 
-  getUserOfLobbyById(id: number) {
-    return this.lobby.users.find(user => user.id === id)
+  getUserOfLobbyById(id: number): User {
+    const user = this.lobby.users.find(user => user.id === id)
+    return user || this.userService.getEmptyUser()
+  }
+
+  connectChat(event){
+    if(event.checked){
+      this.chatSocketService.joinRoom(this.lobby.code)
+    }else{
+      this.chatSocketService.leaveRoom(this.lobby.code)
+    }
+  }
+
+  scrollToBottom(): void {
+    try {
+        setTimeout(() => {
+          this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        }, 5)
+    } catch(err) { 
+      
+    }                 
   }
 
 }

@@ -1,0 +1,13 @@
+<div class="lobbies-container">
+    <ng-container *ngIf="!lobbies; else lobbiesExist">
+        <mat-spinner></mat-spinner>
+    </ng-container>
+    <ng-template #lobbiesExist>
+        <div *ngFor="let lobby of lobbies">
+            {{lobby.code}}&nbsp;<span class="mr-1" *ngIf="isOwner(lobby)">(Owner)</span> <button mat-raised-button (click)="routeToLobby(lobby.code)">Go to</button>
+        </div>
+        <span *ngIf="lobbies.length === 0" class="text-center">No lobbies joined</span>
+    </ng-template>
+</div>
+
+

@@ -34,7 +34,7 @@ export class AuthenticationService {
 
   logout(){
     this.router.navigate(['home']).then(data => {
-      //localStorage.clear();
+      sessionStorage.clear();
     });
   }
 

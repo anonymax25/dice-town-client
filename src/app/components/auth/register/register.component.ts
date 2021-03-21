@@ -7,7 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
   hide: boolean = true;
@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   displayNameCtrl: FormControl;
   emailCtrl: FormControl;
   passwordCtrl: FormControl;
+  error: string = null;
 
 
   constructor(formBuilder: FormBuilder,
@@ -43,14 +44,21 @@ export class RegisterComponent implements OnInit {
   }
 
   openSnackBar() {
-    this.snackBar.open("Le compte a été cree avec succès", "", {
+    this.snackBar.open("The account was successfully created, yay!", "", {
       duration: 2000,
-      horizontalPosition: 'center',
+      horizontalPosition: 'right',
       verticalPosition: 'top',
     });
   }
 
   onSubmit() {
+    
+    this.error = null
+    if(this.userForm.value['name'] === "Game"){
+      this.error = "Game is a reserved word, you cannot set it as login!"
+      return
+    }
+
     this.authenticationService.register(this.userForm.value).subscribe(() => {
       this.openSnackBar();
       const loginForm = {

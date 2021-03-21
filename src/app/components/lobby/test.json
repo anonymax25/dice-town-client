@@ -1,0 +1,684 @@
+{
+    "tickets": [],
+    "links": [
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/journeys?to=admin%3Afr%3A77316&datetime_represents=departure&from=admin%3Afr%3A75056&datetime=20210316T124601",
+            "type": "next",
+            "rel": "next",
+            "templated": false
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/journeys?to=admin%3Afr%3A77316&datetime_represents=arrival&from=admin%3Afr%3A75056&datetime=20210316T133129",
+            "type": "prev",
+            "rel": "prev",
+            "templated": false
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/journeys?to=admin%3Afr%3A77316&datetime_represents=departure&from=admin%3Afr%3A75056&datetime=20210316T000000",
+            "type": "first",
+            "rel": "first",
+            "templated": false
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/journeys?to=admin%3Afr%3A77316&datetime_represents=arrival&from=admin%3Afr%3A75056&datetime=20210316T235959",
+            "type": "last",
+            "rel": "last",
+            "templated": false
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/stop_points/{stop_point.id}",
+            "type": "stop_point",
+            "rel": "stop_points",
+            "templated": true
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/stop_areas/{stop_area.id}",
+            "type": "stop_area",
+            "rel": "stop_areas",
+            "templated": true
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/vehicle_journeys/{vehicle_journey.id}",
+            "type": "vehicle_journey",
+            "rel": "vehicle_journeys",
+            "templated": true
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/routes/{route.id}",
+            "type": "route",
+            "rel": "routes",
+            "templated": true
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/commercial_modes/{commercial_mode.id}",
+            "type": "commercial_mode",
+            "rel": "commercial_modes",
+            "templated": true
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/lines/{line.id}",
+            "type": "line",
+            "rel": "lines",
+            "templated": true
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/physical_modes/{physical_mode.id}",
+            "type": "physical_mode",
+            "rel": "physical_modes",
+            "templated": true
+        },
+        {
+            "href": "https://api.sncf.com/v1/coverage/sncf/networks/{network.id}",
+            "type": "network",
+            "rel": "networks",
+            "templated": true
+        }
+    ],
+    "journeys": [
+        {
+            "status": "",
+            "distances": {
+                "taxi": 0,
+                "car": 0,
+                "walking": 0,
+                "bike": 0,
+                "ridesharing": 0
+            },
+            "links": [
+                {
+                    "href": "https://api.sncf.com/v1/coverage/sncf/journeys?first_section_mode%5B%5D=walking&direct_path=none&to=admin%3Afr%3A77316&is_journey_schedules=True&datetime=20210316T124600&last_section_mode%5B%5D=walking&min_nb_journeys=5&min_nb_transfers=0&allowed_id%5B%5D=stop_point%3ASNCF%3A87686006%3ATrain&allowed_id%5B%5D=stop_point%3ASNCF%3A87682278%3ATrain&from=admin%3Afr%3A75056",
+                    "type": "journeys",
+                    "rel": "same_journey_schedules",
+                    "templated": false
+                },
+                {
+                    "href": "https://api.sncf.com/v1/coverage/sncf/journeys?count=1&first_section_mode%5B%5D=walking&direct_path=none&to=admin%3Afr%3A77316&is_journey_schedules=True&datetime=20210316T124600&last_section_mode%5B%5D=walking&min_nb_journeys=1&min_nb_transfers=0&allowed_id%5B%5D=stop_point%3ASNCF%3A87686006%3ATrain&allowed_id%5B%5D=stop_point%3ASNCF%3A87682278%3ATrain&from=admin%3Afr%3A75056",
+                    "type": "journeys",
+                    "rel": "this_journey",
+                    "templated": false
+                }
+            ],
+            "tags": [
+                "walking",
+                "ecologic"
+            ],
+            "nb_transfers": 0,
+            "durations": {
+                "taxi": 0,
+                "walking": 0,
+                "car": 0,
+                "ridesharing": 0,
+                "bike": 0,
+                "total": 2730
+            },
+            "arrival_date_time": "20210316T133130",
+            "calendars": [
+                {
+                    "active_periods": [
+                        {
+                            "begin": "20210316",
+                            "end": "20210317"
+                        }
+                    ],
+                    "week_pattern": {
+                        "monday": false,
+                        "tuesday": true,
+                        "friday": false,
+                        "wednesday": false,
+                        "thursday": false,
+                        "sunday": false,
+                        "saturday": false
+                    }
+                }
+            ],
+            "departure_date_time": "20210316T124600",
+            "requested_date_time": "20210316T124133",
+            "fare": {
+                "found": false,
+                "total": {
+                    "value": "0.0"
+                },
+                "links": []
+            },
+            "co2_emission": {
+                "value": 728.4823,
+                "unit": "gEC"
+            },
+            "type": "best",
+            "duration": 2730,
+            "sections": [
+                {
+                    "from": {
+                        "embedded_type": "administrative_region",
+                        "quality": 0,
+                        "administrative_region": {
+                            "insee": "75056",
+                            "name": "Paris",
+                            "level": 8,
+                            "coord": {
+                                "lat": "48.8566969",
+                                "lon": "2.3514616"
+                            },
+                            "label": "Paris (75000-75116)",
+                            "id": "admin:fr:75056",
+                            "zip_code": "75000;75116"
+                        },
+                        "name": "Paris (75000-75116)",
+                        "id": "admin:fr:75056"
+                    },
+                    "links": [],
+                    "arrival_date_time": "20210316T124600",
+                    "co2_emission": {
+                        "value": 0,
+                        "unit": ""
+                    },
+                    "to": {
+                        "embedded_type": "stop_point",
+                        "stop_point": {
+                            "name": "Paris Gare de Lyon Hall 1 &2",
+                            "links": [],
+                            "coord": {
+                                "lat": "48.844945",
+                                "lon": "2.373481"
+                            },
+                            "label": "Paris Gare de Lyon Hall 1 &2 (Paris)",
+                            "equipments": [],
+                            "administrative_regions": [
+                                {
+                                    "insee": "75056",
+                                    "name": "Paris",
+                                    "level": 8,
+                                    "coord": {
+                                        "lat": "48.8566969",
+                                        "lon": "2.3514616"
+                                    },
+                                    "label": "Paris (75000-75116)",
+                                    "id": "admin:fr:75056",
+                                    "zip_code": "75000;75116"
+                                }
+                            ],
+                            "id": "stop_point:SNCF:87686006:Train",
+                            "stop_area": {
+                                "codes": [
+                                    {
+                                        "type": "secondary_id",
+                                        "value": "SNCF:87686030"
+                                    },
+                                    {
+                                        "type": "secondary_id",
+                                        "value": "SNCF:87758581"
+                                    },
+                                    {
+                                        "type": "source",
+                                        "value": "87686006"
+                                    },
+                                    {
+                                        "type": "source",
+                                        "value": "87686030"
+                                    },
+                                    {
+                                        "type": "source",
+                                        "value": "87758581"
+                                    },
+                                    {
+                                        "type": "uic",
+                                        "value": "87686006"
+                                    },
+                                    {
+                                        "type": "uic",
+                                        "value": "87686030"
+                                    },
+                                    {
+                                        "type": "uic",
+                                        "value": "87758581"
+                                    }
+                                ],
+                                "name": "Paris Gare de Lyon Hall 1 &2",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.844945",
+                                    "lon": "2.373481"
+                                },
+                                "label": "Paris Gare de Lyon Hall 1 &2 (Paris)",
+                                "timezone": "Europe/Paris",
+                                "id": "stop_area:SNCF:87686006"
+                            }
+                        },
+                        "quality": 0,
+                        "name": "Paris Gare de Lyon Hall 1 &2 (Paris)",
+                        "id": "stop_point:SNCF:87686006:Train"
+                    },
+                    "departure_date_time": "20210316T124600",
+                    "duration": 0,
+                    "type": "crow_fly",
+                    "id": "WEXJYMYd9hUsEsSqXcQKZ8_0",
+                    "mode": "walking"
+                },
+                {
+                    "from": {
+                        "embedded_type": "stop_point",
+                        "stop_point": {
+                            "name": "Paris Gare de Lyon Hall 1 &2",
+                            "links": [],
+                            "coord": {
+                                "lat": "48.844945",
+                                "lon": "2.373481"
+                            },
+                            "label": "Paris Gare de Lyon Hall 1 &2 (Paris)",
+                            "equipments": [],
+                            "administrative_regions": [
+                                {
+                                    "insee": "75056",
+                                    "name": "Paris",
+                                    "level": 8,
+                                    "coord": {
+                                        "lat": "48.8566969",
+                                        "lon": "2.3514616"
+                                    },
+                                    "label": "Paris (75000-75116)",
+                                    "id": "admin:fr:75056",
+                                    "zip_code": "75000;75116"
+                                }
+                            ],
+                            "id": "stop_point:SNCF:87686006:Train",
+                            "stop_area": {
+                                "codes": [
+                                    {
+                                        "type": "secondary_id",
+                                        "value": "SNCF:87686030"
+                                    },
+                                    {
+                                        "type": "secondary_id",
+                                        "value": "SNCF:87758581"
+                                    },
+                                    {
+                                        "type": "source",
+                                        "value": "87686006"
+                                    },
+                                    {
+                                        "type": "source",
+                                        "value": "87686030"
+                                    },
+                                    {
+                                        "type": "source",
+                                        "value": "87758581"
+                                    },
+                                    {
+                                        "type": "uic",
+                                        "value": "87686006"
+                                    },
+                                    {
+                                        "type": "uic",
+                                        "value": "87686030"
+                                    },
+                                    {
+                                        "type": "uic",
+                                        "value": "87758581"
+                                    }
+                                ],
+                                "name": "Paris Gare de Lyon Hall 1 &2",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.844945",
+                                    "lon": "2.373481"
+                                },
+                                "label": "Paris Gare de Lyon Hall 1 &2 (Paris)",
+                                "timezone": "Europe/Paris",
+                                "id": "stop_area:SNCF:87686006"
+                            }
+                        },
+                        "quality": 0,
+                        "name": "Paris Gare de Lyon Hall 1 &2 (Paris)",
+                        "id": "stop_point:SNCF:87686006:Train"
+                    },
+                    "links": [
+                        {
+                            "type": "vehicle_journey",
+                            "id": "vehicle_journey:SNCF:2021-03-16:891007:1187:Train"
+                        },
+                        {
+                            "type": "line",
+                            "id": "line:SNCF:FR:Line::BE3E2DD5-0143-472B-9CE8-1601556F7950:"
+                        },
+                        {
+                            "type": "route",
+                            "id": "route:SNCF:FR:Line::BE3E2DD5-0143-472B-9CE8-1601556F7950:"
+                        },
+                        {
+                            "type": "commercial_mode",
+                            "id": "commercial_mode:TER"
+                        },
+                        {
+                            "type": "physical_mode",
+                            "id": "physical_mode:Train"
+                        },
+                        {
+                            "type": "network",
+                            "id": "network:SNCF:TER"
+                        }
+                    ],
+                    "arrival_date_time": "20210316T133130",
+                    "additional_informations": [
+                        "regular"
+                    ],
+                    "co2_emission": {
+                        "value": 728.4823,
+                        "unit": "gEC"
+                    },
+                    "display_informations": {
+                        "direction": "Laroche - Migennes (Migennes)",
+                        "code": "",
+                        "network": "TER",
+                        "links": [],
+                        "color": "",
+                        "name": "Paris Gdl - Laroche",
+                        "physical_mode": "TER / Intercités",
+                        "headsign": "P35",
+                        "label": "Paris Gdl - Laroche",
+                        "equipments": [],
+                        "text_color": "",
+                        "trip_short_name": "891007",
+                        "commercial_mode": "TER",
+                        "description": ""
+                    },
+                    "to": {
+                        "embedded_type": "stop_point",
+                        "stop_point": {
+                            "name": "Moret - Veneux-les-Sablons",
+                            "links": [],
+                            "coord": {
+                                "lat": "48.378416",
+                                "lon": "2.799478"
+                            },
+                            "label": "Moret - Veneux-les-Sablons (Moret-Loing-et-Orvanne)",
+                            "equipments": [],
+                            "administrative_regions": [
+                                {
+                                    "insee": "77316",
+                                    "name": "Moret-Loing-et-Orvanne",
+                                    "level": 8,
+                                    "coord": {
+                                        "lat": "48.372865",
+                                        "lon": "2.8161541"
+                                    },
+                                    "label": "Moret-Loing-et-Orvanne",
+                                    "id": "admin:fr:77316",
+                                    "zip_code": ""
+                                }
+                            ],
+                            "id": "stop_point:SNCF:87682278:Train",
+                            "stop_area": {
+                                "codes": [
+                                    {
+                                        "type": "source",
+                                        "value": "87682278"
+                                    },
+                                    {
+                                        "type": "uic",
+                                        "value": "87682278"
+                                    }
+                                ],
+                                "name": "Moret - Veneux-les-Sablons",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.378416",
+                                    "lon": "2.799478"
+                                },
+                                "label": "Moret - Veneux-les-Sablons (Moret-Loing-et-Orvanne)",
+                                "timezone": "Europe/Paris",
+                                "id": "stop_area:SNCF:87682278"
+                            }
+                        },
+                        "quality": 0,
+                        "name": "Moret - Veneux-les-Sablons (Moret-Loing-et-Orvanne)",
+                        "id": "stop_point:SNCF:87682278:Train"
+                    },
+                    "base_arrival_date_time": "20210316T133130",
+                    "base_departure_date_time": "20210316T124600",
+                    "departure_date_time": "20210316T124600",
+                    "geojson": {
+                        "type": "LineString",
+                        "properties": [
+                            {
+                                "length": 61217
+                            }
+                        ],
+                        "coordinates": [
+                            [
+                                2.373481,
+                                48.844945
+                            ],
+                            [
+                                2.655349,
+                                48.527583
+                            ],
+                            [
+                                2.691606,
+                                48.475567
+                            ],
+                            [
+                                2.726237,
+                                48.416331
+                            ],
+                            [
+                                2.799478,
+                                48.378416
+                            ]
+                        ]
+                    },
+                    "duration": 2730,
+                    "type": "public_transport",
+                    "id": "section_0_0",
+                    "data_freshness": "base_schedule",
+                    "stop_date_times": [
+                        {
+                            "stop_point": {
+                                "name": "Paris Gare de Lyon Hall 1 &2",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.844945",
+                                    "lon": "2.373481"
+                                },
+                                "label": "Paris Gare de Lyon Hall 1 &2 (Paris)",
+                                "equipments": [],
+                                "id": "stop_point:SNCF:87686006:Train"
+                            },
+                            "links": [],
+                            "arrival_date_time": "20210316T124600",
+                            "additional_informations": [],
+                            "departure_date_time": "20210316T124600",
+                            "base_arrival_date_time": "20210316T124600",
+                            "base_departure_date_time": "20210316T124600"
+                        },
+                        {
+                            "stop_point": {
+                                "name": "Melun",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.527583",
+                                    "lon": "2.655349"
+                                },
+                                "label": "Melun (Melun)",
+                                "equipments": [],
+                                "id": "stop_point:SNCF:87682005:Train"
+                            },
+                            "links": [],
+                            "arrival_date_time": "20210316T131100",
+                            "additional_informations": [],
+                            "departure_date_time": "20210316T131200",
+                            "base_arrival_date_time": "20210316T131100",
+                            "base_departure_date_time": "20210316T131200"
+                        },
+                        {
+                            "stop_point": {
+                                "name": "Bois-le-Roi",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.475567",
+                                    "lon": "2.691606"
+                                },
+                                "label": "Bois-le-Roi (Bois-le-Roi)",
+                                "equipments": [],
+                                "id": "stop_point:SNCF:87682203:Train"
+                            },
+                            "links": [],
+                            "arrival_date_time": "20210316T131730",
+                            "additional_informations": [],
+                            "departure_date_time": "20210316T131830",
+                            "base_arrival_date_time": "20210316T131730",
+                            "base_departure_date_time": "20210316T131830"
+                        },
+                        {
+                            "stop_point": {
+                                "name": "Fontainebleau - Avon",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.416331",
+                                    "lon": "2.726237"
+                                },
+                                "label": "Fontainebleau - Avon (Avon)",
+                                "equipments": [],
+                                "id": "stop_point:SNCF:87682211:Train"
+                            },
+                            "links": [],
+                            "arrival_date_time": "20210316T132430",
+                            "additional_informations": [],
+                            "departure_date_time": "20210316T132530",
+                            "base_arrival_date_time": "20210316T132430",
+                            "base_departure_date_time": "20210316T132530"
+                        },
+                        {
+                            "stop_point": {
+                                "name": "Moret - Veneux-les-Sablons",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.378416",
+                                    "lon": "2.799478"
+                                },
+                                "label": "Moret - Veneux-les-Sablons (Moret-Loing-et-Orvanne)",
+                                "equipments": [],
+                                "id": "stop_point:SNCF:87682278:Train"
+                            },
+                            "links": [],
+                            "arrival_date_time": "20210316T133130",
+                            "additional_informations": [],
+                            "departure_date_time": "20210316T133230",
+                            "base_arrival_date_time": "20210316T133130",
+                            "base_departure_date_time": "20210316T133230"
+                        }
+                    ]
+                },
+                {
+                    "from": {
+                        "embedded_type": "stop_point",
+                        "stop_point": {
+                            "name": "Moret - Veneux-les-Sablons",
+                            "links": [],
+                            "coord": {
+                                "lat": "48.378416",
+                                "lon": "2.799478"
+                            },
+                            "label": "Moret - Veneux-les-Sablons (Moret-Loing-et-Orvanne)",
+                            "equipments": [],
+                            "administrative_regions": [
+                                {
+                                    "insee": "77316",
+                                    "name": "Moret-Loing-et-Orvanne",
+                                    "level": 8,
+                                    "coord": {
+                                        "lat": "48.372865",
+                                        "lon": "2.8161541"
+                                    },
+                                    "label": "Moret-Loing-et-Orvanne",
+                                    "id": "admin:fr:77316",
+                                    "zip_code": ""
+                                }
+                            ],
+                            "id": "stop_point:SNCF:87682278:Train",
+                            "stop_area": {
+                                "codes": [
+                                    {
+                                        "type": "source",
+                                        "value": "87682278"
+                                    },
+                                    {
+                                        "type": "uic",
+                                        "value": "87682278"
+                                    }
+                                ],
+                                "name": "Moret - Veneux-les-Sablons",
+                                "links": [],
+                                "coord": {
+                                    "lat": "48.378416",
+                                    "lon": "2.799478"
+                                },
+                                "label": "Moret - Veneux-les-Sablons (Moret-Loing-et-Orvanne)",
+                                "timezone": "Europe/Paris",
+                                "id": "stop_area:SNCF:87682278"
+                            }
+                        },
+                        "quality": 0,
+                        "name": "Moret - Veneux-les-Sablons (Moret-Loing-et-Orvanne)",
+                        "id": "stop_point:SNCF:87682278:Train"
+                    },
+                    "links": [],
+                    "arrival_date_time": "20210316T133130",
+                    "co2_emission": {
+                        "value": 0,
+                        "unit": ""
+                    },
+                    "to": {
+                        "embedded_type": "administrative_region",
+                        "quality": 0,
+                        "administrative_region": {
+                            "insee": "77316",
+                            "name": "Moret-Loing-et-Orvanne",
+                            "level": 8,
+                            "coord": {
+                                "lat": "48.372865",
+                                "lon": "2.8161541"
+                            },
+                            "label": "Moret-Loing-et-Orvanne",
+                            "id": "admin:fr:77316",
+                            "zip_code": ""
+                        },
+                        "name": "Moret-Loing-et-Orvanne",
+                        "id": "admin:fr:77316"
+                    },
+                    "departure_date_time": "20210316T133130",
+                    "duration": 0,
+                    "type": "crow_fly",
+                    "id": "ehSxB69TYcfvnuatwwsd7J_0",
+                    "mode": "walking"
+                }
+            ]
+        }
+    ],
+    "disruptions": [],
+    "notes": [],
+    "feed_publishers": [
+        {
+            "url": "",
+            "id": "sncf",
+            "license": "Private (unspecified)",
+            "name": "SNCF PIV Production"
+        },
+        {
+            "url": "",
+            "id": "SNCF:sncf-piv",
+            "license": "Private (unspecified)",
+            "name": "SNCF PIV Production"
+        }
+    ],
+    "context": {
+        "timezone": "Europe/Paris",
+        "current_datetime": "20210316T172430",
+        "car_direct_path": {
+            "co2_emission": {
+                "value": 15834.6521187961,
+                "unit": "gEC"
+            }
+        }
+    },
+    "exceptions": []
+}

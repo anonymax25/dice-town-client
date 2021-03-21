@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   hide: boolean = true;
@@ -20,8 +20,8 @@ export class LoginComponent {
   passwordCtrl: FormControl;
 
   constructor(formBuilder: FormBuilder,
-              private titleService: Title,
               private authenticationService: AuthenticationService,
+              public snackBar: MatSnackBar,
               public dialog: MatDialogRef<LoginComponent>)
   {
     this.emailCtrl = formBuilder.control('', Validators.required);
@@ -35,8 +35,12 @@ export class LoginComponent {
 
   onSubmit() {
     this.authenticationService.login(this.loginForm.value).subscribe(data => {
+      this.snackBar.open("Log in successful", "", {
+        duration: 2000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
       sessionStorage.setItem('token', data.token);
-      this.titleService.setTitle(`${environment.title} : ${this.authenticationService.getUserFromToken().name}`)
       this.dialog.close(true);
     })
   }

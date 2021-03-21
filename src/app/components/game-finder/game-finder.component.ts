@@ -4,13 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { LobbyService } from 'src/app/services/lobby.service';
+import { LobbyService } from '../lobby/lobby.service';
 import { ConfirmComponent } from '../layout/confirm/confirm.component';
 
 @Component({
   selector: 'app-game-finder',
   templateUrl: './game-finder.component.html',
-  styleUrls: ['./game-finder.component.css']
+  styleUrls: ['./game-finder.component.scss']
 })
 export class GameFinderComponent implements OnInit {
   
