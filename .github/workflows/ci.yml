@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      tag_name: "release_tag"
+      tag_name: "v1.0.0"
     strategy:
       matrix:
         node-version: [12.x]
@@ -19,7 +19,7 @@ jobs:
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
           delete_release: true # default: false
-          tag_name: $({ env.tag_name }) # tag name to delete
+          tag_name: v1.0.0 # tag name to delete
           repo: anonymax25/dice-town-client # target repo (optional). defaults to repo running this action
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
@@ -45,6 +45,6 @@ jobs:
       - name: Push Build to Releases
         uses: ncipollo/release-action@v1
         with:
-          tag: $({ env.tag_name })
+          tag: v1.0.0
           artifacts: "dist/dice-town-client/*"
           token: ${{ secrets.TOKEN }}
