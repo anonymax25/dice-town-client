@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Lobby } from 'src/app/models/lobby.model';
-import { User } from 'src/app/models/user.model';
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { UserService } from 'src/app/services/user.service';
+import { Lobby } from '../../models/lobby.model';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-lobby-list',

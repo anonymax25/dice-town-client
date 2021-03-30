@@ -6,7 +6,7 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
-    "emitDecoratorMetadata": false,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -18,6 +18,9 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "rxjs": ["node_modules/rxjs"]
+    }
   }
 }

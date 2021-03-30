@@ -50,14 +50,30 @@ import { RulesComponent } from './components/rules/rules.component';
 @Injectable()
 export class ChatSocket extends Socket {
     constructor() {
-      super({ url: `${environment.socketUrl}${environment.chatSocketNamespace}`, options: {path: environment.socketPath} });
+      super(
+        { 
+          url: `${environment.socketUrl}${environment.chatSocketNamespace}`, 
+          options: {
+            path: environment.socketPath,
+            serveClient: false
+          } 
+        }
+      );
     }
 }
 
 @Injectable()
 export class LobbySocket extends Socket {
     constructor() {
-      super({ url: `${environment.socketUrl}${environment.lobbySocketNamespace}`, options: {path: environment.socketPath} });
+      super(
+        { 
+          url: `${environment.socketUrl}${environment.lobbySocketNamespace}`, 
+          options: {
+            path: environment.socketPath,
+            serveClient: false
+          } 
+        }
+      );
     }
 }
 @Injectable()
