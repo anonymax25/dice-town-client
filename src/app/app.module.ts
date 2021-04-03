@@ -1,7 +1,7 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,6 +46,8 @@ import { GameComponent } from './components/lobby/game/game.component';
 import { DiceComponent } from './components/lobby/game/dice/dice.component';
 import { LegalComponent } from './components/legal/legal.component';
 import { RulesComponent } from './components/rules/rules.component';
+import { SpinnerSmallComponent } from './components/items/spinner-small/spinner-small.component';
+import { ServerErrorInterceptor } from './shared/helpers/server-error.interceptor';
 
 @Injectable()
 export class ChatSocket extends Socket {
@@ -105,6 +107,7 @@ export class AlertSocket extends Socket {
     DiceComponent,
     LegalComponent,
     RulesComponent,
+    SpinnerSmallComponent,
   ],
   imports: [
     SocketIoModule,

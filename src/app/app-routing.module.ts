@@ -31,7 +31,7 @@ const routes: Routes = [
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy', useHash: true })
   ],
   exports: [
     RouterModule

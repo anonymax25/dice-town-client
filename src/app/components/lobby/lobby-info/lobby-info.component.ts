@@ -98,11 +98,7 @@ export class LobbyInfoComponent implements OnInit {
   }
 
   initLobbySocket() {
-    console.log('init lobby socket');
-    
     this.lobbySocketService.connect().subscribe(data => {
-      console.log("here",data);
-      
       this.isLobbyConnected = true
       this.lobbySocketService.joinLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
       console.log('lobby connected!');
@@ -110,8 +106,6 @@ export class LobbyInfoComponent implements OnInit {
       console.log(err);
       
     })
-    console.log('next');
-    
     
     this.lobbySocketService.joinedLobby().subscribe(data => {
       this.isJoined = true

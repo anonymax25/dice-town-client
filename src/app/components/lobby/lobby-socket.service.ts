@@ -17,8 +17,6 @@ export class LobbySocketService {
               private authenticationService: AuthenticationService) { }
 
   connect() {
-    console.log("send conn");
-    
     return this.lobbySocket.fromEvent('connect')
   }
 

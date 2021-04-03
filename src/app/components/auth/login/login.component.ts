@@ -18,6 +18,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   emailCtrl: FormControl;
   passwordCtrl: FormControl;
+  loading: boolean = false;
 
   constructor(formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -34,7 +35,9 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    this.loading = true
     this.authenticationService.login(this.loginForm.value).subscribe(data => {
+      this.loading = false
       this.snackBar.open("Log in successful", "", {
         duration: 2000,
         horizontalPosition: 'center',
@@ -42,6 +45,12 @@ export class LoginComponent {
       });
       sessionStorage.setItem('token', data.token);
       this.dialog.close(true);
+    }, err => {
+      this.loading = false
     })
+  }
+
+  createAccount(){
+    
   }
 }

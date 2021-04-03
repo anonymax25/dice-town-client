@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
   title: 'Dice Town Online',
-  apiUrl: 'http://localhost:3000/api/v1/',
-  socketUrl: 'http://localhost:3001/api/v1/',
+  apiUrl: 'http://localhost:3000/',
+  socketUrl: 'http://localhost:3001/',
   socketPath: '/websockets',
   alertSocketNamespace: 'alerts',
   chatSocketNamespace: 'chat',

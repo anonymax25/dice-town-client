@@ -18,7 +18,11 @@
       </button>
     </mat-form-field>
   </div>
+  <p>Need to <a routerLink="/register" (click)="dialog.close()">create an account</a>? it takes 1 minute</p>
   <div mat-dialog-actions class="justify-content-between">
-    <button mat-raised-button color="primary" type="submit">Connexion</button>
+    <button mat-raised-button color="primary" type="submit">
+      Connexion
+      <app-spinner-small *ngIf="loading"></app-spinner-small>
+    </button>
   </div>
 </form>
