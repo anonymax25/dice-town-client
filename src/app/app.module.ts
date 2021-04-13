@@ -33,7 +33,7 @@ import { ConfirmComponent } from './components/layout/confirm/confirm.component'
 import { ClipboardModule } from 'ngx-clipboard';
 import { LobbyListComponent } from './components/lobby-list/lobby-list.component';
 import { SnackbarService } from './shared/snackbar/snackbar.service';
-import { Socket, SocketIoModule } from 'ngx-socket-io';
+import { Socket, SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './components/lobby/chat/chat.component';
 import { LobbyInfoComponent } from './components/lobby/lobby-info/lobby-info.component';
@@ -48,42 +48,6 @@ import { LegalComponent } from './components/legal/legal.component';
 import { RulesComponent } from './components/rules/rules.component';
 import { SpinnerSmallComponent } from './components/items/spinner-small/spinner-small.component';
 import { ServerErrorInterceptor } from './shared/helpers/server-error.interceptor';
-
-@Injectable()
-export class ChatSocket extends Socket {
-    constructor() {
-      super(
-        { 
-          url: `${environment.socketUrl}${environment.chatSocketNamespace}`, 
-          options: {
-            path: environment.socketPath,
-            serveClient: false
-          } 
-        }
-      );
-    }
-}
-
-@Injectable()
-export class LobbySocket extends Socket {
-    constructor() {
-      super(
-        { 
-          url: `${environment.socketUrl}${environment.lobbySocketNamespace}`, 
-          options: {
-            path: environment.socketPath,
-            serveClient: false
-          } 
-        }
-      );
-    }
-}
-@Injectable()
-export class AlertSocket extends Socket {
-    constructor() {
-      super({ url: `${environment.socketUrl}${environment.alertSocketNamespace}`, options: {path: environment.socketPath} });
-    }
-}
 @NgModule({
   declarations: [
     AppComponent,
@@ -110,7 +74,6 @@ export class AlertSocket extends Socket {
     SpinnerSmallComponent,
   ],
   imports: [
-    SocketIoModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -138,9 +101,6 @@ export class AlertSocket extends Socket {
   ],
   providers: [
     SnackbarService,
-    ChatSocket,
-    AlertSocket,
-    LobbySocket,
     Title
   ],
   entryComponents: [

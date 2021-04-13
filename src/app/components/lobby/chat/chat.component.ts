@@ -5,7 +5,7 @@ import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
-import { ChatSocketService } from './chat-socket.service';
+import { ChatSocketService } from '../sockets/chat-socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -50,7 +50,10 @@ export class ChatComponent implements OnInit {
   }
 
   initChatSocket(){
-    this.chatSocketService.connect().subscribe( data => {
+    this.chatSocketService.connect()
+    this.chatSocketService.connected().subscribe( data => {
+        console.log("helloooo");
+      
         this.isChatConnected = true
         this.chatSocketService.joinRoom(this.lobby.code)
         console.log('chat connected!');

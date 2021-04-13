@@ -12,7 +12,7 @@ import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service'
 import { ConfirmComponent } from '../layout/confirm/confirm.component';
 import { stripSummaryForJitFileSuffix } from '@angular/compiler/src/aot/util';
 import { Subject } from 'rxjs';
-import { LobbySocketService } from './lobby-socket.service';
+import { LobbySocketService } from './sockets/lobby-socket.service';
 import { Player } from 'src/app/models/player';
 import { Game } from 'src/app/models/game.model';
 @Component({
