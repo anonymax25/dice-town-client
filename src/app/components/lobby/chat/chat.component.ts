@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.refreshChatEventsSubscription = this.refreshChatEvent.subscribe(() => { this.messages = [] })
     this.initChatSocket()
-    this.scrollToBottom()
+    this.scrollToChatBottom()
   }
 
   ngOnDestroy(): void {
@@ -49,14 +49,11 @@ export class ChatComponent implements OnInit {
     this.messageSend = ''
   }
 
-  initChatSocket(){
-    this.chatSocketService.connect()
-    this.chatSocketService.connected().subscribe( data => {
-        console.log("helloooo");
-      
-        this.isChatConnected = true
-        this.chatSocketService.joinRoom(this.lobby.code)
-        console.log('chat connected!');
+  async initChatSocket(){
+    await this.chatSocketService.connect()
+
+    this.chatSocketService.disconnected().subscribe(() => {
+        console.log('chat disconnected!');
     })
     this.chatSocketService.joinedRoom().subscribe( data => {
         this.isJoinedChat = true
@@ -68,9 +65,12 @@ export class ChatComponent implements OnInit {
     })
     this.chatSocketService.recieveMessage().subscribe( message => {
         this.messages.push(message)   
-        
-        this.scrollToBottom()
+        this.scrollToChatBottom()
     })
+
+    this.isChatConnected = true
+    this.chatSocketService.joinRoom(this.lobby.code)
+    console.log('chat connected!');
   }
 
   getUserOfLobbyById(id: number): User {
@@ -86,7 +86,7 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  scrollToBottom(): void {
+  scrollToChatBottom(): void {
     try {
         setTimeout(() => {
           this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;

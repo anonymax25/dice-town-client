@@ -6,56 +6,65 @@ import { Lobby } from 'src/app/models/lobby.model';
 import { ReadyStatus } from 'src/app/models/readyStatus';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { environment } from '../../../../environments/environment';
+import { SocketService } from './socket.interface';
 
-declare var io: any;
 
 @Injectable({
   providedIn: 'root'
 })
-export class LobbySocketService {
+export class LobbySocketService implements SocketService {
 
-  lobbySocket;
+  private socket;
   
   constructor(private authenticationService: AuthenticationService) { 
   }
 
-  connect(){
-    this.lobbySocket = io.connect(`${environment.api}:${environment.chatSocketPort}`);
+  connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.socket = io.connect(`${environment.api}:${environment.lobbySocketPort}`);
+      this.socket.on('connect', () => {
+        resolve()
+      }, err => {
+        reject()
+      })
+    })
   }
 
   connected(): Observable<void> {
     return new Observable<void>(obs => {
-      this.lobbySocket.on('connect', () => {
-        console.log(this.lobbySocket);
-        
+      this.socket.on('connect', () => {
+        obs.next()
+      });
+    })
+  }
+  
+  disconnected(): Observable<void> {
+    return new Observable<void>(obs => {
+      this.socket.on('disconnect', () => {
         obs.next()
       });
     })
   }
 
   joinLobby(LobbyId: string, username: string){
-    this.lobbySocket.emit('joinLobbySocket', {lobbyId: LobbyId, username: username, uid: this.authenticationService.getIdFromToken()} )
-  }
-  
-  test(){
-    this.lobbySocket.emit('test', {})
+    this.socket.emit('joinLobbySocket', {lobbyId: LobbyId, username: username, uid: this.authenticationService.getIdFromToken()} )
   }
 
   joinedLobby(): Observable<string> {
     return new Observable<string>(obs => {
-      this.lobbySocket.on('joinedLobbySocket', (msg: string) => {
+      this.socket.on('joinedLobbySocket', (msg: string) => {
         obs.next(msg)
       });
     })
   }
 
   leaveLobby(LobbyId: string, username: string){
-    this.lobbySocket.emit('leaveLobbySocket', {lobbyId: LobbyId, username: username, uid: this.authenticationService.getIdFromToken()})
+    this.socket.emit('leaveLobbySocket', {lobbyId: LobbyId, username: username, uid: this.authenticationService.getIdFromToken()})
   }
 
   leftLobby(): Observable<string>{
     return new Observable<string>(obs => {
-      this.lobbySocket.on('leftLobbySocket', (msg: string) => {
+      this.socket.on('leftLobbySocket', (msg: string) => {
         obs.next(msg)
       });
     })
@@ -63,7 +72,7 @@ export class LobbySocketService {
   
   userJoinedLobby(): Observable<string>{
     return new Observable<string>(obs => {
-      this.lobbySocket.on('userJoinedLobby', (msg: string) => {
+      this.socket.on('userJoinedLobby', (msg: string) => {
         obs.next(msg)
       });
     })
@@ -71,7 +80,7 @@ export class LobbySocketService {
   
   userLeftLobby(): Observable<string>{
     return new Observable<string>(obs => {
-      this.lobbySocket.on('userLeftLobby', (msg: string) => {
+      this.socket.on('userLeftLobby', (msg: string) => {
         obs.next(msg)
       });
     })
@@ -79,23 +88,23 @@ export class LobbySocketService {
 
   recieveReadyStatusUpdate(): Observable<ReadyStatus[]>{
     return new Observable<ReadyStatus[]>(obs => {
-      this.lobbySocket.on('updatedReadyStatus', (msg: ReadyStatus[]) => {
+      this.socket.on('updatedReadyStatus', (msg: ReadyStatus[]) => {
         obs.next(msg)
       });
     })
   }
 
   sendReadyStatusUpdate(readyStatus: ReadyStatus){
-    this.lobbySocket.emit("updateReadyStatus", readyStatus);
+    this.socket.emit("updateReadyStatus", readyStatus);
   }
 
   switchStartGame(lobbyId: number){    
-    this.lobbySocket.emit("switchStartGame", {lobbyId});
+    this.socket.emit("switchStartGame", {lobbyId});
   }
 
   startGameSwitched(): Observable<Lobby>{
     return new Observable<Lobby>(obs => {
-      this.lobbySocket.on('startGameSwitched', (msg: Lobby) => {
+      this.socket.on('startGameSwitched', (msg: Lobby) => {
         obs.next(msg)
       });
     })
@@ -107,12 +116,12 @@ export class LobbySocketService {
       lobbyId,
       userId: this.authenticationService.getIdFromToken()
     }
-    this.lobbySocket.emit("setDices", body);
+    this.socket.emit("setDices", body);
   }
 
   updateGame(): Observable<Game>{
     return new Observable<Game>(obs => {
-      this.lobbySocket.on('updateGame', (msg: Game) => {
+      this.socket.on('updateGame', (msg: Game) => {
         obs.next(msg)
       });
     })
@@ -120,7 +129,7 @@ export class LobbySocketService {
   
   newWaitingFor(): Observable<number[]>{
     return new Observable<number[]>(obs => {
-      this.lobbySocket.on('newWaitingFor', (msg: number[]) => {
+      this.socket.on('newWaitingFor', (msg: number[]) => {
         obs.next(msg)
       });
     })
@@ -128,7 +137,7 @@ export class LobbySocketService {
   
   recieveAlert(): Observable<string>{
     return new Observable<string>(obs => {
-      this.lobbySocket.on('recieveAlert', (msg: string) => {
+      this.socket.on('recieveAlert', (msg: string) => {
         obs.next(msg)
       });
     })

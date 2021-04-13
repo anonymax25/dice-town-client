@@ -15,6 +15,8 @@ import { Subject } from 'rxjs';
 import { LobbySocketService } from './sockets/lobby-socket.service';
 import { Player } from 'src/app/models/player';
 import { Game } from 'src/app/models/game.model';
+import { environment } from '../../../environments/environment';
+import { ChatSocketService } from './sockets/chat-socket.service';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -25,11 +27,10 @@ export class LobbyComponent implements OnInit {
   lobby: Lobby
   refreshChatEventSubject: Subject<void> = new Subject<void>();
   isLobbyConnected: boolean;
-
+  
   constructor(private route: ActivatedRoute,
               private router: Router,
               public lobbyService: LobbyService,
-              public lobbySocketService: LobbySocketService,
               public authenticationService: AuthenticationService,
               public snackbarService: SnackbarService) { }
 

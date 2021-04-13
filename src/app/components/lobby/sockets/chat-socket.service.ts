@@ -2,23 +2,37 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message } from 'src/app/models/message';
 import { environment } from '../../../../environments/environment';
-
-declare var io: any;
+import { SocketService } from './socket.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChatSocketService {
+export class ChatSocketService implements SocketService {
 
   private socket;
   
-  connect(){
-    this.socket = io.connect(`${environment.api}:${environment.chatSocketPort}`);
+  connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.socket = io.connect(`${environment.api}:${environment.chatSocketPort}`);
+      this.socket.on('connect', () => {
+        resolve()
+      }, err => {
+        reject()
+      })
+    })
   }
 
   connected(): Observable<void> {
     return new Observable<void>(obs => {
       this.socket.on('connect', () => {
+        obs.next()
+      });
+    })
+  }
+  
+  disconnected(): Observable<void> {
+    return new Observable<void>(obs => {
+      this.socket.on('disconnect', () => {
         obs.next()
       });
     })

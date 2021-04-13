@@ -96,19 +96,8 @@ export class LobbyInfoComponent implements OnInit {
     return this.lobby.readyStatus.filter(item => item.isReady).length
   }
 
-  initLobbySocket() {
-    this.lobbySocketService.connect()
-    this.lobbySocketService.connected().subscribe(data => {
-      this.isLobbyConnected = true
-      
-      this.lobbySocketService.test()
-
-      this.lobbySocketService.joinLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
-      console.log('lobby connected!');
-    }, err => {
-      console.log(err);
-      
-    })
+  async initLobbySocket() {
+    await this.lobbySocketService.connect()
     
     this.lobbySocketService.joinedLobby().subscribe(data => {
       this.isJoined = true
@@ -135,6 +124,10 @@ export class LobbyInfoComponent implements OnInit {
       this.chatResetEvent.emit()
       this.updateLobbyEvent.emit(lobby)
     })
+
+    this.isLobbyConnected = true
+    this.lobbySocketService.joinLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
+    console.log('lobby connected!');
   }
 
   readyStatus() {
