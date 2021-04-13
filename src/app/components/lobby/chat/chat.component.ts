@@ -5,7 +5,7 @@ import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
-import { ChatSocketService } from './chat-socket.service';
+import { ChatSocketService } from '../sockets/chat-socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.refreshChatEventsSubscription = this.refreshChatEvent.subscribe(() => { this.messages = [] })
     this.initChatSocket()
-    this.scrollToBottom()
+    this.scrollToChatBottom()
   }
 
   ngOnDestroy(): void {
@@ -49,11 +49,11 @@ export class ChatComponent implements OnInit {
     this.messageSend = ''
   }
 
-  initChatSocket(){
-    this.chatSocketService.connect().subscribe( data => {
-        this.isChatConnected = true
-        this.chatSocketService.joinRoom(this.lobby.code)
-        console.log('chat connected!');
+  async initChatSocket(){
+    await this.chatSocketService.connect()
+
+    this.chatSocketService.disconnected().subscribe(() => {
+        console.log('chat disconnected!');
     })
     this.chatSocketService.joinedRoom().subscribe( data => {
         this.isJoinedChat = true
@@ -65,9 +65,12 @@ export class ChatComponent implements OnInit {
     })
     this.chatSocketService.recieveMessage().subscribe( message => {
         this.messages.push(message)   
-        
-        this.scrollToBottom()
+        this.scrollToChatBottom()
     })
+
+    this.isChatConnected = true
+    this.chatSocketService.joinRoom(this.lobby.code)
+    console.log('chat connected!');
   }
 
   getUserOfLobbyById(id: number): User {
@@ -83,7 +86,7 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  scrollToBottom(): void {
+  scrollToChatBottom(): void {
     try {
         setTimeout(() => {
           this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;

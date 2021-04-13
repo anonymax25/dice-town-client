@@ -12,7 +12,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 import { ConfirmComponent } from '../../layout/confirm/confirm.component';
-import { LobbySocketService } from '../lobby-socket.service';
+import { LobbySocketService } from '../sockets/lobby-socket.service';
 import {debounceTime} from 'rxjs/operators';
 
 @Component({

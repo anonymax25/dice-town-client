@@ -2,7 +2,7 @@
 
     <h2 class="text-center">
         {{lobby.game.status === gameStatus.DICE_ROLLING ? 'Rolling Dices' : 'Results'}}
-        <div class="spinner-border" style="border-width: 2px;" *ngIf="lobby.game.status !== gameStatus.DICE_ROLLING"></div>
+        <app-spinner-small *ngIf="lobby.game.status !== gameStatus.DICE_ROLLING"></app-spinner-small>
     </h2>
 
     <div>

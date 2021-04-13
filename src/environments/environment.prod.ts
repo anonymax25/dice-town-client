@@ -1,11 +1,8 @@
 export const environment = {
   production: true,
-  title: 'Dice Town Online',
-  apiUrl: 'http://ec2-34-254-173-6.eu-west-1.compute.amazonaws.com/api/v1/',
-  socketUrl: 'http://ec2-34-254-173-6.eu-west-1.compute.amazonaws.com:3001/api/v1/',
-  socketPath: '/websockets',
-  alertSocketNamespace: 'alerts',
-  chatSocketNamespace: 'chat',
-  gameSocketNamespace: 'game',
-  lobbySocketNamespace: 'lobby'
+  title: 'Dice Town Online : Production',
+  apiUrl: 'http://88.121.191.251:9090/',
+  api: 'http://88.121.191.251',
+  chatSocketPort: 3001,
+  lobbySocketPort: 3002,
 };

@@ -1,7 +1,7 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,7 +33,7 @@ import { ConfirmComponent } from './components/layout/confirm/confirm.component'
 import { ClipboardModule } from 'ngx-clipboard';
 import { LobbyListComponent } from './components/lobby-list/lobby-list.component';
 import { SnackbarService } from './shared/snackbar/snackbar.service';
-import { Socket, SocketIoModule } from 'ngx-socket-io';
+import { Socket, SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './components/lobby/chat/chat.component';
 import { LobbyInfoComponent } from './components/lobby/lobby-info/lobby-info.component';
@@ -46,26 +46,8 @@ import { GameComponent } from './components/lobby/game/game.component';
 import { DiceComponent } from './components/lobby/game/dice/dice.component';
 import { LegalComponent } from './components/legal/legal.component';
 import { RulesComponent } from './components/rules/rules.component';
-
-@Injectable()
-export class ChatSocket extends Socket {
-    constructor() {
-      super({ url: `${environment.socketUrl}${environment.chatSocketNamespace}`, options: {path: environment.socketPath} });
-    }
-}
-
-@Injectable()
-export class LobbySocket extends Socket {
-    constructor() {
-      super({ url: `${environment.socketUrl}${environment.lobbySocketNamespace}`, options: {path: environment.socketPath} });
-    }
-}
-@Injectable()
-export class AlertSocket extends Socket {
-    constructor() {
-      super({ url: `${environment.socketUrl}${environment.alertSocketNamespace}`, options: {path: environment.socketPath} });
-    }
-}
+import { SpinnerSmallComponent } from './components/items/spinner-small/spinner-small.component';
+import { ServerErrorInterceptor } from './shared/helpers/server-error.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,9 +71,9 @@ export class AlertSocket extends Socket {
     DiceComponent,
     LegalComponent,
     RulesComponent,
+    SpinnerSmallComponent,
   ],
   imports: [
-    SocketIoModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -119,9 +101,6 @@ export class AlertSocket extends Socket {
   ],
   providers: [
     SnackbarService,
-    ChatSocket,
-    AlertSocket,
-    LobbySocket,
     Title
   ],
   entryComponents: [

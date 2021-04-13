@@ -1,8 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LobbySocket } from 'src/app/app.module';
-import { ReadyStatus } from 'src/app/models/readyStatus';
 import { User } from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 import { Lobby } from '../../models/lobby.model';

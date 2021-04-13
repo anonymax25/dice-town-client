@@ -2,14 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
-import { LobbySocket } from 'src/app/app.module';
 import { Lobby } from 'src/app/models/lobby.model';
 import { ReadyStatus } from 'src/app/models/readyStatus';
 import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 import { ConfirmComponent } from '../../layout/confirm/confirm.component';
-import { LobbySocketService } from '../lobby-socket.service';
+import { LobbySocketService } from '../sockets/lobby-socket.service';
 import { LobbyService } from '../lobby.service';
 
 @Component({
@@ -97,13 +96,8 @@ export class LobbyInfoComponent implements OnInit {
     return this.lobby.readyStatus.filter(item => item.isReady).length
   }
 
-  initLobbySocket() {
-    
-    this.lobbySocketService.connect().subscribe(data => {
-      this.isLobbyConnected = true
-      this.lobbySocketService.joinLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
-      console.log('lobby connected!');
-    })
+  async initLobbySocket() {
+    await this.lobbySocketService.connect()
     
     this.lobbySocketService.joinedLobby().subscribe(data => {
       this.isJoined = true
@@ -130,6 +124,10 @@ export class LobbyInfoComponent implements OnInit {
       this.chatResetEvent.emit()
       this.updateLobbyEvent.emit(lobby)
     })
+
+    this.isLobbyConnected = true
+    this.lobbySocketService.joinLobby(this.lobby.id.toString(), this.authenticationService.getUserFromToken().name)
+    console.log('lobby connected!');
   }
 
   readyStatus() {
