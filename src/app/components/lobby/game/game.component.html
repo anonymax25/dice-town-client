@@ -52,7 +52,7 @@
                 </div>
                 
                 <mat-card-content class="light-bg m-0 p-2 text-center">
-                    {{ lobby.game.sherifUserid ? getSherif().name : "No one currently"}} is the sherif
+                    <strong>{{ lobby.game.sherifUserid ? getSherif().name : "No one currently"}}</strong> is the sherif
                 </mat-card-content>
             </mat-card>
             <mat-card>
@@ -131,11 +131,13 @@
                         <mat-card-content>
                         </mat-card-content>
                     </mat-card>
-                    
 
-                    <mat-card *ngIf="getSherif() && getSherif().id === player.userId">
-                        <img src="../../../../assets/icons/sherif-badge.png" height="40px" alt="dollars">
-                        <mat-card-content>
+                    <mat-card *ngIf="getSherif() && getSherif().id === player.userId" style="background-image: url(../../../../assets/images/wood-bg.jpg); background-position:center;">
+                        <div class="light-bg mb-3 p-1">
+                            <img src="../../../../assets/icons/sherif-badge.png" height="40px" alt="sherif" class="">
+                        </div>
+                        
+                        <mat-card-content class="light-bg m-0 p-2 text-center">
                             You are the sherif!
                         </mat-card-content>
                     </mat-card>

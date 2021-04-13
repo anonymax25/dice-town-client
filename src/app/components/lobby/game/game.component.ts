@@ -103,7 +103,7 @@ export class GameComponent implements OnInit {
       this.rollingDices = false
       let dices: Dice[] = []
       for (let i = 0; i < count; i++) {
-        dices.push(new Dice(this.getRandomInt(9, 14), true))
+        dices.push(new Dice(this.getRandomIntInclusive(9, 14), true))
       }
 
       
@@ -124,7 +124,7 @@ export class GameComponent implements OnInit {
   }
 
 
-  getRandomInt(min, max): number{
+  getRandomIntInclusive(min: number, max: number): number{
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
