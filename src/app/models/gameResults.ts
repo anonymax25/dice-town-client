@@ -1,5 +1,10 @@
-import { GameStatus } from "./game-status.enum";
-
 export class GameResults {
-    constructor(public values: Map<GameStatus,number[]>) {}
+    dice9: number[]
+    dice10: number[]
+    diceStore: number[]
+    diceSaloon: number[]
+    diceSherif: number[]
+    diceAce: number[]
+
+    constructor() {}
 }

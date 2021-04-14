@@ -14,6 +14,7 @@ import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 import { ConfirmComponent } from '../../layout/confirm/confirm.component';
 import { LobbySocketService } from '../sockets/lobby-socket.service';
 import {debounceTime} from 'rxjs/operators';
+import { GameResults } from '../../../models/gameResults';
 
 @Component({
   selector: 'app-game',
@@ -34,7 +35,7 @@ export class GameComponent implements OnInit {
   rollingDices: boolean = false;
   isDiceChosen: boolean = false
   isCostError: boolean = false;
-
+  resultProperties: string[] = ["dice9", "dice10", "diceStore", "diceSaloon", "diceSherif", "diceAce"]
   
 
   constructor(public authenticationService: AuthenticationService,
@@ -43,6 +44,8 @@ export class GameComponent implements OnInit {
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    console.log(this.resultProperties);
+    
     
     this.lobbySocketService.updateGame().subscribe(game => {
       this.updateGameEvent.emit(game)
@@ -103,7 +106,7 @@ export class GameComponent implements OnInit {
       this.rollingDices = false
       let dices: Dice[] = []
       for (let i = 0; i < count; i++) {
-        dices.push(new Dice(this.getRandomInt(9, 14), true))
+        dices.push(new Dice(this.getRandomIntInclusive(9, 14), true))
       }
 
       
@@ -124,7 +127,7 @@ export class GameComponent implements OnInit {
   }
 
 
-  getRandomInt(min, max): number{
+  getRandomIntInclusive(min: number, max: number): number{
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;

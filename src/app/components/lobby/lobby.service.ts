@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 import { Lobby } from '../../models/lobby.model';
+import { Player } from '../../models/player';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Injectable({
@@ -59,5 +60,9 @@ export class LobbyService {
     if (!readyStatus)
       return null
     return readyStatus.isReady
+  }
+
+  getOtherPlayers(lobby: Lobby): Player[]{
+    return lobby.game.players.filter(player => player.userId !== this.authenticationService.getIdFromToken() && lobby.users.map(user => user.id).includes(player.userId))
   }
 }

@@ -1,0 +1,22 @@
+<div class="mb-1"  class="cont">
+    <ng-container *ngIf="resultIds.length === 1; else draw">
+        <mat-icon>emoji_events</mat-icon>
+        <strong>{{getUserOfUserID(resultIds[0]).name}}</strong>
+
+        <span *ngIf="dice === 'dice9'" class="cont mr-1">
+            <span>+{{countPlayerDice(9, resultIds[0])}}</span> <img src="../../../../assets/icons/nugget.png" height="35px" alt="nuggets" class="light-bg">
+        </span>
+        
+        <span *ngIf="dice === 'dice10'" class="cont mr-1">
+            <span>+{{lobby.game.dollar}}</span> <img src="../../../../assets/icons/money.png" height="35px" alt="nuggets" class="light-bg">
+        </span>
+
+    </ng-container>
+    <ng-template #draw>
+        Draw!
+            <button mat-raised-button *ngFor="let playerId of resultIds">
+                {{getUserOfUserID(playerId).name}}
+            </button>
+    </ng-template>
+    
+</div>
