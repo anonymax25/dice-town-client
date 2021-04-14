@@ -42,6 +42,8 @@ export class LobbyComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.lobbyService.get(params['code']).subscribe(lobby => {
         this.lobby = lobby  
+        console.log(lobby);
+        
       }, (err) => {
           this.snackbarService.openError('Can\'t load lobby')
           this.router.navigate(['game/finder'])

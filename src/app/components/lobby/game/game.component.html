@@ -78,12 +78,25 @@
     </div>
 
 
+    <div *ngIf="lobby && lobby.game && lobby.game.status !== gameStatus.DICE_ROLLING && lobby.game.results && lobby.game.results.dice9">
+        <div class="board">
+            <mat-card *ngFor="let dice of resultProperties">
+                <app-winner [lobby]="lobby" [dice]="dice"></app-winner>
+            </mat-card>
+            <mat-card>
+                hey
+            </mat-card>
+        </div>
+    </div>
+
+
+
     
     <div class="player-panel">
         Other players:
         <div *ngFor="let player of getOtherPlayers()" class="player-item col-6 col-xs-12 mb-1">
             <b style="flex: 0;">
-                {{getUserOfPlayer(player).name}}&nbsp; 
+                <span>{{getUserOfPlayer(player).name}} ({{player.userId}})&nbsp;</span> 
             </b>
             <span style="flex: 1;" *ngIf="isWaitingForPlayer(player)">
                 is {{getStatusOfPlayer(player).toLowerCase()}}...
