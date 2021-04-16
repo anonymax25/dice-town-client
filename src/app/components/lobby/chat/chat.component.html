@@ -1,8 +1,12 @@
 <mat-card class="example-card mx-3 my-5">
-    <mat-card-header class="h-flex-between">
-        <mat-card-title class="text-center mt-2">Chat <mat-icon>{{ isJoinedChat ? 'cloud_done' : 'cloud_off'}}</mat-icon> </mat-card-title>
+    <mat-card-header class="cont">
+        <p class="h4">Chat</p>
+
+        <div class="p-1">
+            <mat-icon>{{ isJoinedChat ? 'cloud_done' : 'cloud_off'}}</mat-icon>
+        </div>
             
-        <mat-slide-toggle [checked]="isJoinedChat" (change)="connectChat($event)"></mat-slide-toggle>
+        <mat-slide-toggle style="margin-left: auto;" [checked]="isJoinedChat" (change)="connectChat($event)"></mat-slide-toggle>
 
     </mat-card-header>
     <mat-divider></mat-divider>

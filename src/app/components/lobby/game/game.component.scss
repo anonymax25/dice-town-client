@@ -22,19 +22,21 @@
         .player-item {
             background-color: rgba($color: #ffffff, $alpha: 0.9);
             border-radius: 10px;
-
+            min-height: 60px;
             display: flex;
             align-items: center;
+            justify-content: start;
             font-size: 20px;
         }
     }
 
     .hand {
         display: flex;
+
         mat-card {
-            flex: 1;
+            flex: content;
             //max-width: 200px;
-            //width: 100px;
+            min-width: 100px;
             margin: 10px;
         }
     }
@@ -46,6 +48,18 @@
     height: 40px;
     background-color: lightcyan;
     margin: 1;
+}
+
+.cont {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.cont2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 img {

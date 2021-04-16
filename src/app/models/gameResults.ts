@@ -1,10 +1,13 @@
-export class GameResults {
-    dice9: number[]
-    dice10: number[]
-    diceStore: number[]
-    diceSaloon: number[]
-    diceSherif: number[]
-    diceAce: number[]
+import { Result } from "./result"
 
-    constructor() {}
+export class GameResults {
+
+    dice9: Result
+    dice10: Result
+    diceStore: Result
+    diceSaloon: Result
+    diceSherif: Result
+    diceAce: Result
+
 }
+

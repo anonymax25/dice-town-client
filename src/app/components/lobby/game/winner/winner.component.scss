@@ -1,5 +1,12 @@
 .cont {
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.multi-winner {
+    display: flex;
+    flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
 }
