@@ -1,8 +1,9 @@
 <mat-card class="example-card mx-3 mt-3" *ngIf="lobby; else notLoaded">
-    <div class="h-flex">
-        <p (click)="copyCodeToClipboard(lobby.code)">Code: {{lobby.code}} <mat-icon
-                matTooltip="copy code to clipboard" (click)="copyCodeToClipboard(lobby.code)">content_copy</mat-icon>
-        </p>
+    <div class="h-flex" (click)="copyCodeToClipboard(lobby.code)">
+        Code: {{lobby.code}} 
+        <button mat-icon-button matTooltip="copy code to clipboard" >
+            <mat-icon>content_copy</mat-icon>
+        </button>
         <mat-icon>{{ isJoined ? 'cloud_done' : 'cloud_off'}}</mat-icon>
     </div>
 
@@ -14,7 +15,7 @@
                 <div class="flex-container-start mb-1">
                     <b>{{ capitalizeFirstLetter(user.name) }}</b>&nbsp;
                     <mat-chip-list>
-                        <mat-chip *ngIf="isOwner(user.id)">Owner</mat-chip> 
+                        <mat-chip *ngIf="isOwner(user.id)"><mat-icon>admin_panel_settings</mat-icon></mat-chip> 
                         <mat-chip *ngIf="isYou(user)">You</mat-chip>
                     </mat-chip-list>
                 </div>
@@ -35,9 +36,9 @@
                 [disabled]="lobby.users.length > 1" mat-raised-button (click)="destroyLobby()"
                 color="warn">Destroy</button>
 
-            <button mat-raised-button [disabled]="lobby.isGameStarted" class="ml-1" [ngClass]="(!isReady)?'ready-btn':'cancel-btn'"
-                (click)="readyStatus()">{{ isReady ? 'Cancel' :
-                'Ready!'}}({{getCountReady()}}/{{lobby.readyStatus.length}})</button>
+            <button mat-raised-button [disabled]="false && lobby.isGameStarted" class="ml-1" [ngClass]="(!isReady)?'ready-btn':'cancel-btn'" (click)="readyStatus()">
+                {{ isReady ? 'Cancel' : 'Ready!'}} ({{getCountReady()}}/{{lobby.readyStatus.length}})
+            </button>
         </div>
         <div *ngIf="isOwner(authenticationService.getIdFromToken())">
             <ng-container *ngIf="!lobby.isGameStarted; else gameStarted">

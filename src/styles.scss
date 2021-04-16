@@ -163,7 +163,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .flex-container-start {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: flex-start;
 }
 
@@ -199,4 +199,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-width: 0px;
   margin: 4px;
   border-radius: 10%;
+}
+
+.v-flex-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

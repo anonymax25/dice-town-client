@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
 import { Dice } from 'src/app/models/dice';
 import { GameStatusLabel } from 'src/app/models/game-status-label.enum';
 import { GameStatus } from 'src/app/models/game-status.enum';
@@ -13,8 +12,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 import { ConfirmComponent } from '../../layout/confirm/confirm.component';
 import { LobbySocketService } from '../sockets/lobby-socket.service';
-import {debounceTime} from 'rxjs/operators';
-import { GameResults } from '../../../models/gameResults';
+import { LobbyService } from '../lobby.service';
 
 @Component({
   selector: 'app-game',
@@ -36,17 +34,15 @@ export class GameComponent implements OnInit {
   isDiceChosen: boolean = false
   isCostError: boolean = false;
   resultProperties: string[] = ["dice9", "dice10", "diceStore", "diceSaloon", "diceSherif", "diceAce"]
-  
+  diceRolled: boolean = false;
 
   constructor(public authenticationService: AuthenticationService,
               private lobbySocketService: LobbySocketService,
+              public lobbyService: LobbyService,
               private snackbarService: SnackbarService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    console.log(this.resultProperties);
-    
-    
     this.lobbySocketService.updateGame().subscribe(game => {
       this.updateGameEvent.emit(game)
     })
@@ -56,23 +52,16 @@ export class GameComponent implements OnInit {
     return [...this.lobby.game.property].slice(0, 3)
   }
 
-  getSherif(): User{
-    return this.lobby.users.find(user => this.lobby.game.sherifUserid === user.id)
-  }
-  
-  getPlayer(): Player{
-    return this.lobby.game.players.find(player => player.userId === this.authenticationService.getIdFromToken())
-  }
-
   getGameStatus(): string{
     return GameStatusLabel[this.lobby.game.status]
   }
 
   rollDices(): void{
+    this.diceRolled = true;
     this.lobby.game.players.find(player => player.userId === this.authenticationService.getIdFromToken()).canThrowDices = false
     this.isDiceChosen = false
 
-    let player: Player = this.getPlayer()
+    let player: Player = this.lobbyService.getPlayer(this.lobby)
     const newDicesLen: number = 5-player.dices.length
     const isAutoChooseAll = this.lobby.game.players.some(player => this.nonHiddenDices(player.dices).length === 5)
     this.setRandomDices(newDicesLen, isAutoChooseAll)
@@ -81,8 +70,8 @@ export class GameComponent implements OnInit {
   validateDiceChoice(): void{
 
     this.isCostError = false
-    if(this.costs >= this.getPlayer().dollar){
-      this.snackbarService.openError(`Not enough money: ${this.getPlayer().dollar}$ - ${this.costs}$ = ${this.getPlayer().dollar-this.costs}$`)
+    if(this.costs >= this.lobbyService.getPlayer(this.lobby).dollar){
+      this.snackbarService.openError(`Not enough money: ${this.lobbyService.getPlayer(this.lobby).dollar}$ - ${this.costs}$ = ${this.lobbyService.getPlayer(this.lobby).dollar-this.costs}$`)
       this.isCostError = true
       return
     }
@@ -91,7 +80,7 @@ export class GameComponent implements OnInit {
       width: '500px',
     }).afterClosed().subscribe(doAction => {
       if(doAction) {
-
+        this.diceRolled = false;
         this.lobbySocketService.setDices(this.lobby.id, this.newDices.filter((dice, index) => this.isDiceSelected(index)))
         this.isDiceChosen = true
         this.selectedDice = []
@@ -151,8 +140,8 @@ export class GameComponent implements OnInit {
     this.costs = this.computeCosts(this.newDices.filter((dice, index) => this.isDiceSelected(index)))
 
     this.isCostError = false
-    if(this.costs >= this.getPlayer().dollar){
-      this.snackbarService.openError(`Not enough money: ${this.getPlayer().dollar}$ - ${this.costs}$ = ${this.getPlayer().dollar-this.costs}$`)
+    if(this.costs >= this.lobbyService.getPlayer(this.lobby).dollar){
+      this.snackbarService.openError(`Not enough money: ${this.lobbyService.getPlayer(this.lobby).dollar}$ - ${this.costs}$ = ${this.lobbyService.getPlayer(this.lobby).dollar-this.costs}$`)
       this.isCostError = true
     }
   }
@@ -195,5 +184,15 @@ export class GameComponent implements OnInit {
 
   nonHiddenDices(dices: Dice[]){
     return dices.filter(dice => !dice.hidden)
+  }
+
+  cantThroughDice(){
+    const player = this.lobbyService.getPlayer(this.lobby)
+    return this.diceRolled || (!player.canThrowDices || player.dices.length === 5)
+  }
+  
+  cantValidateDice(){
+    const player = this.lobbyService.getPlayer(this.lobby)
+    return !this.diceRolled && (player.canThrowDices || player.dices.length === 5 || this.isDiceChosen || this.isCostError)
   }
 }

@@ -16,12 +16,19 @@
     <button *ngIf="!authenticationService.isLogged()" mat-raised-button color="primary" (click)="openLogin()"class="mx-2">
       Login
     </button>
-    <button *ngIf="authenticationService.isLogged()" mat-button [routerLink]="['profile', authenticationService.getUserFromToken().id]" class="mx-2">
-      <mat-icon class="mr-1">account_circle</mat-icon>{{authenticationService.getUserFromToken().name}}
+
+    <button *ngIf="authenticationService.isLogged()" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+      <mat-icon>more_vert</mat-icon>
     </button>
-    <button *ngIf="authenticationService.isLogged()" mat-button (click)="logout()" class="mx-2">
-      Déconnexion
-    </button>
+    <mat-menu #menu>
+      <div mat-menu-item *ngIf="authenticationService.isLogged()" mat-button [routerLink]="['profile', authenticationService.getUserFromToken().id]" class="mx-2">
+        <mat-icon class="mr-1">badge</mat-icon> Profile
+      </div>
+      <div mat-menu-item *ngIf="authenticationService.isLogged()" mat-button (click)="logout()" class="mx-2">
+        <mat-icon class="mr-1">logout</mat-icon> Log out
+      </div>
+    </mat-menu>
+
   </mat-toolbar>
   <div class="bottom-liner"></div>
 </div>

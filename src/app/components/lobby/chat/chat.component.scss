@@ -27,3 +27,9 @@
     cursor: default;
     pointer-events: none;
 }
+
+.cont {
+    display: flex;
+    align-items: baseline;
+    justify-content: start;
+}

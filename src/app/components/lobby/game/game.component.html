@@ -1,6 +1,6 @@
 <div class="v-flex game-container">
 
-    <h2 class="text-center">
+    <h2 class="text-center" *ngIf="lobby && lobby.game && lobby.game.status">
         {{lobby.game.status === gameStatus.DICE_ROLLING ? 'Rolling Dices' : 'Results'}}
         <app-spinner-small *ngIf="lobby.game.status !== gameStatus.DICE_ROLLING"></app-spinner-small>
     </h2>
@@ -35,14 +35,18 @@
                 </mat-card-content>
             </mat-card>
             
-            <mat-card>
-                <p>General storms</p>
+            <mat-card style="background-image: url(../../../../assets/images/general_store.jpg); background-position:center;background-size:cover ;">
+                <img src="../../../../assets/icons/store.png" height="50px" alt="dollars" class="light-bg mb-3 p-1">
                 <mat-card-content>
+                    <div class="light-bg m-0 p-2 text-center ">
+                        Cards...
+                    </div>
                 </mat-card-content>
             </mat-card>
             
-            <mat-card>
-                <p>Saloon</p>
+            <mat-card style="background-image: url(../../../../assets/images/saloon.jpg); background-position:center; background-size:cover ;">
+                <img src="../../../../assets/icons/saloon.png" height="50px" alt="dollars" class="light-bg mb-3 p-1">
+
                 <mat-card-content>
                 </mat-card-content>
             </mat-card>
@@ -52,7 +56,7 @@
                 </div>
                 
                 <mat-card-content class="light-bg m-0 p-2 text-center">
-                    <strong>{{ lobby.game.sherifUserid ? getSherif().name : "No one currently"}}</strong> is the sherif
+                    <strong>{{ lobby.game.sherifUserid ? lobbyService.getSherif(lobby).name : "No one currently"}}</strong> is the sherif
                 </mat-card-content>
             </mat-card>
             <mat-card>
@@ -84,24 +88,31 @@
                 <app-winner [lobby]="lobby" [dice]="dice"></app-winner>
             </mat-card>
             <mat-card>
-                hey
             </mat-card>
         </div>
     </div>
 
 
 
-    
     <div class="player-panel">
-        Other players:
         <div *ngFor="let player of getOtherPlayers()" class="player-item col-6 col-xs-12 mb-1">
-            <b style="flex: 0;">
-                <span>{{getUserOfPlayer(player).name}} ({{player.userId}})&nbsp;</span> 
-            </b>
-            <span style="flex: 1;" *ngIf="isWaitingForPlayer(player)">
+            <strong style="flex: content; margin-right: 5px;">{{getUserOfPlayer(player).name}}</strong> 
+            <div style="flex: content; margin-right: 5px;" class="h-flex">
+                &nbsp;
+                <strong>{{player.dollar}}</strong>$
+                &nbsp;
+                <span class="cont2">
+                    <strong>{{player.nuggets}}</strong>
+                    <img src="../../../../assets/icons/nugget-narrow.png" height="25px" alt="nuggets" class="m-0">
+                </span>
+                &nbsp;
+                <span>({{player.userId}})</span>
+                &nbsp;
+            </div>
+            <span style="flex: content;" *ngIf="isWaitingForPlayer(player)">
                 is {{getStatusOfPlayer(player).toLowerCase()}}...
             </span>
-            <div class="player-item" style="flex: 0;">
+            <div class="player-item" style="flex: auto;">
                 <app-dice style="justify-self: flex-end;" *ngFor="let dice of nonHiddenDices(player.dices); let i = index" [isSelected]="false" [number]="dice.value"></app-dice>
             </div>
         </div>
@@ -111,30 +122,19 @@
 
 
     <div class="your-game">
-        <h2>Your hand:</h2>
         <div>
-            <div *ngIf="getPlayer() as player">
+            <div *ngIf="lobbyService.getPlayer(lobby) as player">
                 <div class="hand">
-                    <mat-card style="background-image: url(../../../../assets/images/mine.jpg);">
-                
-                        <img src="../../../../assets/icons/nugget.png" height="50px" alt="nuggets" class="light-bg mb-2">
-                        
+                    <mat-card>
                         <mat-card-content class="light-bg p-2 text-center strong col-6 offset-3">
-                            <p class="font-size-header">
-                                {{player.nuggets}}
-                            </p>
-                        </mat-card-content>
-                    </mat-card>
-                    
-                    <mat-card style="background-image: url(../../../../assets/images/bank.jpg); background-position:center;">
-                
-                        <img src="../../../../assets/icons/money.png" height="40px" alt="dollars" class="light-bg mb-3">
-                        
-                        <mat-card-content>
-                            <div class="light-bg p-2 text-center strong col-6 offset-3">
-                                <p class="font-size-header mb-0">
-                                    {{player.dollar}} $
-                                </p>
+                            <div class="font-size-header cont2">
+                                <span>{{player.nuggets}}</span><img src="../../../../assets/icons/nugget-narrow.png" height="35px" alt="nuggets" class="m-0">
+                            </div>
+                            <div class="font-size-header cont">
+                                <span class="cont2">
+                                    <span>{{player.dollar}}</span>
+                                    $
+                                </span>
                             </div>
                         </mat-card-content>
                     </mat-card>
@@ -145,7 +145,7 @@
                         </mat-card-content>
                     </mat-card>
 
-                    <mat-card *ngIf="getSherif() && getSherif().id === player.userId" style="background-image: url(../../../../assets/images/wood-bg.jpg); background-position:center;">
+                    <mat-card *ngIf="lobbyService.getSherif(lobby) && lobbyService.getSherif(lobby).id === player.userId" style="background-image: url(../../../../assets/images/wood-bg.jpg); background-position:center;">
                         <div class="light-bg mb-3 p-1">
                             <img src="../../../../assets/icons/sherif-badge.png" height="40px" alt="sherif" class="">
                         </div>
@@ -186,8 +186,8 @@
                                     </span>
                                 </div>
                                 <div *ngIf="player.dices.length !== 5">
-                                    <button mat-raised-button color="primary" class="mr-2" [disabled]="!player.canThrowDices || player.dices.length === 5" (click)="rollDices()"><mat-icon>casino</mat-icon> Roll</button>
-                                    <button mat-raised-button color="accent" [disabled]="player.canThrowDices || player.dices.length === 5 || isDiceChosen || isCostError" (click)="validateDiceChoice()"><mat-icon>check</mat-icon> Validate</button>
+                                    <button mat-raised-button color="primary" class="mr-2" [disabled]="cantThroughDice()" (click)="rollDices()"><mat-icon>casino</mat-icon> Roll</button>
+                                    <button mat-raised-button color="accent" [disabled]="cantValidateDice()" (click)="validateDiceChoice()"><mat-icon>check</mat-icon> Validate</button>
                                 </div>
                             </span>
                         </div>

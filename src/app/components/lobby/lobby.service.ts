@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Lobby } from '../../models/lobby.model';
 import { Player } from '../../models/player';
 import { AuthenticationService } from '../../services/authentication.service';
+import { UserService } from '../../services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class LobbyService {
 
   constructor(private http: HttpClient,
       private authenticationService: AuthenticationService,
+      private userService: UserService,
       ) { }
 
   create(): Observable<Lobby> {
@@ -64,5 +66,13 @@ export class LobbyService {
 
   getOtherPlayers(lobby: Lobby): Player[]{
     return lobby.game.players.filter(player => player.userId !== this.authenticationService.getIdFromToken() && lobby.users.map(user => user.id).includes(player.userId))
+  }
+
+  getSherif(lobby: Lobby): User{
+    return lobby.users.find(user => lobby.game.sherifUserid === user.id) || this.userService.getEmptyUser()
+  }
+
+  getPlayer(lobby: Lobby): Player{
+    return lobby.game.players.find(player => player.userId === this.authenticationService.getIdFromToken())
   }
 }

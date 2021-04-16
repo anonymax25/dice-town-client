@@ -1,10 +1,10 @@
 <span class="dice" [ngClass]="isSelected ? 'selected' : 'unSelected'">
     <span *ngIf="number === 9">
-        9
+        <img src="../../../../../assets/icons/nugget.png" height="40px" alt="" class="blueify">
     </span>
     
     <span *ngIf="number === 10" style="color: red;">
-        10
+        <img src="../../../../../assets/icons/money.png" style="margin-left: 5px;margin-bottom: 5px;" height="40px" alt="" class="blueify">
     </span> 
     
     <span *ngIf="number === 11" style="color: blue;">

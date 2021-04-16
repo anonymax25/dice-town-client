@@ -47,6 +47,7 @@ import { RulesComponent } from './components/rules/rules.component';
 import { SpinnerSmallComponent } from './components/items/spinner-small/spinner-small.component';
 import { ServerErrorInterceptor } from './shared/helpers/server-error.interceptor';
 import { WinnerComponent } from './components/lobby/game/winner/winner.component';
+import {MatMenuModule} from '@angular/material/menu';
 @NgModule({
   declarations: [
     AppComponent,
@@ -97,7 +98,8 @@ import { WinnerComponent } from './components/lobby/game/winner/winner.component
     MatProgressSpinnerModule,
     MatChipsModule,
     MatSlideToggleModule,
-    MatDividerModule
+    MatDividerModule,
+    MatMenuModule
   ],
   providers: [
     SnackbarService,
