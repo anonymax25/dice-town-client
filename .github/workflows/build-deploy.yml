@@ -29,3 +29,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: release
         FOLDER: dist/dice-town-client
+    - uses: akhileshns/heroku-deploy@v3.0.0
+      with:
+        heroku_api_key: ${{secrets.HEROKU}}
+        heroku_app_name: "dice-town-online"
+        heroku_email: "maxime.dharboulle@gmail.com"
+        usedocker: false
