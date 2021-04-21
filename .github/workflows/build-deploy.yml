@@ -29,9 +29,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: release
         FOLDER: dist/dice-town-client
-    - uses: akhileshns/heroku-deploy@v3.0.0
-      with:
-        heroku_api_key: ${{secrets.HEROKU}}
-        heroku_app_name: "dice-town-online"
-        heroku_email: "maxime.dharboulle@gmail.com"
-        usedocker: false
+    - name: Login to Heroku
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU }}
+      run: heroku login 
+    - name: Install Heroku Builds Plugin
+      run: heroku plugins:install heroku-builds
+    - name: Deploy heroku app
+      run: heroku builds:create -a dice-town-online
