@@ -23,13 +23,13 @@ jobs:
       run: |
         npm install
         npm run deploy
-    - name: Deploy
+    - name: Release build
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: release
         FOLDER: dist/dice-town-client
-    - name: Install Heroku Builds Plugin
-      run: heroku plugins:install heroku-builds
-    - name: Deploy heroku app
-      run: HEROKU_API_KEY=${{secrets.HEROKU}} heroku builds:create -a dice-town-online
+    #- name: Install Heroku Builds Plugin
+    #  run: heroku plugins:install heroku-builds
+    #- name: Deploy heroku app
+    #  run: HEROKU_API_KEY=${{secrets.HEROKU}} heroku builds:create -a dice-town-online
