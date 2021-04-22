@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
   title: 'Dice Town Online : Production',
-  apiUrl: 'https://dice-town-online.herokuapp.com/',
-  api: 'https://dice-town-online.herokuapp.com',
+  apiUrl: 'http://ec2-34-244-165-149.eu-west-1.compute.amazonaws.com/',
+  api: 'http://ec2-34-244-165-149.eu-west-1.compute.amazonaws.com',
   chatSocketPort: 3001,
   lobbySocketPort: 3002,
 };
