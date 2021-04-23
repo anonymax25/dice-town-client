@@ -6,6 +6,8 @@ import { Lobby } from 'src/app/models/lobby.model';
 import { ReadyStatus } from 'src/app/models/readyStatus';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { environment } from '../../../../environments/environment';
+import { GameResults } from '../../../models/gameResults';
+import { Result } from '../../../models/result';
 import { SocketService } from './socket.interface';
 
 
@@ -127,6 +129,14 @@ export class LobbySocketService implements SocketService {
     })
   }
   
+  updateResults(): Observable<GameResults>{
+    return new Observable<GameResults>(obs => {
+      this.socket.on('updateResults', (msg: GameResults) => {
+        obs.next(msg)
+      });
+    })
+  }
+  
   newWaitingFor(): Observable<number[]>{
     return new Observable<number[]>(obs => {
       this.socket.on('newWaitingFor', (msg: number[]) => {
@@ -141,5 +151,15 @@ export class LobbySocketService implements SocketService {
         obs.next(msg)
       });
     })
+  }
+
+  chooseWinner(lobbyId: number, gameId: number, result: Result){    
+    
+    const body = {
+      lobbyId,
+      gameId,
+      result
+    }
+    this.socket.emit("chooseWinner", body);
   }
 }

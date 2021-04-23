@@ -1,10 +1,4 @@
 <div class="v-flex game-container">
-
-    <h2 class="text-center" *ngIf="lobby && lobby.game && lobby.game.status">
-        {{lobby.game.status === gameStatus.DICE_ROLLING ? 'Rolling Dices' : 'Results'}}
-        <app-spinner-small *ngIf="lobby.game.status !== gameStatus.DICE_ROLLING"></app-spinner-small>
-    </h2>
-
     <div>
         <div class="board">
             <mat-card style="background-image: url(../../../../assets/images/mine.jpg);">
@@ -85,9 +79,10 @@
     <div *ngIf="lobby && lobby.game && lobby.game.status !== gameStatus.DICE_ROLLING && lobby.game.results && lobby.game.results.dice9">
         <div class="board">
             <mat-card *ngFor="let dice of resultProperties">
-                <app-winner [lobby]="lobby" [dice]="dice"></app-winner>
+                <app-winner [lobby]="lobby" [dice]="dice" (chooseWinner)="chooseWinner($event)" [updateGameResults]="updateGameResults.asObservable()"></app-winner>
             </mat-card>
             <mat-card>
+                Bad luck...
             </mat-card>
         </div>
     </div>
@@ -95,7 +90,7 @@
 
 
     <div class="player-panel">
-        <div *ngFor="let player of getOtherPlayers()" class="player-item col-6 col-xs-12 mb-1">
+        <div *ngFor="let player of getOtherPlayers()" class="player-item mb-1">
             <strong style="flex: content; margin-right: 5px;">{{getUserOfPlayer(player).name}}</strong> 
             <div style="flex: content; margin-right: 5px;" class="h-flex">
                 &nbsp;
@@ -112,7 +107,7 @@
             <span style="flex: content;" *ngIf="isWaitingForPlayer(player)">
                 is {{getStatusOfPlayer(player).toLowerCase()}}...
             </span>
-            <div class="player-item" style="flex: auto;">
+            <div class="player-item" style="flex: auto;" *ngIf="nonHiddenDices(player.dices).length > 0">
                 <app-dice style="justify-self: flex-end;" *ngFor="let dice of nonHiddenDices(player.dices); let i = index" [isSelected]="false" [number]="dice.value"></app-dice>
             </div>
         </div>
