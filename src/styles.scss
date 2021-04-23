@@ -204,6 +204,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .v-flex-center {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: stretch;
 }

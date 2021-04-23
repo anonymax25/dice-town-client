@@ -5,7 +5,7 @@
         <img src="../../../../assets/icons/rolling_eyes.png" height="40" alt="oh nooo...">
     </ng-container>
     <ng-template #waitingStart>
-        Waiting for owner to {{ lobby.game ? 'resume' : 'start' }} the game
+        Waiting for {{getOwner().name}} to {{ lobby.game ? 'resume' : 'start' }} the game
     </ng-template>
     <mat-chip-list class="mat-chip-list-stacked my-3" aria-label="User readiness">
         <mat-chip *ngFor="let user of lobby.users" class="ready-chip">

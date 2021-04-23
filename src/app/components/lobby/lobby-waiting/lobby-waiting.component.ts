@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Lobby } from 'src/app/models/lobby.model';
+import { User } from '../../../models/user.model';
 import { LobbyService } from '../lobby.service';
 
 @Component({
@@ -18,5 +19,9 @@ export class LobbyWaitingComponent implements OnInit {
 
   getCountReady(): number {
     return this.lobby.readyStatus.filter(item => item.isReady).length
+  }
+
+  getOwner(): User {
+    return this.lobby.users.find(user => user.id === this.lobby.ownerId);
   }
 }

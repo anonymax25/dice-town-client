@@ -7,7 +7,7 @@ import { Lobby } from 'src/app/models/lobby.model';
 import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user.model';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { LobbyService } from './lobby.service';
+import { GameStatusDisplay, LobbyService } from './lobby.service';
 import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service'
 import { ConfirmComponent } from '../layout/confirm/confirm.component';
 import { stripSummaryForJitFileSuffix } from '@angular/compiler/src/aot/util';
@@ -17,6 +17,8 @@ import { Player } from 'src/app/models/player';
 import { Game } from 'src/app/models/game.model';
 import { environment } from '../../../environments/environment';
 import { ChatSocketService } from './sockets/chat-socket.service';
+import { GameStatusLabel } from '../../models/game-status-label.enum';
+import { GameStatus } from '../../models/game-status.enum';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -27,6 +29,9 @@ export class LobbyComponent implements OnInit {
   lobby: Lobby
   refreshChatEventSubject: Subject<void> = new Subject<void>();
   isLobbyConnected: boolean;
+  gameStatusLabel = GameStatusLabel
+  gameStatus = GameStatus
+  gameStatusDisplay = GameStatusDisplay
   
   constructor(private route: ActivatedRoute,
               private router: Router,

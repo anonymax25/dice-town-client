@@ -13,10 +13,33 @@
         
         <span *ngIf="dice === 'dice10'" class="cont h3">
             <span>+{{lobby.game.dollar}}</span> 
-            <img src="../../../../assets/icons/money.png" height="35px" alt="nuggets" class="light-bg">
+            <img src="../../../../assets/icons/money.png" height="35px" alt="money" class="light-bg">
+        </span>
+        
+        <span *ngIf="dice === 'diceStore'" class="cont">
+            <span>
+                can pick a 
+                <img src="../../../../assets/icons/store.png" height="25px" alt="nuggets" class="light-bg">
+                card
+            </span> 
+        </span>
+        
+        <span *ngIf="dice === 'diceSaloon'" class="cont">
+            <span>can steal a card</span> 
+        </span>
+        
+        <span *ngIf="dice === 'diceSherif'" class="cont">
+            <span>{{getUserOfUserID(result.ids[0]).name}} is now the sherif!</span> 
         </span>
 
+        
     </ng-container>
+    <div *ngIf="result.isSherifResolve" class="bg-danger bg-gradient sherif-pick">
+        <div class="cont m-1 px-1">
+            <mat-icon>priority_high</mat-icon>
+            <span>sherif&nbsp;pick</span>
+        </div>
+    </div>
     <ng-template #draw>
         <div class="v-flex">
             <strong class="text-center">

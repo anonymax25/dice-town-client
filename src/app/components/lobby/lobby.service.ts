@@ -5,6 +5,7 @@ import { User } from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 import { Lobby } from '../../models/lobby.model';
 import { Player } from '../../models/player';
+import { Result } from '../../models/result';
 import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 
@@ -75,4 +76,13 @@ export class LobbyService {
   getPlayer(lobby: Lobby): Player{
     return lobby.game.players.find(player => player.userId === this.authenticationService.getIdFromToken())
   }
+}
+
+export enum GameStatusDisplay {
+  'DICE_ROLLING' = 'Roll your dices',
+  'RESULTS' = 'Results'
+}
+
+export class ChooseWinner {
+  constructor(public result: Result, public resultDice: string){}
 }

@@ -13,6 +13,9 @@ import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 import { ConfirmComponent } from '../../layout/confirm/confirm.component';
 import { LobbySocketService } from '../sockets/lobby-socket.service';
 import { LobbyService } from '../lobby.service';
+import { Result } from '../../../models/result';
+import { Subject } from 'rxjs';
+import { GameResults } from '../../../models/gameResults';
 
 @Component({
   selector: 'app-game',
@@ -35,6 +38,7 @@ export class GameComponent implements OnInit {
   isCostError: boolean = false;
   resultProperties: string[] = ["dice9", "dice10", "diceStore", "diceSaloon", "diceSherif", "diceAce"]
   diceRolled: boolean = false;
+  updateGameResults: Subject<GameResults> = new Subject<GameResults>();
 
   constructor(public authenticationService: AuthenticationService,
               private lobbySocketService: LobbySocketService,
@@ -45,6 +49,11 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     this.lobbySocketService.updateGame().subscribe(game => {
       this.updateGameEvent.emit(game)
+    })
+    this.lobbySocketService.updateResults().subscribe(results => {
+      this.lobby.game.results = results
+      this.updateGameEvent.emit(this.lobby.game)
+      this.updateGameResults.next(this.lobby.game.results);
     })
   }
 
@@ -194,5 +203,9 @@ export class GameComponent implements OnInit {
   cantValidateDice(){
     const player = this.lobbyService.getPlayer(this.lobby)
     return !this.diceRolled && (player.canThrowDices || player.dices.length === 5 || this.isDiceChosen || this.isCostError)
+  }
+
+  chooseWinner(result: Result) {
+    this.lobbySocketService.chooseWinner(this.lobby.id, this.lobby.game.id, result);
   }
 }

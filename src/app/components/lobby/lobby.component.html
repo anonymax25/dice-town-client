@@ -2,6 +2,10 @@
 
     <div class="sidebar" id="sidebar">
         <app-lobby-info [lobby]="lobby" [isLobbyConnected]="isLobbyConnected" (lobbyRefreshEvent)="loadLobby()" (chatResetEvent)="chatReset()" (updateLobbyEvent)="updateLobbyEvent($event)"></app-lobby-info>
+        
+        <h2 class="text-center mx-3 mt-1" *ngIf="lobby && lobby.game && lobby.game.status">
+             {{lobby.game.status}}
+        </h2>
         <app-chat [lobby]="lobby" [refreshChatEventSubject]="refreshChatEventSubject.asObservable()"></app-chat>
     </div>
 
@@ -13,7 +17,7 @@
         </ng-template>
     </div>
 </div>
-<ng-template #noLobby>
+<ng-template #noLobby class="no-lobby">
     <mat-spinner></mat-spinner>
 </ng-template>
   
