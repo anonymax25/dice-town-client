@@ -25,7 +25,6 @@ export class LobbySocketService implements SocketService {
     return new Promise((resolve, reject) => {
       let URL = `${environment.apiHTTP}:${environment.lobbySocketPort}`
       this.socket = io.connect(URL, {
-        path: '/lobbySocket'
       });
       this.socket.on('connect', () => {
         resolve()

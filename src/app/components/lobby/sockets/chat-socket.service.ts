@@ -15,7 +15,6 @@ export class ChatSocketService implements SocketService {
     return new Promise((resolve, reject) => {
       let URL = `${environment.apiHTTP}:${environment.chatSocketPort}`
       this.socket = io.connect(URL, {
-        path: '/chatSocket'
       });
       this.socket.on('connect', () => {
         resolve()
