@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
   openLogin() {
     this.dialog.open(LoginComponent, {
-      height: '350px',
+      height: '400px',
       width: '500px',
     });
   }

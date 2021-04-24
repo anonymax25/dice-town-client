@@ -28,7 +28,7 @@ export class LobbyGuardService implements CanActivate {
 
   login(): Observable<boolean> {
     const loginDialog = this.dialog.open(LoginComponent, {
-      height: '350px',
+      height: '400px',
       width: '500px',
     });
     return loginDialog.afterClosed();
