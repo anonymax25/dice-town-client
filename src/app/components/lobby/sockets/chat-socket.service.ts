@@ -13,7 +13,7 @@ export class ChatSocketService implements SocketService {
   
   connect(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.socket = io.connect(`${environment.api}:${environment.chatSocketPort}`);
+      this.socket = io.connect(`${environment.apiHTTP}:${environment.chatSocketPort}`);
       this.socket.on('connect', () => {
         resolve()
       }, err => {
